@@ -1,5 +1,5 @@
 
-package biz.metacode.clients.calcscript.interpreter;
+package biz.metacode.clients.calcscript.interpreter.execution;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,11 @@ public class Stack {
         if (mark > this.data.size() - 1)
             mark--;
         return this.data.pop();
+    }
+
+    public <T> T pop(Class<T> type) {
+        Object value = this.pop();
+        return type.cast(value);
     }
 
     public Object peek() {
@@ -40,7 +45,7 @@ public class Stack {
 
     public List<Object> extractMarkedArray() {
         List<Object> part = new ArrayList<Object>();
-        for(int i = this.mark, l = this.data.size(); i < l; i++) {
+        for (int i = this.mark, l = this.data.size(); i < l; i++) {
             part.add(this.data.remove(this.mark));
         }
         return part;

@@ -1,6 +1,8 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
+import biz.metacode.clients.calcscript.interpreter.execution.Context;
+
 import java.util.List;
 
 public class Block implements Visitable, Executable {
@@ -12,14 +14,14 @@ public class Block implements Visitable, Executable {
     }
 
     @Override
-    public void visit(Stack stack, Memory memory) {
-        stack.push(this);
+    public void visit(Context context) {
+        context.push(this);
     }
 
     @Override
-    public void execute(Stack stack, Memory memory) {
+    public void execute(Context context) {
         for (Visitable visitable : members) {
-            visitable.visit(stack, memory);
+            visitable.visit(context);
         }
     }
 

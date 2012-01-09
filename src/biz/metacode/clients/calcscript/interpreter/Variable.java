@@ -1,6 +1,8 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
+import biz.metacode.clients.calcscript.interpreter.execution.Context;
+
 public class Variable implements Visitable {
 
     private final String name;
@@ -10,18 +12,17 @@ public class Variable implements Visitable {
     }
 
     @Override
-    public void visit(Stack stack, Memory memory) {
-        Object value = memory.read(this.name);
+    public void visit(Context context) {
+        Object value = context.read(this.name);
         if (value != null) {
             if (value instanceof Executable) {
-                ((Executable) value).execute(stack, memory);
+                ((Executable) value).execute(context);
             } else {
-                stack.push(value);
+                context.push(value);
             }
         } else {
             try {
-                Double v = Double.valueOf(this.name);
-                stack.push(v);
+                context.pushDouble(Double.parseDouble(this.name));
                 return;
             } catch (NumberFormatException e) {
 
@@ -30,7 +31,7 @@ public class Variable implements Visitable {
             if (('"' == this.name.charAt(0) && '"' == this.name.charAt(this.name.length() - 1))
                     || ('\'' == this.name.charAt(0) && '\'' == this.name
                             .charAt(this.name.length() - 1))) {
-                stack.push(name.substring(1, this.name.length() - 1));
+                context.push(name.substring(1, this.name.length() - 1));
                 return;
             }
 

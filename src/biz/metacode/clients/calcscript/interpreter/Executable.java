@@ -1,6 +1,8 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
+import biz.metacode.clients.calcscript.interpreter.execution.Context;
+
 public interface Executable {
-    void execute(Stack stack, Memory memory);
+    void execute(Context context);
 }

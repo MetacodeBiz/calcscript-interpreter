@@ -1,5 +1,8 @@
 
-package biz.metacode.clients.calcscript.interpreter;
+package biz.metacode.clients.calcscript.interpreter.execution;
+
+import biz.metacode.clients.calcscript.interpreter.Executable;
+import biz.metacode.clients.calcscript.interpreter.Program;
 
 import java.util.EmptyStackException;
 import java.util.List;
@@ -9,21 +12,21 @@ public class Engine {
 
     private final Memory memory = new Memory();
 
-    private Stack stack;
-
     public void register(String name, Executable executable) {
         this.memory.write(name, executable);
     }
 
     public List<Object> execute(CharSequence source) throws ExecutionException {
-        this.stack = new Stack();
+        Context context = new Context(memory);
         Program program = new Program(source);
         try {
-            program.execute(stack, memory);
+            program.execute(context);
         } catch (EmptyStackException e) {
             throw new ExecutionException(e);
+        } catch (ClassCastException e) {
+            throw new ExecutionException(e);
         }
-        return stack.getData();
+        return context.getData();
     }
 
     public Set<String> getVariableNames() {

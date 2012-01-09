@@ -1,6 +1,8 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
+import biz.metacode.clients.calcscript.interpreter.execution.Context;
+
 public class Assignment implements Visitable {
 
     private final String targetVariableName;
@@ -14,8 +16,8 @@ public class Assignment implements Visitable {
     }
 
     @Override
-    public void visit(Stack stack, Memory memory) {
-        memory.write(targetVariableName, stack.peek());
+    public void visit(Context context) {
+        context.write(targetVariableName, context.peek());
     }
 
 }

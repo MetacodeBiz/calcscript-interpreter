@@ -1,5 +1,7 @@
 package biz.metacode.clients.calcscript.interpreter;
 
+import biz.metacode.clients.calcscript.interpreter.execution.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +14,10 @@ public final class Program implements Executable {
     }
 
     @Override
-    public void execute(Stack stack, Memory memory) {
+    public void execute(Context context) {
         Parser parser = new Parser(source);
         for (Visitable visitable : parser) {
-            visitable.visit(stack, memory);
+            visitable.visit(context);
         }
     }
 

@@ -20,7 +20,7 @@ public class Variable implements Visitable {
             }
         } else {
             try {
-                Integer v = Integer.valueOf(this.name);
+                Double v = Double.valueOf(this.name);
                 stack.push(v);
                 return;
             } catch (NumberFormatException e) {
@@ -35,6 +35,11 @@ public class Variable implements Visitable {
             }
 
         }
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
 }

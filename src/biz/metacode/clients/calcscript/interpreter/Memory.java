@@ -3,6 +3,7 @@ package biz.metacode.clients.calcscript.interpreter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Memory {
 
@@ -14,6 +15,10 @@ public class Memory {
 
     public Object read(String name) {
         return this.data.get(name);
+    }
+
+    public Set<String> keys() {
+        return this.data.keySet();
     }
 
 }

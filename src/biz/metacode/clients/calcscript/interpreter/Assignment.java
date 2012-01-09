@@ -9,6 +9,10 @@ public class Assignment implements Visitable {
         this.targetVariableName = targetVariableName;
     }
 
+    public String getTargetVariableName() {
+        return targetVariableName;
+    }
+
     @Override
     public void visit(Stack stack, Memory memory) {
         memory.write(targetVariableName, stack.peek());

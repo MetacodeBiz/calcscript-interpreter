@@ -25,6 +25,9 @@ public class Parser implements Iterator<Visitable>, Iterable<Visitable> {
     }
 
     public Visitable parseTopLevel() {
+        if (current == null) {
+            throw new SyntaxException();
+        }
         if (":".equals(current)) {
             return this.parseAssignment();
         } else if ("{".equals(current)) {
@@ -46,7 +49,7 @@ public class Parser implements Iterator<Visitable>, Iterable<Visitable> {
     private Visitable parseBlock() {
         List<Visitable> members = new ArrayList<Visitable>();
         this.nextConstruct();
-        while ("}".equals(this.current)) {
+        while (!"}".equals(this.current)) {
             members.add(this.parseTopLevel());
         }
         this.nextConstruct();

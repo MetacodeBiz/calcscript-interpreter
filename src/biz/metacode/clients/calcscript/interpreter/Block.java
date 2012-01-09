@@ -23,4 +23,16 @@ public class Block implements Visitable, Executable {
         }
     }
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("{");
+        for(Visitable member : members) {
+            String memberString = member.toString();
+            if (memberString != null && !"".equals(memberString)) {
+                builder.append(memberString);
+            }
+        }
+        return builder.append('}').toString();
+    }
+
 }

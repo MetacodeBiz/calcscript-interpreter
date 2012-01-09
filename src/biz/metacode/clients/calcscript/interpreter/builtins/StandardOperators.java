@@ -2,6 +2,7 @@
 package biz.metacode.clients.calcscript.interpreter.builtins;
 
 import biz.metacode.clients.calcscript.interpreter.Executable;
+import biz.metacode.clients.calcscript.interpreter.execution.Array;
 import biz.metacode.clients.calcscript.interpreter.execution.Context;
 import biz.metacode.clients.calcscript.interpreter.execution.Value;
 
@@ -57,8 +58,7 @@ public enum StandardOperators implements Executable {
     SUM {
         @Override
         public void execute(Context context) {
-            @SuppressWarnings("unchecked")
-            List<Object> list = (List<Object>) context.pop();
+            Array list = (Array) context.pop();
             double sum = 0;
             for (Object o : list) {
                 sum += ((Value) o).consume();
@@ -70,9 +70,8 @@ public enum StandardOperators implements Executable {
         @Override
         public void execute(Context context) {
             Executable executable = (Executable) context.pop();
-            @SuppressWarnings("unchecked")
-            List<Object> list = (List<Object>) context.pop();
-            List<Object> results = new ArrayList<Object>();
+            Array list = (Array) context.pop();
+            Array results = context.acquireArray();
             for (Object object : list) {
                 context.push(object);
                 executable.execute(context);

@@ -8,6 +8,8 @@ public class Context {
 
     private final ValuePool valuePool = new ValuePool();
 
+    private final ArrayPool arrayPool = new ArrayPool();
+
     private Stack stack;
 
     public Context(Memory memory) {
@@ -16,7 +18,7 @@ public class Context {
     }
 
     public void clearStack() {
-        stack = new Stack();
+        stack = new Stack(arrayPool);
     }
 
     public List<Object> getData() {
@@ -63,7 +65,11 @@ public class Context {
         stack.markPosition();
     }
 
-    public List<Object> extractMarkedArray() {
+    public Array extractMarkedArray() {
         return stack.extractMarkedArray();
+    }
+
+    public Array acquireArray() {
+        return arrayPool.acquire();
     }
 }

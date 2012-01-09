@@ -1,7 +1,6 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Stack {
@@ -9,6 +8,12 @@ public class Stack {
     private final java.util.Stack<Object> data = new java.util.Stack<Object>();
 
     private int mark = 0;
+
+    private final ArrayPool pool;
+
+    public Stack(ArrayPool pool) {
+        this.pool = pool;
+    }
 
     public void push(Object element) {
         this.data.push(element);
@@ -43,8 +48,8 @@ public class Stack {
         this.mark = this.data.size();
     }
 
-    public List<Object> extractMarkedArray() {
-        List<Object> part = new ArrayList<Object>();
+    public Array extractMarkedArray() {
+        Array part = pool.acquire();
         for (int i = this.mark, l = this.data.size(); i < l; i++) {
             part.add(this.data.remove(this.mark));
         }

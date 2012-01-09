@@ -24,9 +24,9 @@ public class Parser implements Iterator<Visitable>, Iterable<Visitable> {
         }
     }
 
-    public Visitable parseTopLevel() {
+    private Visitable parseTopLevel() {
         if (current == null) {
-            throw new SyntaxException();
+            return null;
         }
         if (":".equals(current)) {
             return this.parseAssignment();
@@ -34,7 +34,11 @@ public class Parser implements Iterator<Visitable>, Iterable<Visitable> {
             return this.parseBlock();
         } else if ("#".equals(current.charAt(0))) {
             this.nextConstruct();
-            return this.parseTopLevel();
+            Visitable next = this.parseTopLevel();
+            if (next == null) {
+                throw new SyntaxException("End of script");
+            }
+            return next;
         } else {
             return this.parseVariable();
         }
@@ -50,7 +54,11 @@ public class Parser implements Iterator<Visitable>, Iterable<Visitable> {
         List<Visitable> members = new ArrayList<Visitable>();
         this.nextConstruct();
         while (!"}".equals(this.current)) {
-            members.add(this.parseTopLevel());
+            Visitable member = this.parseTopLevel();
+            if (member == null) {
+                throw new SyntaxException("} missing.");
+            }
+            members.add(member);
         }
         this.nextConstruct();
         return new Block(members);
@@ -70,7 +78,11 @@ public class Parser implements Iterator<Visitable>, Iterable<Visitable> {
 
     @Override
     public Visitable next() {
-        return this.parseTopLevel();
+        Visitable next = this.parseTopLevel();
+        if (next == null) {
+            throw new SyntaxException("End of script");
+        }
+        return next;
     }
 
     @Override

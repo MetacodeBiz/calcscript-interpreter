@@ -22,9 +22,9 @@ public class Engine {
         try {
             program.execute(context);
         } catch (EmptyStackException e) {
-            throw new ExecutionException(e);
+            throw new ExecutionException("Stack is empty", e);
         } catch (ClassCastException e) {
-            throw new ExecutionException(e);
+            throw new ExecutionException("Wrong type", e);
         }
         return context.getData();
     }

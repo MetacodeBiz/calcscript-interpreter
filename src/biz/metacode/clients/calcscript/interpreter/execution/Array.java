@@ -17,8 +17,12 @@ public class Array implements Iterable<Object> {
     public List<Object> consume() {
         @SuppressWarnings("unchecked")
         List<Object> clone = (ArrayList<Object>) entries.clone();
-        this.pool.relinquish(this);
+        this.relinquish();
         return clone;
+    }
+
+    public void relinquish() {
+        this.pool.relinquish(this);
     }
 
     public void clear() {
@@ -27,6 +31,10 @@ public class Array implements Iterable<Object> {
 
     public void add(Object entry) {
         this.entries.add(entry);
+    }
+
+    public int length() {
+        return this.entries.size();
     }
 
     @Override
@@ -51,7 +59,7 @@ public class Array implements Iterable<Object> {
         public boolean hasNext() {
             boolean next = iterator.hasNext();
             if (!next) {
-                pool.relinquish(Array.this);
+                Array.this.relinquish();
             }
             return next;
         }

@@ -6,9 +6,6 @@ import biz.metacode.clients.calcscript.interpreter.execution.Array;
 import biz.metacode.clients.calcscript.interpreter.execution.Context;
 import biz.metacode.clients.calcscript.interpreter.execution.Value;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public enum StandardOperators implements Executable {
 
     ADDITION {
@@ -84,6 +81,14 @@ public enum StandardOperators implements Executable {
         @Override
         public void execute(Context context) {
             context.pop();
+        }
+    },
+    COMMA {
+        @Override
+        public void execute(Context context) {
+            Array array = (Array) context.pop();
+            context.pushDouble(array.length());
+            array.relinquish();
         }
     },
     ABSOLUTE {

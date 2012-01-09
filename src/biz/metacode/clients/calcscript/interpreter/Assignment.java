@@ -5,6 +5,8 @@ import biz.metacode.clients.calcscript.interpreter.execution.Context;
 
 public class Assignment implements Visitable {
 
+    private static final long serialVersionUID = 9115138722566546001L;
+
     private final String targetVariableName;
 
     public Assignment(String targetVariableName) {

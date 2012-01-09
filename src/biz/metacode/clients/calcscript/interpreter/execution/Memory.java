@@ -1,19 +1,22 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Memory {
+public class Memory implements Serializable {
 
-    private final Map<String, Object> data = new HashMap<String, Object>();
+    private static final long serialVersionUID = 2268129176519901123L;
 
-    public void write(String name, Object data) {
+    private final Map<String, Serializable> data = new HashMap<String, Serializable>();
+
+    public void write(String name, Serializable data) {
         this.data.put(name, data);
     }
 
-    public Object read(String name) {
+    public Serializable read(String name) {
         return this.data.get(name);
     }
 

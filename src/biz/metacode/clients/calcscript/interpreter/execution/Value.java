@@ -1,13 +1,16 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
-public class Value {
+public class Value implements Serializable {
+
+    private static final long serialVersionUID = -7340834444775795549L;
 
     private final static DecimalFormat threeDec = new DecimalFormat("0.###");
 
-    private final ValuePool pool;
+    private transient final ValuePool pool;
 
     private double value;
 
@@ -18,7 +21,9 @@ public class Value {
 
     public double consume() {
         double result = value;
-        this.pool.relinquish(this);
+        if (this.pool != null) {
+            this.pool.relinquish(this);
+        }
         return result;
     }
 

@@ -6,6 +6,8 @@ import biz.metacode.clients.calcscript.interpreter.execution.Array;
 import biz.metacode.clients.calcscript.interpreter.execution.Context;
 import biz.metacode.clients.calcscript.interpreter.execution.Value;
 
+import java.io.Serializable;
+
 public enum StandardOperators implements Executable {
 
     ADDITION {
@@ -69,7 +71,7 @@ public enum StandardOperators implements Executable {
             Executable executable = (Executable) context.pop();
             Array list = (Array) context.pop();
             Array results = context.acquireArray();
-            for (Object object : list) {
+            for (Serializable object : list) {
                 context.push(object);
                 executable.execute(context);
                 results.add(context.pop());

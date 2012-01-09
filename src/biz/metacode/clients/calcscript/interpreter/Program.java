@@ -7,6 +7,8 @@ import java.util.List;
 
 public final class Program implements Executable {
 
+    private static final long serialVersionUID = 6456163484383557746L;
+
     private final CharSequence source;
 
     public Program(CharSequence source) {

@@ -1,6 +1,7 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class Context {
@@ -21,19 +22,19 @@ public class Context {
         stack = new Stack(arrayPool);
     }
 
-    public List<Object> getData() {
+    public List<Serializable> getData() {
         return stack.getData();
     }
 
-    public void write(String name, Object data) {
+    public void write(String name, Serializable data) {
         this.memory.write(name, data);
     }
 
-    public Object read(String name) {
+    public Serializable read(String name) {
         return this.memory.read(name);
     }
 
-    public void push(Object element) {
+    public void push(Serializable element) {
         this.stack.push(element);
     }
 
@@ -41,7 +42,7 @@ public class Context {
         this.stack.push(valuePool.acquire(element));
     }
 
-    public Object pop() {
+    public Serializable pop() {
         return stack.pop();
     }
 
@@ -49,15 +50,15 @@ public class Context {
         return stack.pop(Value.class).consume();
     }
 
-    public Object peek() {
+    public Serializable peek() {
         return stack.peek();
     }
 
-    public Object popAt(int index) {
+    public Serializable popAt(int index) {
         return stack.popAt(index);
     }
 
-    public Object peekAt(int index) {
+    public Serializable peekAt(int index) {
         return stack.peekAt(index);
     }
 

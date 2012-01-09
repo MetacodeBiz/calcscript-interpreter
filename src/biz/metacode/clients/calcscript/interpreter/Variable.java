@@ -3,7 +3,11 @@ package biz.metacode.clients.calcscript.interpreter;
 
 import biz.metacode.clients.calcscript.interpreter.execution.Context;
 
+import java.io.Serializable;
+
 public class Variable implements Visitable {
+
+    private static final long serialVersionUID = 2506602173741080789L;
 
     private final String name;
 
@@ -13,7 +17,7 @@ public class Variable implements Visitable {
 
     @Override
     public void visit(Context context) {
-        Object value = context.read(this.name);
+        Serializable value = context.read(this.name);
         if (value != null) {
             if (value instanceof Executable) {
                 ((Executable) value).execute(context);

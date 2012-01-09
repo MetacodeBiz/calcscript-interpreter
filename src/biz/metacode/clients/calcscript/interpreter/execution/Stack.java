@@ -1,11 +1,12 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class Stack {
 
-    private final java.util.Stack<Object> data = new java.util.Stack<Object>();
+    private final java.util.Stack<Serializable> data = new java.util.Stack<Serializable>();
 
     private int mark = 0;
 
@@ -15,32 +16,32 @@ public class Stack {
         this.pool = pool;
     }
 
-    public void push(Object element) {
+    public void push(Serializable element) {
         this.data.push(element);
     }
 
-    public Object pop() {
+    public Serializable pop() {
         if (mark > this.data.size() - 1)
             mark--;
         return this.data.pop();
     }
 
-    public <T> T pop(Class<T> type) {
-        Object value = this.pop();
+    public <T extends Serializable> T pop(Class<T> type) {
+        Serializable value = this.pop();
         return type.cast(value);
     }
 
-    public Object peek() {
+    public Serializable peek() {
         return this.data.peek();
     }
 
-    public Object popAt(int index) {
+    public Serializable popAt(int index) {
         if (mark > this.data.size() - 1)
             mark--;
         return this.data.remove(index);
     }
 
-    public Object peekAt(int index) {
+    public Serializable peekAt(int index) {
         return this.data.get(index);
     }
 
@@ -56,7 +57,7 @@ public class Stack {
         return part;
     }
 
-    public List<Object> getData() {
+    public List<Serializable> getData() {
         return data;
     }
 }

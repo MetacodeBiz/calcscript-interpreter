@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Block implements Visitable, Executable {
 
+    private static final long serialVersionUID = -2750855771404873550L;
+
     private final List<Visitable> members;
 
     public Block(List<Visitable> members) {

@@ -44,12 +44,14 @@ public class Engine {
         objectOut.writeObject(memory);
     }
 
-    public void restoreState(InputStream stream) throws IOException {
-        ObjectInputStream objectOut = new ObjectInputStream(stream);
+    public void restoreState(InputStream stream) throws RestoreException {
         try {
+            ObjectInputStream objectOut = new ObjectInputStream(stream);
             memory = (Memory) objectOut.readObject();
         } catch (ClassNotFoundException e) {
-            throw new IllegalStateException(e);
+            throw new RestoreException(e);
+        } catch (IOException e) {
+            throw new RestoreException(e);
         }
     }
 

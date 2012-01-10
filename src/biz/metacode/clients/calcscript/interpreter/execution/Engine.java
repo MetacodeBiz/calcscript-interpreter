@@ -49,8 +49,11 @@ public class Engine {
         try {
             memory = (Memory) objectOut.readObject();
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new IllegalStateException(e);
         }
+    }
+
+    public void clearMemory() {
+        memory = new Memory();
     }
 }

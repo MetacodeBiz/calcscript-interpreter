@@ -20,7 +20,7 @@ public class Main {
      * @throws ExecutionException
      * @throws IOException
      */
-    public static void main(String[] args) throws ExecutionException, IOException {
+    public static void main(String[] args) throws Exception {
 /*
         Lexer lex = new Lexer("{4+}:a;");
         for(String token : lex) {

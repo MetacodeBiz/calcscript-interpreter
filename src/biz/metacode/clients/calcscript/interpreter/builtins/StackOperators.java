@@ -43,10 +43,19 @@ public enum StackOperators implements Executable {
             }
         }
     },
-    SEMICOLON {
+    DROP {
         @Override
         public void execute(Context context) {
             context.pop();
+        }
+    },
+    SWAP {
+        @Override
+        public void execute(Context context) {
+            Serializable first = context.pop();
+            Serializable second = context.pop();
+            context.push(first);
+            context.push(second);
         }
     }
 }

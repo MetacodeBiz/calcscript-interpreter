@@ -1,7 +1,9 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
-import biz.metacode.clients.calcscript.interpreter.builtins.StandardOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.ArithmeticOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.MathOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.StackOperators;
 import biz.metacode.clients.calcscript.interpreter.execution.Engine;
 import biz.metacode.clients.calcscript.interpreter.execution.ExecutionException;
 
@@ -25,11 +27,11 @@ public class Main {
         System.out.println("TOK: " + token);
         }*/
         Engine engine = new Engine();
-        engine.register("+", StandardOperators.ADDITION);
-        engine.register("[", StandardOperators.LEFT_SQUARE_BRACE);
-        engine.register("]", StandardOperators.RIGHT_SQUARE_BRACE);
-        engine.register("sum", StandardOperators.SUM);
-        List<Serializable> output = engine.execute("{4+}:a;5 a:b");
+        engine.register("+", ArithmeticOperators.ADDITION);
+        engine.register("[", StackOperators.LEFT_SQUARE_BRACE);
+        engine.register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        engine.register("sum", MathOperators.SUM);
+        List<Serializable> output = engine.execute("[1 2 3]:b");
         for (Serializable out : output) {
             System.out.println("==> " + out);
         }

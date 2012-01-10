@@ -3,12 +3,19 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 public class Value implements Serializable {
 
     private static final long serialVersionUID = -7340834444775795549L;
 
-    private final static DecimalFormat threeDec = new DecimalFormat("0.###");
+    private final static DecimalFormat threeDec;
+
+    static {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+        threeDec = new DecimalFormat("0.###", symbols);
+    }
 
     private transient final ValuePool pool;
 

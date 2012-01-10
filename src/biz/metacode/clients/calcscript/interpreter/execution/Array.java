@@ -50,7 +50,15 @@ public class Array implements Iterable<Serializable>, Serializable {
 
     @Override
     public String toString() {
-        return entries.toString();
+        StringBuilder sb = new StringBuilder("[");
+        Iterator<Serializable> iterator = this.entries.iterator();
+        while (iterator.hasNext()) {
+            sb.append(iterator.next());
+            if (iterator.hasNext()) {
+                sb.append(' ');
+            }
+        }
+        return sb.append("]").toString();
     }
 
     private class ArrayIterator implements Iterator<Serializable> {

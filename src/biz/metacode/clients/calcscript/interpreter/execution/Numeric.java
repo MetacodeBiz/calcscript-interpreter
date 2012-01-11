@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-public class Value implements Serializable {
+public class Numeric implements Serializable {
 
     private static final long serialVersionUID = -7340834444775795549L;
 
@@ -17,11 +17,11 @@ public class Value implements Serializable {
         threeDec = new DecimalFormat("0.###", symbols);
     }
 
-    private transient final ValuePool pool;
+    private transient final NumericPool pool;
 
     private double value;
 
-    public Value(ValuePool pool, double value) {
+    public Numeric(NumericPool pool, double value) {
         this.pool = pool;
         this.value = value;
     }

@@ -4,7 +4,7 @@ package biz.metacode.clients.calcscript.interpreter.builtins;
 import biz.metacode.clients.calcscript.interpreter.Executable;
 import biz.metacode.clients.calcscript.interpreter.execution.Array;
 import biz.metacode.clients.calcscript.interpreter.execution.Context;
-import biz.metacode.clients.calcscript.interpreter.execution.Value;
+import biz.metacode.clients.calcscript.interpreter.execution.Numeric;
 
 public enum MathOperators implements Executable {
 
@@ -14,7 +14,7 @@ public enum MathOperators implements Executable {
             Array list = (Array) context.pop();
             double sum = 0;
             for (Object o : list) {
-                sum += ((Value) o).consume();
+                sum += ((Numeric) o).consume();
             }
             context.pushDouble(sum);
         }

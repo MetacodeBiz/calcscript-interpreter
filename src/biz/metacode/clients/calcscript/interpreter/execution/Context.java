@@ -7,7 +7,7 @@ import java.util.List;
 public class Context {
     private final Memory memory;
 
-    private final ValuePool valuePool = new ValuePool();
+    private final NumericPool valuePool = new NumericPool();
 
     private final ArrayPool arrayPool = new ArrayPool();
 
@@ -47,7 +47,7 @@ public class Context {
     }
 
     public double popDouble() {
-        return stack.pop(Value.class).consume();
+        return stack.pop(Numeric.class).consume();
     }
 
     public Serializable peek() {

@@ -26,10 +26,10 @@ public abstract class Value implements Invocable {
     protected abstract int getPriority();
 
     /**
-     * Creates a copy of this object that is separate from the original. If
+     * Creates a deep copy of this object that is separate from the original. If
      * current object is immutable it can return this as a duplicate.
      *
-     * @return Copy of this.
+     * @return Deep copy of this.
      */
     public abstract Value duplicate();
 

@@ -1,12 +1,12 @@
 package biz.metacode.clients.calcscript.interpreter.builtins;
 
-import biz.metacode.clients.calcscript.interpreter.Executable;
+import biz.metacode.clients.calcscript.interpreter.Invocable;
 import biz.metacode.clients.calcscript.interpreter.execution.Context;
 
-public enum ArithmeticOperators implements Executable {
+public enum ArithmeticOperators implements Invocable {
     ADDITION {
         @Override
-        public void execute(Context context) {
+        public void invoke(Context context) {
             double first = context.popDouble();
             double second = context.popDouble();
             context.push(first + second);
@@ -14,7 +14,7 @@ public enum ArithmeticOperators implements Executable {
     },
     SUBSTRACTION {
         @Override
-        public void execute(Context context) {
+        public void invoke(Context context) {
             double first = context.popDouble();
             double second = context.popDouble();
             context.push(first - second);
@@ -22,7 +22,7 @@ public enum ArithmeticOperators implements Executable {
     },
     MULTIPLICATION {
         @Override
-        public void execute(Context context) {
+        public void invoke(Context context) {
             double first = context.popDouble();
             double second = context.popDouble();
             context.push(first * second);
@@ -30,7 +30,7 @@ public enum ArithmeticOperators implements Executable {
     },
     DIVISION {
         @Override
-        public void execute(Context context) {
+        public void invoke(Context context) {
             double first = context.popDouble();
             double second = context.popDouble();
             context.push(first / second);

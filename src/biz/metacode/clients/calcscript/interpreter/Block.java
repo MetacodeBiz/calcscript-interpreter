@@ -6,7 +6,7 @@ import biz.metacode.clients.calcscript.interpreter.execution.Value;
 
 import java.util.List;
 
-public class Block extends Value implements Visitable, Executable {
+public class Block extends Value implements Visitable {
 
     private static final long serialVersionUID = -2750855771404873550L;
 
@@ -22,7 +22,7 @@ public class Block extends Value implements Visitable, Executable {
     }
 
     @Override
-    public void execute(Context context) {
+    public void invoke(Context context) {
         for (Visitable visitable : members) {
             visitable.visit(context);
         }

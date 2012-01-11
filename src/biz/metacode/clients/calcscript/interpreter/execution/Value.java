@@ -1,10 +1,15 @@
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-import java.io.Serializable;
+import biz.metacode.clients.calcscript.interpreter.Invocable;
 
-public abstract class Value implements Serializable {
+public abstract class Value implements Invocable {
 
     private static final long serialVersionUID = -1274916686056050022L;
+
+    @Override
+    public void invoke(Context context) {
+        context.push(this);
+    }
 
     protected abstract int getPriority();
 

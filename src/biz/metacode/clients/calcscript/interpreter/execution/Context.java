@@ -1,7 +1,8 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-import java.io.Serializable;
+import biz.metacode.clients.calcscript.interpreter.Invocable;
+
 import java.util.List;
 
 public class Context {
@@ -28,11 +29,11 @@ public class Context {
         return stack.getData();
     }
 
-    public void write(String name, Value data) {
+    public void write(String name, Invocable data) {
         this.memory.write(name, data);
     }
 
-    public Serializable read(String name) {
+    public Invocable read(String name) {
         return this.memory.read(name);
     }
 

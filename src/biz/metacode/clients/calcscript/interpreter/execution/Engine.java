@@ -1,7 +1,7 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-import biz.metacode.clients.calcscript.interpreter.Executable;
+import biz.metacode.clients.calcscript.interpreter.Invocable;
 import biz.metacode.clients.calcscript.interpreter.Program;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ public class Engine {
 
     private Memory memory = new Memory();
 
-    public void register(String name, Executable executable) {
+    public void register(String name, Invocable executable) {
         this.memory.write(name, executable);
     }
 
@@ -25,7 +25,7 @@ public class Engine {
         Context context = new Context(memory);
         Program program = new Program(source);
         try {
-            program.execute(context);
+            program.invoke(context);
         } catch (EmptyStackException e) {
             throw new ExecutionException("Stack is empty", e);
         } catch (ClassCastException e) {

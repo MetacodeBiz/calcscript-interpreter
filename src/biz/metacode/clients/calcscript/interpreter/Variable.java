@@ -2,9 +2,6 @@
 package biz.metacode.clients.calcscript.interpreter;
 
 import biz.metacode.clients.calcscript.interpreter.execution.Context;
-import biz.metacode.clients.calcscript.interpreter.execution.Value;
-
-import java.io.Serializable;
 
 public class Variable implements Visitable {
 
@@ -18,31 +15,43 @@ public class Variable implements Visitable {
 
     @Override
     public void visit(Context context) {
-        Serializable value = context.read(this.name);
+        Invocable value = context.read(this.name);
+
         if (value != null) {
-            if (value instanceof Executable) {
-                ((Executable) value).execute(context);
-            } else if (value instanceof Value) {
-                context.push((Value) value);
-            } else {
-                throw new IllegalStateException("Memory returned unsupported type: " + value.getClass());
-            }
+            value.invoke(context);
         } else {
-            try {
-                context.push(Double.parseDouble(this.name));
-                return;
-            } catch (NumberFormatException e) {
 
+            if (interpretAsDouble(context)) {
+                return;
             }
 
-            if (('"' == this.name.charAt(0) && '"' == this.name.charAt(this.name.length() - 1))
-                    || ('\'' == this.name.charAt(0) && '\'' == this.name
-                            .charAt(this.name.length() - 1))) {
-                context.push(name.substring(1, this.name.length() - 1));
+            if (interpretAsString(context)) {
                 return;
             }
 
         }
+    }
+
+    private boolean interpretAsDouble(Context context) {
+        try {
+            context.push(Double.parseDouble(this.name));
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private boolean interpretAsString(Context context) {
+        if (isString(name)) {
+            context.push(name.substring(1, this.name.length() - 1));
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean isString(String text) {
+        return ('"' == text.charAt(0) && '"' == text.charAt(text.length() - 1))
+                || ('\'' == text.charAt(0) && '\'' == text.charAt(text.length() - 1));
     }
 
     @Override

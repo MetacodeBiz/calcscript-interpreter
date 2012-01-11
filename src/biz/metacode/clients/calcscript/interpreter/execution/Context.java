@@ -1,7 +1,6 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class Context {
@@ -10,6 +9,8 @@ public class Context {
     private final NumericPool valuePool = new NumericPool();
 
     private final ArrayPool arrayPool = new ArrayPool();
+
+    private final TextPool textPool = new TextPool();
 
     private Stack stack;
 
@@ -22,27 +23,31 @@ public class Context {
         stack = new Stack(arrayPool);
     }
 
-    public List<Serializable> getData() {
+    public List<Value> getData() {
         return stack.getData();
     }
 
-    public void write(String name, Serializable data) {
+    public void write(String name, Value data) {
         this.memory.write(name, data);
     }
 
-    public Serializable read(String name) {
+    public Value read(String name) {
         return this.memory.read(name);
     }
 
-    public void push(Serializable element) {
+    public void push(Value element) {
         this.stack.push(element);
     }
 
-    public void pushDouble(double element) {
+    public void push(double element) {
         this.stack.push(valuePool.acquire(element));
     }
 
-    public Serializable pop() {
+    public void push(String element) {
+        this.stack.push(textPool.acquire(element));
+    }
+
+    public Value pop() {
         return stack.pop();
     }
 
@@ -50,15 +55,19 @@ public class Context {
         return stack.pop(Numeric.class).consume();
     }
 
-    public Serializable peek() {
+    public String popString() {
+        return stack.pop(Text.class).consume();
+    }
+
+    public Value peek() {
         return stack.peek();
     }
 
-    public Serializable popAt(int index) {
+    public Value popAt(int index) {
         return stack.popAt(index);
     }
 
-    public Serializable peekAt(int index) {
+    public Value peekAt(int index) {
         return stack.peekAt(index);
     }
 

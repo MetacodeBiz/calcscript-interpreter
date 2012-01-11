@@ -2,8 +2,7 @@
 package biz.metacode.clients.calcscript.interpreter;
 
 import biz.metacode.clients.calcscript.interpreter.execution.Context;
-
-import java.io.Serializable;
+import biz.metacode.clients.calcscript.interpreter.execution.Value;
 
 public class Variable implements Visitable {
 
@@ -17,7 +16,7 @@ public class Variable implements Visitable {
 
     @Override
     public void visit(Context context) {
-        Serializable value = context.read(this.name);
+        Value value = context.read(this.name);
         if (value != null) {
             if (value instanceof Executable) {
                 ((Executable) value).execute(context);
@@ -26,7 +25,7 @@ public class Variable implements Visitable {
             }
         } else {
             try {
-                context.pushDouble(Double.parseDouble(this.name));
+                context.push(Double.parseDouble(this.name));
                 return;
             } catch (NumberFormatException e) {
 

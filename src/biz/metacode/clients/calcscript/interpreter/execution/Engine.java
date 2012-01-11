@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +21,7 @@ public class Engine {
         this.memory.write(name, executable);
     }
 
-    public List<Serializable> execute(CharSequence source) throws ExecutionException {
+    public List<Value> execute(CharSequence source) throws ExecutionException {
         Context context = new Context(memory);
         Program program = new Program(source);
         try {

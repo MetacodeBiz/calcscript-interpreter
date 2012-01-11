@@ -1,26 +1,25 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Array implements Iterable<Serializable>, Serializable {
+public class Array implements Value, Iterable<Value> {
 
     private static final long serialVersionUID = -7480425864645673589L;
 
-    private final ArrayList<Serializable> entries = new ArrayList<Serializable>();
+    private final ArrayList<Value> entries = new ArrayList<Value>();
 
     private transient final ArrayPool pool;
 
-    public Array(ArrayPool pool) {
+    Array(ArrayPool pool) {
         this.pool = pool;
     }
 
-    public List<Serializable> consume() {
+    public List<Value> consume() {
         @SuppressWarnings("unchecked")
-        List<Serializable> clone = (ArrayList<Serializable>) entries.clone();
+        List<Value> clone = (ArrayList<Value>) entries.clone();
         this.relinquish();
         return clone;
     }
@@ -35,7 +34,7 @@ public class Array implements Iterable<Serializable>, Serializable {
         this.entries.clear();
     }
 
-    public void add(Serializable entry) {
+    public void add(Value entry) {
         this.entries.add(entry);
     }
 
@@ -44,14 +43,14 @@ public class Array implements Iterable<Serializable>, Serializable {
     }
 
     @Override
-    public Iterator<Serializable> iterator() {
+    public Iterator<Value> iterator() {
         return new ArrayIterator(this.entries.iterator());
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
-        Iterator<Serializable> iterator = this.entries.iterator();
+        Iterator<Value> iterator = this.entries.iterator();
         while (iterator.hasNext()) {
             sb.append(iterator.next());
             if (iterator.hasNext()) {
@@ -61,11 +60,11 @@ public class Array implements Iterable<Serializable>, Serializable {
         return sb.append("]").toString();
     }
 
-    private class ArrayIterator implements Iterator<Serializable> {
+    private class ArrayIterator implements Iterator<Value> {
 
-        private final Iterator<Serializable> iterator;
+        private final Iterator<Value> iterator;
 
-        public ArrayIterator(Iterator<Serializable> iterator) {
+        public ArrayIterator(Iterator<Value> iterator) {
             this.iterator = iterator;
         }
 
@@ -79,7 +78,7 @@ public class Array implements Iterable<Serializable>, Serializable {
         }
 
         @Override
-        public Serializable next() {
+        public Value next() {
             return iterator.next();
         }
 

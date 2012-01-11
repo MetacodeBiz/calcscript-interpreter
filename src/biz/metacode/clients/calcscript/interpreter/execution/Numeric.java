@@ -1,11 +1,10 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-public class Numeric implements Serializable {
+public class Numeric implements Value {
 
     private static final long serialVersionUID = -7340834444775795549L;
 
@@ -21,7 +20,7 @@ public class Numeric implements Serializable {
 
     private double value;
 
-    public Numeric(NumericPool pool, double value) {
+    Numeric(NumericPool pool, double value) {
         this.pool = pool;
         this.value = value;
     }

@@ -2,9 +2,8 @@
 package biz.metacode.clients.calcscript.interpreter;
 
 import biz.metacode.clients.calcscript.interpreter.execution.Context;
+import biz.metacode.clients.calcscript.interpreter.execution.Value;
 
-import java.io.Serializable;
-
-public interface Executable extends Serializable {
+public interface Executable extends Value {
     void execute(Context context);
 }

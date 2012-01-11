@@ -1,15 +1,16 @@
 
 package biz.metacode.clients.calcscript.interpreter.builtins;
 
+import biz.metacode.clients.calcscript.interpreter.Executable;
+import biz.metacode.clients.calcscript.interpreter.execution.Context;
+import biz.metacode.clients.calcscript.interpreter.execution.Value;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
-import biz.metacode.clients.calcscript.interpreter.Executable;
-import biz.metacode.clients.calcscript.interpreter.execution.Context;
 
 public enum StackOperators implements Executable {
 
@@ -35,7 +36,7 @@ public enum StackOperators implements Executable {
                 (new ObjectOutputStream(str)).writeObject(object);
 
                 ByteArrayInputStream str2 = new ByteArrayInputStream(str.toByteArray());
-                context.push((Serializable) (new ObjectInputStream(str2)).readObject());
+                context.push((Value) (new ObjectInputStream(str2)).readObject());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (ClassNotFoundException e) {
@@ -52,8 +53,8 @@ public enum StackOperators implements Executable {
     SWAP {
         @Override
         public void execute(Context context) {
-            Serializable first = context.pop();
-            Serializable second = context.pop();
+            Value first = context.pop();
+            Value second = context.pop();
             context.push(first);
             context.push(second);
         }

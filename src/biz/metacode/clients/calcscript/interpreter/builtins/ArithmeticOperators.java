@@ -9,7 +9,7 @@ public enum ArithmeticOperators implements Executable {
         public void execute(Context context) {
             double first = context.popDouble();
             double second = context.popDouble();
-            context.pushDouble(first + second);
+            context.push(first + second);
         }
     },
     SUBSTRACTION {
@@ -17,7 +17,7 @@ public enum ArithmeticOperators implements Executable {
         public void execute(Context context) {
             double first = context.popDouble();
             double second = context.popDouble();
-            context.pushDouble(first - second);
+            context.push(first - second);
         }
     },
     MULTIPLICATION {
@@ -25,7 +25,7 @@ public enum ArithmeticOperators implements Executable {
         public void execute(Context context) {
             double first = context.popDouble();
             double second = context.popDouble();
-            context.pushDouble(first * second);
+            context.push(first * second);
         }
     },
     DIVISION {
@@ -33,7 +33,7 @@ public enum ArithmeticOperators implements Executable {
         public void execute(Context context) {
             double first = context.popDouble();
             double second = context.popDouble();
-            context.pushDouble(first / second);
+            context.push(first / second);
         }
     }
 }

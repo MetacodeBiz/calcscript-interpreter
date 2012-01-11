@@ -1,7 +1,10 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-public class Text {
+public class Text implements Value {
+
+    private static final long serialVersionUID = 1168274352878421240L;
+
     private String value;
 
     private final transient TextPool pool;
@@ -11,7 +14,7 @@ public class Text {
         this.value = value;
     }
 
-    public String relinquish() {
+    public String consume() {
         String value = this.value;
         this.pool.relinquish(this);
         return value;

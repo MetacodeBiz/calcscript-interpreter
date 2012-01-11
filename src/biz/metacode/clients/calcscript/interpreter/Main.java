@@ -6,11 +6,11 @@ import biz.metacode.clients.calcscript.interpreter.builtins.MathOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.StackOperators;
 import biz.metacode.clients.calcscript.interpreter.execution.Engine;
 import biz.metacode.clients.calcscript.interpreter.execution.ExecutionException;
+import biz.metacode.clients.calcscript.interpreter.execution.Value;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 
 public class Main {
@@ -31,8 +31,8 @@ public class Main {
         engine.register("[", StackOperators.LEFT_SQUARE_BRACE);
         engine.register("]", StackOperators.RIGHT_SQUARE_BRACE);
         engine.register("sum", MathOperators.SUM);
-        List<Serializable> output = engine.execute("[1 2 3]:b");
-        for (Serializable out : output) {
+        List<Value> output = engine.execute("[1 2 3]:b");
+        for (Value out : output) {
             System.out.println("==> " + out);
         }
 
@@ -42,15 +42,15 @@ public class Main {
         ByteArrayInputStream str2 = new ByteArrayInputStream(str.toByteArray());
         engine = new Engine();
         System.out.println("BEFORE");
-        List<Serializable> output2 = engine.execute("b");
-        for (Serializable out : output2) {
+        List<Value> output2 = engine.execute("b");
+        for (Value out : output2) {
             System.out.println("==> " + out);
         }
 
         engine.restoreState(str2);
         System.out.println("AFTER");
-        List<Serializable> output3 = engine.execute("b");
-        for (Serializable out : output3) {
+        List<Value> output3 = engine.execute("b");
+        for (Value out : output3) {
             System.out.println("==> " + out);
         }
     }

@@ -16,13 +16,13 @@ public enum MathOperators implements Executable {
             for (Object o : list) {
                 sum += ((Numeric) o).consume();
             }
-            context.pushDouble(sum);
+            context.push(sum);
         }
     },
     ABSOLUTE {
         @Override
         public void execute(Context context) {
-            context.pushDouble(Math.abs(context.popDouble()));
+            context.push(Math.abs(context.popDouble()));
         }
     },
 }

@@ -1,7 +1,11 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
-public class Assignment implements Visitable {
+/**
+ * Assignment of the top of stack to named variable. Note that this does not pop
+ * the stack.
+ */
+class Assignment implements Expression {
 
     private final String targetVariableName;
 
@@ -14,7 +18,7 @@ public class Assignment implements Visitable {
     }
 
     @Override
-    public void visit(ExecutionContext context) {
+    public void hit(ExecutionContext context) {
         context.write(targetVariableName, context.peek());
     }
 

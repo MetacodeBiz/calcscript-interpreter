@@ -1,7 +1,10 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
-public class Variable implements Visitable {
+/**
+ * Named variable or constant.
+ */
+class Variable implements Expression {
 
     private final String name;
 
@@ -9,8 +12,15 @@ public class Variable implements Visitable {
         this.name = name;
     }
 
+    /**
+     * Executed when this variable is encountered during program execution. If
+     * memory contains an {@link Invocable} object named like this variable it
+     * is retrieved and invoked. Otherwise if this variable represents a numeric
+     * or text constant it is interpreted like that and placed onto the stack.
+     * If all of this fails this method exits.
+     */
     @Override
-    public void visit(ExecutionContext context) {
+    public void hit(ExecutionContext context) {
         Invocable value = context.read(this.name);
 
         if (value != null) {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-class Parser implements Iterator<Visitable>, Iterable<Visitable> {
+class Parser implements Iterator<Expression>, Iterable<Expression> {
 
     private final Iterator<String> tokens;
 
@@ -24,7 +24,7 @@ class Parser implements Iterator<Visitable>, Iterable<Visitable> {
         }
     }
 
-    private Visitable parseTopLevel() {
+    private Expression parseTopLevel() {
         if (current == null) {
             return null;
         }
@@ -34,7 +34,7 @@ class Parser implements Iterator<Visitable>, Iterable<Visitable> {
             return this.parseBlock();
         } else if ("#".equals(current.charAt(0))) {
             this.nextConstruct();
-            Visitable next = this.parseTopLevel();
+            Expression next = this.parseTopLevel();
             if (next == null) {
                 throw new SyntaxException("End of script");
             }
@@ -44,17 +44,17 @@ class Parser implements Iterator<Visitable>, Iterable<Visitable> {
         }
     }
 
-    private Visitable parseVariable() {
+    private Expression parseVariable() {
         Variable variable = new Variable(current);
         this.nextConstruct();
         return variable;
     }
 
-    private Visitable parseBlock() {
-        List<Visitable> members = new ArrayList<Visitable>();
+    private Expression parseBlock() {
+        List<Expression> members = new ArrayList<Expression>();
         this.nextConstruct();
         while (!"}".equals(this.current)) {
-            Visitable member = this.parseTopLevel();
+            Expression member = this.parseTopLevel();
             if (member == null) {
                 throw new SyntaxException("} missing.");
             }
@@ -64,7 +64,7 @@ class Parser implements Iterator<Visitable>, Iterable<Visitable> {
         return new Block(members);
     }
 
-    private Visitable parseAssignment() {
+    private Expression parseAssignment() {
         this.nextConstruct();
         Assignment assignment = new Assignment(current);
         this.nextConstruct();
@@ -77,8 +77,8 @@ class Parser implements Iterator<Visitable>, Iterable<Visitable> {
     }
 
     @Override
-    public Visitable next() {
-        Visitable next = this.parseTopLevel();
+    public Expression next() {
+        Expression next = this.parseTopLevel();
         if (next == null) {
             throw new SyntaxException("End of script");
         }
@@ -91,7 +91,7 @@ class Parser implements Iterator<Visitable>, Iterable<Visitable> {
     }
 
     @Override
-    public Iterator<Visitable> iterator() {
+    public Iterator<Expression> iterator() {
         return this;
     }
 }

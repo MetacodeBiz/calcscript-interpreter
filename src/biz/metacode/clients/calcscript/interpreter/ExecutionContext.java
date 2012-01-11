@@ -3,6 +3,10 @@ package biz.metacode.clients.calcscript.interpreter;
 
 import java.util.Collection;
 
+/**
+ * Context of program execution. Represents state of memory (read/write) and
+ * stack (push/pop).
+ */
 public interface ExecutionContext {
 
     void write(String name, Invocable object);

@@ -1,13 +1,12 @@
-package biz.metacode.clients.calcscript.interpreter.execution;
 
-import biz.metacode.clients.calcscript.interpreter.Invocable;
+package biz.metacode.clients.calcscript.interpreter;
 
 public abstract class Value implements Invocable {
 
     private static final long serialVersionUID = -1274916686056050022L;
 
     @Override
-    public void invoke(Context context) {
+    public void invoke(ExecutionContext context) {
         context.push(this);
     }
 
@@ -22,6 +21,7 @@ public abstract class Value implements Invocable {
 
     public static class Pair {
         public final Value first;
+
         public final Value second;
 
         public Pair(Value first, Value second) {

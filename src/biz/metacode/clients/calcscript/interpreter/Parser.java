@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Parser implements Iterator<Visitable>, Iterable<Visitable> {
+class Parser implements Iterator<Visitable>, Iterable<Visitable> {
 
     private final Iterator<String> tokens;
 

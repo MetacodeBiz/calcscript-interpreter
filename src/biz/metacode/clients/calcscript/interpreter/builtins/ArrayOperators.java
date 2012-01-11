@@ -1,31 +1,32 @@
+
 package biz.metacode.clients.calcscript.interpreter.builtins;
 
+import biz.metacode.clients.calcscript.interpreter.ExecutionContext;
 import biz.metacode.clients.calcscript.interpreter.Invocable;
-import biz.metacode.clients.calcscript.interpreter.execution.Array;
-import biz.metacode.clients.calcscript.interpreter.execution.Context;
-import biz.metacode.clients.calcscript.interpreter.execution.Value;
+import biz.metacode.clients.calcscript.interpreter.SharedArray;
+import biz.metacode.clients.calcscript.interpreter.Value;
 
 public enum ArrayOperators implements Invocable {
     MAP {
         @Override
-        public void invoke(Context context) {
+        public void invoke(ExecutionContext context) {
             Invocable executable = (Invocable) context.pop();
-            Array list = (Array) context.pop();
-            Array results = context.acquireArray();
+            SharedArray list = (SharedArray) context.pop();
+            SharedArray results = context.acquireArray();
             for (Value object : list) {
                 context.push(object);
                 executable.invoke(context);
                 results.add(context.pop());
             }
-            context.push(results);
+            context.pushArray(results);
         }
     },
     COMMA {
         @Override
-        public void invoke(Context context) {
-            Array array = (Array) context.pop();
-            context.push(array.length());
-            array.relinquish();
+        public void invoke(ExecutionContext context) {
+            SharedArray array = (SharedArray) context.pop();
+            context.pushDouble(array.size());
+            array.release();
         }
     },
 }

@@ -1,3 +1,4 @@
+
 package biz.metacode.clients.calcscript.interpreter;
 
 public class SyntaxException extends RuntimeException {

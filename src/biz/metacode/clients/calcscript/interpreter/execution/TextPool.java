@@ -3,7 +3,7 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import java.util.LinkedList;
 
-public class TextPool {
+public class TextPool implements Pool<Text> {
 
     private LinkedList<Text> pool = new LinkedList<Text>();
 
@@ -20,7 +20,7 @@ public class TextPool {
         return new Text(this, string);
     }
 
-    void relinquish(Text text) {
+    public void relinquish(Text text) {
         this.pool.push(text);
     }
 }

@@ -1,11 +1,7 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
-import biz.metacode.clients.calcscript.interpreter.execution.Context;
-
 public class Assignment implements Visitable {
-
-    private static final long serialVersionUID = 9115138722566546001L;
 
     private final String targetVariableName;
 
@@ -18,7 +14,7 @@ public class Assignment implements Visitable {
     }
 
     @Override
-    public void visit(Context context) {
+    public void visit(ExecutionContext context) {
         context.write(targetVariableName, context.peek());
     }
 

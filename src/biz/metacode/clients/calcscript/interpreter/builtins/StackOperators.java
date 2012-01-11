@@ -1,9 +1,9 @@
 
 package biz.metacode.clients.calcscript.interpreter.builtins;
 
+import biz.metacode.clients.calcscript.interpreter.ExecutionContext;
 import biz.metacode.clients.calcscript.interpreter.Invocable;
-import biz.metacode.clients.calcscript.interpreter.execution.Context;
-import biz.metacode.clients.calcscript.interpreter.execution.Value;
+import biz.metacode.clients.calcscript.interpreter.Value;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,19 +16,19 @@ public enum StackOperators implements Invocable {
 
     LEFT_SQUARE_BRACE {
         @Override
-        public void invoke(Context context) {
+        public void invoke(ExecutionContext context) {
             context.markPosition();
         }
     },
     RIGHT_SQUARE_BRACE {
         @Override
-        public void invoke(Context context) {
-            context.push(context.extractMarkedArray());
+        public void invoke(ExecutionContext context) {
+            context.pushArray(context.extractMarkedArray());
         }
     },
     DUPLICATE {
         @Override
-        public void invoke(Context context) {
+        public void invoke(ExecutionContext context) {
             try {
                 Serializable object = context.peek();
 
@@ -46,13 +46,13 @@ public enum StackOperators implements Invocable {
     },
     DROP {
         @Override
-        public void invoke(Context context) {
+        public void invoke(ExecutionContext context) {
             context.pop();
         }
     },
     SWAP {
         @Override
-        public void invoke(Context context) {
+        public void invoke(ExecutionContext context) {
             Value first = context.pop();
             Value second = context.pop();
             context.push(first);

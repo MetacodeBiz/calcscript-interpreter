@@ -2,7 +2,7 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import java.util.LinkedList;
 
-public class ArrayPool {
+public class ArrayPool implements Pool<Array> {
 
     private final LinkedList<Array> ownedValues = new LinkedList<Array>();
 
@@ -15,7 +15,7 @@ public class ArrayPool {
         return new Array(this);
     }
 
-    void relinquish(Array value) {
+    public void relinquish(Array value) {
         ownedValues.push(value);
     }
 

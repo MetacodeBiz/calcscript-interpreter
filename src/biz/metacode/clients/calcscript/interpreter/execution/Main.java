@@ -1,12 +1,10 @@
 
-package biz.metacode.clients.calcscript.interpreter;
+package biz.metacode.clients.calcscript.interpreter.execution;
 
+import biz.metacode.clients.calcscript.interpreter.Value;
 import biz.metacode.clients.calcscript.interpreter.builtins.ArithmeticOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.MathOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.StackOperators;
-import biz.metacode.clients.calcscript.interpreter.execution.Engine;
-import biz.metacode.clients.calcscript.interpreter.execution.ExecutionException;
-import biz.metacode.clients.calcscript.interpreter.execution.Value;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

@@ -1,15 +1,17 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
+import biz.metacode.clients.calcscript.interpreter.Value;
+
 public class Text extends Value {
 
     private static final long serialVersionUID = 1168274352878421240L;
 
     private String value;
 
-    private final transient TextPool pool;
+    private final transient Pool<Text> pool;
 
-    Text(TextPool pool, String value) {
+    Text(Pool<Text> pool, String value) {
         this.pool = pool;
         this.value = value;
     }

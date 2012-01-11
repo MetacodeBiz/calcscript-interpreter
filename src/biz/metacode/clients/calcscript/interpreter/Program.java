@@ -1,6 +1,5 @@
-package biz.metacode.clients.calcscript.interpreter;
 
-import biz.metacode.clients.calcscript.interpreter.execution.Context;
+package biz.metacode.clients.calcscript.interpreter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ public final class Program implements Invocable {
     }
 
     @Override
-    public void invoke(Context context) {
+    public void invoke(ExecutionContext context) {
         Parser parser = new Parser(source);
         for (Visitable visitable : parser) {
             visitable.visit(context);

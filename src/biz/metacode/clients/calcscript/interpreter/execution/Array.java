@@ -1,25 +1,28 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
+import biz.metacode.clients.calcscript.interpreter.SharedArray;
+import biz.metacode.clients.calcscript.interpreter.Value;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class Array extends Value implements Iterable<Value> {
+public class Array extends Value implements SharedArray {
 
     private static final long serialVersionUID = -7480425864645673589L;
 
     private final ArrayList<Value> entries = new ArrayList<Value>();
 
-    private transient final ArrayPool pool;
+    private transient final Pool<Array> pool;
 
-    Array(ArrayPool pool) {
+    Array(Pool<Array> pool) {
         this.pool = pool;
     }
 
     public List<Value> consume() {
-        @SuppressWarnings("unchecked")
-        List<Value> clone = (ArrayList<Value>) entries.clone();
+        List<Value> clone = new ArrayList<Value>(entries);
         this.relinquish();
         return clone;
     }
@@ -34,23 +37,15 @@ public class Array extends Value implements Iterable<Value> {
         this.entries.clear();
     }
 
-    public void add(Value entry) {
-        this.entries.add(entry);
-    }
-
-    public int length() {
-        return this.entries.size();
-    }
-
     @Override
     public Iterator<Value> iterator() {
-        return new ArrayIterator(this.entries.iterator());
+        return new ArrayIterator(this, this.entries.iterator());
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
-        Iterator<Value> iterator = this.entries.iterator();
+        Iterator<? extends Value> iterator = this.entries.iterator();
         while (iterator.hasNext()) {
             sb.append(iterator.next());
             if (iterator.hasNext()) {
@@ -65,19 +60,22 @@ public class Array extends Value implements Iterable<Value> {
         return 2;
     }
 
-    private class ArrayIterator implements Iterator<Value> {
+    private static class ArrayIterator implements Iterator<Value> {
 
-        private final Iterator<Value> iterator;
+        private final Iterator<? extends Value> iterator;
 
-        public ArrayIterator(Iterator<Value> iterator) {
+        private final SharedArray parent;
+
+        public ArrayIterator(SharedArray parent, Iterator<? extends Value> iterator) {
             this.iterator = iterator;
+            this.parent = parent;
         }
 
         @Override
         public boolean hasNext() {
             boolean next = iterator.hasNext();
             if (!next) {
-                Array.this.relinquish();
+                parent.release();
             }
             return next;
         }
@@ -92,5 +90,65 @@ public class Array extends Value implements Iterable<Value> {
             iterator.remove();
         }
 
+    }
+
+    @Override
+    public int size() {
+        return this.entries.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.entries.isEmpty();
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return this.entries.contains(o);
+    }
+
+    @Override
+    public Object[] toArray() {
+        return this.entries.toArray();
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return this.entries.toArray(a);
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        return this.entries.remove(o);
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        return this.entries.containsAll(c);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends Value> c) {
+        return this.entries.addAll(c);
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        return this.entries.removeAll(c);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        return this.entries.retainAll(c);
+    }
+
+    @Override
+    public boolean add(Value e) {
+        return this.entries.add(e);
+    }
+
+    @Override
+    public void release() {
+        this.relinquish();
     }
 }

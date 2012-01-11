@@ -1,11 +1,14 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
+import biz.metacode.clients.calcscript.interpreter.ExecutionContext;
 import biz.metacode.clients.calcscript.interpreter.Invocable;
+import biz.metacode.clients.calcscript.interpreter.Value;
 
+import java.util.Collection;
 import java.util.List;
 
-public class Context {
+public class Context implements ExecutionContext {
     private final Memory memory;
 
     private final NumericPool valuePool = new NumericPool();
@@ -41,11 +44,11 @@ public class Context {
         this.stack.push(element);
     }
 
-    public void push(double element) {
+    public void pushDouble(double element) {
         this.stack.push(valuePool.acquire(element));
     }
 
-    public void push(String element) {
+    public void pushString(String element) {
         this.stack.push(textPool.acquire(element));
     }
 
@@ -83,5 +86,16 @@ public class Context {
 
     public Array acquireArray() {
         return arrayPool.acquire();
+    }
+
+    @Override
+    public void pushArray(Collection<? extends Value> array) {
+        if (array instanceof Array) {
+            this.push((Array) array);
+        } else {
+            Array temporary = this.acquireArray();
+            temporary.addAll(array);
+            this.push(temporary);
+        }
     }
 }

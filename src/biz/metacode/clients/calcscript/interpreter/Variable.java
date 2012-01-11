@@ -1,11 +1,7 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
-import biz.metacode.clients.calcscript.interpreter.execution.Context;
-
 public class Variable implements Visitable {
-
-    private static final long serialVersionUID = 2506602173741080789L;
 
     private final String name;
 
@@ -14,7 +10,7 @@ public class Variable implements Visitable {
     }
 
     @Override
-    public void visit(Context context) {
+    public void visit(ExecutionContext context) {
         Invocable value = context.read(this.name);
 
         if (value != null) {
@@ -32,18 +28,18 @@ public class Variable implements Visitable {
         }
     }
 
-    private boolean interpretAsDouble(Context context) {
+    private boolean interpretAsDouble(ExecutionContext context) {
         try {
-            context.push(Double.parseDouble(this.name));
+            context.pushDouble(Double.parseDouble(this.name));
             return true;
         } catch (NumberFormatException e) {
             return false;
         }
     }
 
-    private boolean interpretAsString(Context context) {
+    private boolean interpretAsString(ExecutionContext context) {
         if (isString(name)) {
-            context.push(name.substring(1, this.name.length() - 1));
+            context.pushString(name.substring(1, this.name.length() - 1));
             return true;
         }
         return false;

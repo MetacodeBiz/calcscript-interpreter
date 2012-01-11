@@ -1,6 +1,8 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
+import biz.metacode.clients.calcscript.interpreter.Value;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
@@ -16,11 +18,11 @@ public class Numeric extends Value {
         threeDec = new DecimalFormat("0.###", symbols);
     }
 
-    private transient final NumericPool pool;
+    private transient final Pool<Numeric> pool;
 
     private double value;
 
-    Numeric(NumericPool pool, double value) {
+    Numeric(Pool<Numeric> pool, double value) {
         this.pool = pool;
         this.value = value;
     }

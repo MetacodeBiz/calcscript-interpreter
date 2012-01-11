@@ -1,9 +1,6 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
-import biz.metacode.clients.calcscript.interpreter.execution.Context;
-import biz.metacode.clients.calcscript.interpreter.execution.Value;
-
 import java.util.List;
 
 public class Block extends Value implements Visitable {
@@ -17,12 +14,12 @@ public class Block extends Value implements Visitable {
     }
 
     @Override
-    public void visit(Context context) {
+    public void visit(ExecutionContext context) {
         context.push(this);
     }
 
     @Override
-    public void invoke(Context context) {
+    public void invoke(ExecutionContext context) {
         for (Visitable visitable : members) {
             visitable.visit(context);
         }

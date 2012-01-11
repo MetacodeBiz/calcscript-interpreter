@@ -1,7 +1,7 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-public class Text implements Value {
+public class Text extends Value {
 
     private static final long serialVersionUID = 1168274352878421240L;
 

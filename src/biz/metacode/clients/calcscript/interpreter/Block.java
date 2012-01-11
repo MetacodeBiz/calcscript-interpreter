@@ -2,10 +2,11 @@
 package biz.metacode.clients.calcscript.interpreter;
 
 import biz.metacode.clients.calcscript.interpreter.execution.Context;
+import biz.metacode.clients.calcscript.interpreter.execution.Value;
 
 import java.util.List;
 
-public class Block implements Visitable, Executable {
+public class Block extends Value implements Visitable, Executable {
 
     private static final long serialVersionUID = -2750855771404873550L;
 

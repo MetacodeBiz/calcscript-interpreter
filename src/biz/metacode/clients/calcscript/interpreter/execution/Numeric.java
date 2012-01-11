@@ -4,7 +4,7 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-public class Numeric implements Value {
+public class Numeric extends Value {
 
     private static final long serialVersionUID = -7340834444775795549L;
 

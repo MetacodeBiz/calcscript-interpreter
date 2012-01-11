@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Array implements Value, Iterable<Value> {
+public class Array extends Value implements Iterable<Value> {
 
     private static final long serialVersionUID = -7480425864645673589L;
 

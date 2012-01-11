@@ -1,6 +1,7 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class Context {
@@ -31,7 +32,7 @@ public class Context {
         this.memory.write(name, data);
     }
 
-    public Value read(String name) {
+    public Serializable read(String name) {
         return this.memory.read(name);
     }
 

@@ -5,13 +5,6 @@ import biz.metacode.clients.calcscript.interpreter.ExecutionContext;
 import biz.metacode.clients.calcscript.interpreter.Invocable;
 import biz.metacode.clients.calcscript.interpreter.Value;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-
 public enum StackOperators implements Invocable {
 
     LEFT_SQUARE_BRACE {
@@ -29,19 +22,7 @@ public enum StackOperators implements Invocable {
     DUPLICATE {
         @Override
         public void invoke(ExecutionContext context) {
-            try {
-                Serializable object = context.peek();
-
-                ByteArrayOutputStream str = new ByteArrayOutputStream();
-                (new ObjectOutputStream(str)).writeObject(object);
-
-                ByteArrayInputStream str2 = new ByteArrayInputStream(str.toByteArray());
-                context.push((Value) (new ObjectInputStream(str2)).readObject());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            context.push(context.peek().duplicate());
         }
     },
     DROP {

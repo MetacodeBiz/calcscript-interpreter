@@ -35,4 +35,11 @@ public class Text extends Value {
     protected int getPriority() {
         return 3;
     }
+
+    @Override
+    public Value duplicate() {
+        Text duplicate = this.pool.acquire();
+        duplicate.set(value);
+        return duplicate;
+    }
 }

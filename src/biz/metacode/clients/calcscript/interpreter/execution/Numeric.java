@@ -48,4 +48,11 @@ public class Numeric extends Value {
     protected int getPriority() {
         return 1;
     }
+
+    @Override
+    public Value duplicate() {
+        Numeric duplicate = this.pool.acquire();
+        duplicate.set(value);
+        return duplicate;
+    }
 }

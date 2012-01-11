@@ -23,4 +23,9 @@ public class TextPool implements Pool<Text> {
     public void relinquish(Text text) {
         this.pool.push(text);
     }
+
+    @Override
+    public Text acquire() {
+        return acquire(null);
+    }
 }

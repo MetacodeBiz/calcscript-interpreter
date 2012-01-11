@@ -151,4 +151,11 @@ public class Array extends Value implements SharedArray {
     public void release() {
         this.relinquish();
     }
+
+    @Override
+    public Value duplicate() {
+        Array duplicate = this.pool.acquire();
+        duplicate.addAll(this);
+        return duplicate;
+    }
 }

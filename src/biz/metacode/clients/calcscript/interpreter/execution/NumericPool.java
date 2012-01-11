@@ -19,4 +19,9 @@ public class NumericPool implements Pool<Numeric> {
         ownedValues.push(value);
     }
 
+    @Override
+    public Numeric acquire() {
+        return acquire(0);
+    }
+
 }

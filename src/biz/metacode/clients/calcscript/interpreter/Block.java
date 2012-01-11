@@ -47,4 +47,12 @@ class Block extends Value implements Expression {
         return 4;
     }
 
+    /**
+     * Returns this as a duplicate because {@link Block}s are immutable.
+     */
+    @Override
+    public Value duplicate() {
+        return this;
+    }
+
 }

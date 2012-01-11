@@ -28,4 +28,9 @@ public class Text extends Value {
     public String toString() {
         return value;
     }
+
+    @Override
+    protected int getPriority() {
+        return 3;
+    }
 }

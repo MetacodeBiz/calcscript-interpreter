@@ -40,4 +40,9 @@ public class Block extends Value implements Visitable, Executable {
         return builder.append('}').toString();
     }
 
+    @Override
+    protected int getPriority() {
+        return 4;
+    }
+
 }

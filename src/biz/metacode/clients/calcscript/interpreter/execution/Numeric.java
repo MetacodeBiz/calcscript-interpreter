@@ -41,4 +41,9 @@ public class Numeric extends Value {
     public String toString() {
         return threeDec.format(value);
     }
+
+    @Override
+    protected int getPriority() {
+        return 1;
+    }
 }

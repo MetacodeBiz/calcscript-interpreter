@@ -60,6 +60,11 @@ public class Array extends Value implements Iterable<Value> {
         return sb.append("]").toString();
     }
 
+    @Override
+    protected int getPriority() {
+        return 2;
+    }
+
     private class ArrayIterator implements Iterator<Value> {
 
         private final Iterator<Value> iterator;

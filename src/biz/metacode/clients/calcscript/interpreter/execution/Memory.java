@@ -5,10 +5,11 @@ import biz.metacode.clients.calcscript.interpreter.Invocable;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class Memory implements Serializable {
+public class Memory implements Serializable, Iterable<Map.Entry<String, Invocable>> {
 
     private static final long serialVersionUID = 2268129176519901123L;
 
@@ -24,6 +25,10 @@ public class Memory implements Serializable {
 
     public Set<String> keys() {
         return this.data.keySet();
+    }
+
+    public Iterator<Map.Entry<String, Invocable>> iterator() {
+        return this.data.entrySet().iterator();
     }
 
 }

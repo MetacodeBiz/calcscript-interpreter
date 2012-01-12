@@ -1,7 +1,7 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-public interface Pool<T extends PooledObject<T>> {
+public interface Pool<T extends PooledObject> {
     T acquire();
 
     void relinquish(T object);

@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class Array extends Value implements SharedArray, PooledObject<Array> {
+public class Array extends Value implements SharedArray, PooledObject {
 
     private static final long serialVersionUID = -7480425864645673589L;
 
@@ -116,7 +116,12 @@ public class Array extends Value implements SharedArray, PooledObject<Array> {
         return duplicate;
     }
 
-    public void attachToPool(Pool<Array> pool) {
-        this.pool = pool;
+    public void attachToPool(PoolProvider poolProvider) {
+        this.pool = poolProvider.getPool(Array.class);
+        for (Value value : entries) {
+            if (value instanceof PooledObject) {
+                ((PooledObject) value).attachToPool(poolProvider);
+            }
+        }
     }
 }

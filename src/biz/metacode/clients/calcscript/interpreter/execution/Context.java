@@ -7,7 +7,7 @@ import biz.metacode.clients.calcscript.interpreter.Value;
 
 import java.util.Collection;
 
-public class Context implements ExecutionContext {
+public class Context implements ExecutionContext, PoolProvider {
 
     private final NumericPool valuePool = new NumericPool();
 
@@ -16,6 +16,7 @@ public class Context implements ExecutionContext {
     private final TextPool textPool = new TextPool();
 
     private Stack stack;
+
     private Memory memory;
 
     public Context() {
@@ -98,5 +99,19 @@ public class Context implements ExecutionContext {
             temporary.addAll(array);
             this.push(temporary);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends PooledObject> Pool<T> getPool(Class<T> pooledObject) {
+        if (Numeric.class.equals(pooledObject)) {
+            return (Pool<T>) valuePool;
+        }
+        if (Text.class.equals(pooledObject)) {
+            return (Pool<T>) textPool;
+        }
+        if (Array.class.equals(pooledObject)) {
+            return (Pool<T>) arrayPool;
+        }
+        throw new IllegalArgumentException("This type of pool is not supported: " + pooledObject);
     }
 }

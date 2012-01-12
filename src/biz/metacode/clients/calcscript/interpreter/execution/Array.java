@@ -9,13 +9,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class Array extends Value implements SharedArray {
+public class Array extends Value implements SharedArray, PooledObject<Array> {
 
     private static final long serialVersionUID = -7480425864645673589L;
 
     private final ArrayList<Value> entries = new ArrayList<Value>();
 
-    private transient final Pool<Array> pool;
+    private transient Pool<Array> pool;
 
     Array(Pool<Array> pool) {
         this.pool = pool;
@@ -114,5 +114,9 @@ public class Array extends Value implements SharedArray {
             duplicate.add(value.duplicate());
         }
         return duplicate;
+    }
+
+    public void attachToPool(Pool<Array> pool) {
+        this.pool = pool;
     }
 }

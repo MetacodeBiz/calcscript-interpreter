@@ -3,13 +3,13 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import biz.metacode.clients.calcscript.interpreter.Value;
 
-public class Text extends Value {
+public class Text extends Value implements PooledObject<Text> {
 
     private static final long serialVersionUID = 1168274352878421240L;
 
     private String value;
 
-    private final transient Pool<Text> pool;
+    private transient Pool<Text> pool;
 
     Text(Pool<Text> pool, String value) {
         this.pool = pool;
@@ -41,5 +41,9 @@ public class Text extends Value {
         Text duplicate = this.pool.acquire();
         duplicate.set(value);
         return duplicate;
+    }
+
+    public void attachToPool(Pool<Text> pool) {
+        this.pool = pool;
     }
 }

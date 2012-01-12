@@ -34,5 +34,15 @@ public enum StackOperators implements Invocable {
             context.push(first);
             context.push(second);
         }
+    },
+    ROT3 {
+        public void invoke(ExecutionContext context) {
+            Value first = context.pop();
+            Value second = context.pop();
+            Value third = context.pop();
+            context.push(second);
+            context.push(first);
+            context.push(third);
+        }
     }
 }

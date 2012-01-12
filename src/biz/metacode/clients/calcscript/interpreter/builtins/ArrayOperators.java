@@ -30,4 +30,16 @@ public enum ArrayOperators implements Invocable {
             array.release();
         }
     },
+    EXTRACT {
+        public void invoke(ExecutionContext context) {
+            SharedArray array = (SharedArray) context.pop();
+            try {
+                for (Value value : array) {
+                    context.push(value);
+                }
+            } finally {
+                array.release();
+            }
+        }
+    }
 }

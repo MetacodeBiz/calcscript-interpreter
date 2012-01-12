@@ -16,7 +16,6 @@ class Lexer implements Iterable<String> {
         this.source = source;
     }
 
-    @Override
     public Iterator<String> iterator() {
         return new LexerIterator(source);
     }
@@ -32,19 +31,16 @@ class Lexer implements Iterable<String> {
             hasNextElement = matcher.find();
         }
 
-        @Override
         public boolean hasNext() {
             return hasNextElement;
         }
 
-        @Override
         public String next() {
             String result = matcher.group(0);
             hasNextElement = matcher.find();
             return result;
         }
 
-        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }

@@ -9,7 +9,6 @@ import biz.metacode.clients.calcscript.interpreter.execution.Numeric;
 public enum MathOperators implements Invocable {
 
     SUM {
-        @Override
         public void invoke(ExecutionContext context) {
             SharedArray list = (SharedArray) context.pop();
             double sum = 0;
@@ -20,7 +19,6 @@ public enum MathOperators implements Invocable {
         }
     },
     ABSOLUTE {
-        @Override
         public void invoke(ExecutionContext context) {
             context.pushDouble(Math.abs(context.popDouble()));
         }

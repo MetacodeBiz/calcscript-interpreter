@@ -19,7 +19,6 @@ class Variable implements Expression {
      * or text constant it is interpreted like that and placed onto the stack.
      * If all of this fails this method exits.
      */
-    @Override
     public void evaluate(ExecutionContext context) {
         Invocable value = context.read(this.name);
 

@@ -5,7 +5,6 @@ import biz.metacode.clients.calcscript.interpreter.Invocable;
 
 public enum ArithmeticOperators implements Invocable {
     ADDITION {
-        @Override
         public void invoke(ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
@@ -13,7 +12,6 @@ public enum ArithmeticOperators implements Invocable {
         }
     },
     SUBSTRACTION {
-        @Override
         public void invoke(ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
@@ -21,7 +19,6 @@ public enum ArithmeticOperators implements Invocable {
         }
     },
     MULTIPLICATION {
-        @Override
         public void invoke(ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
@@ -29,7 +26,6 @@ public enum ArithmeticOperators implements Invocable {
         }
     },
     DIVISION {
-        @Override
         public void invoke(ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();

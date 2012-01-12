@@ -3,17 +3,15 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import biz.metacode.clients.calcscript.interpreter.Value;
 
-import java.util.List;
-
 public class Stack {
 
     private final java.util.Stack<Value> data = new java.util.Stack<Value>();
 
     private int mark = 0;
 
-    private final ArrayPool pool;
+    private final Pool<Array> pool;
 
-    public Stack(ArrayPool pool) {
+    public Stack(Pool<Array> pool) {
         this.pool = pool;
     }
 
@@ -58,7 +56,10 @@ public class Stack {
         return part;
     }
 
-    public List<Value> getData() {
+    public Array getData() {
+        Array data = pool.acquire();
+        data.addAll(this.data);
+        this.data.clear();
         return data;
     }
 }

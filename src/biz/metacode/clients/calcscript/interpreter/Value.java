@@ -13,7 +13,6 @@ public abstract class Value implements Invocable {
     /**
      * Invoke this value. By default it places this object onto the stack.
      */
-    @Override
     public void invoke(ExecutionContext context) {
         context.push(this);
     }

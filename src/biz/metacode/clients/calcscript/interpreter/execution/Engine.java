@@ -3,7 +3,7 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import biz.metacode.clients.calcscript.interpreter.Invocable;
 import biz.metacode.clients.calcscript.interpreter.Program;
-import biz.metacode.clients.calcscript.interpreter.Value;
+import biz.metacode.clients.calcscript.interpreter.SharedArray;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,21 +11,22 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.EmptyStackException;
-import java.util.List;
 import java.util.Set;
 
 public class Engine {
 
     private Memory memory = new Memory();
+    private Context context = new Context();
 
     public void register(String name, Invocable executable) {
         this.memory.write(name, executable);
     }
 
-    public List<Value> execute(CharSequence source) throws ExecutionException {
-        Context context = new Context(memory);
+    public SharedArray execute(CharSequence source) throws ExecutionException {
         Program program = new Program(source);
-        try {
+        try {//context = new Context(memory);
+            context.setMemory(memory);
+            context.clearStack();
             program.invoke(context);
         } catch (EmptyStackException e) {
             throw new ExecutionException("Stack is empty", e);

@@ -6,10 +6,8 @@ import biz.metacode.clients.calcscript.interpreter.Invocable;
 import biz.metacode.clients.calcscript.interpreter.Value;
 
 import java.util.Collection;
-import java.util.List;
 
 public class Context implements ExecutionContext {
-    private final Memory memory;
 
     private final NumericPool valuePool = new NumericPool();
 
@@ -18,17 +16,21 @@ public class Context implements ExecutionContext {
     private final TextPool textPool = new TextPool();
 
     private Stack stack;
+    private Memory memory;
 
-    public Context(Memory memory) {
-        this.memory = memory;
+    public Context() {
         this.clearStack();
+    }
+
+    public void setMemory(Memory memory) {
+        this.memory = memory;
     }
 
     public void clearStack() {
         stack = new Stack(arrayPool);
     }
 
-    public List<Value> getData() {
+    public Array getData() {
         return stack.getData();
     }
 
@@ -88,7 +90,6 @@ public class Context implements ExecutionContext {
         return arrayPool.acquire();
     }
 
-    @Override
     public void pushArray(Collection<? extends Value> array) {
         if (array instanceof Array) {
             this.push((Array) array);

@@ -71,12 +71,10 @@ class Parser implements Iterator<Expression>, Iterable<Expression> {
         return assignment;
     }
 
-    @Override
     public boolean hasNext() {
         return this.current != null;
     }
 
-    @Override
     public Expression next() {
         Expression next = this.parseTopLevel();
         if (next == null) {
@@ -85,12 +83,10 @@ class Parser implements Iterator<Expression>, Iterable<Expression> {
         return next;
     }
 
-    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public Iterator<Expression> iterator() {
         return this;
     }

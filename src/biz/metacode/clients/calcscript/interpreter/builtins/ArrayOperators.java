@@ -8,7 +8,6 @@ import biz.metacode.clients.calcscript.interpreter.Value;
 
 public enum ArrayOperators implements Invocable {
     MAP {
-        @Override
         public void invoke(ExecutionContext context) {
             Invocable executable = (Invocable) context.pop();
             SharedArray list = (SharedArray) context.pop();
@@ -22,7 +21,6 @@ public enum ArrayOperators implements Invocable {
         }
     },
     COMMA {
-        @Override
         public void invoke(ExecutionContext context) {
             SharedArray array = (SharedArray) context.pop();
             context.pushDouble(array.size());

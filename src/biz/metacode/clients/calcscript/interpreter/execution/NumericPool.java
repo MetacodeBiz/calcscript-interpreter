@@ -16,10 +16,10 @@ public class NumericPool implements Pool<Numeric> {
     }
 
     public void relinquish(Numeric value) {
-        ownedValues.push(value);
+        assert !ownedValues.contains(value): "Releasing twice the same object!";
+        ownedValues.add(value);
     }
 
-    @Override
     public Numeric acquire() {
         return acquire(0);
     }

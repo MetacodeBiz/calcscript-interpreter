@@ -16,7 +16,8 @@ public class ArrayPool implements Pool<Array> {
     }
 
     public void relinquish(Array value) {
-        ownedValues.push(value);
+        assert !ownedValues.contains(value): "Releasing twice the same object!";
+        ownedValues.add(value);
     }
 
 }

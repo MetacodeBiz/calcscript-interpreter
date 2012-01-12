@@ -11,13 +11,16 @@ public enum ArrayOperators implements Invocable {
         public void invoke(ExecutionContext context) {
             Invocable executable = (Invocable) context.pop();
             SharedArray list = (SharedArray) context.pop();
-            SharedArray results = context.acquireArray();
-            for (Value object : list) {
-                context.push(object);
-                executable.invoke(context);
-                results.add(context.pop());
+            context.markPosition();
+            try {
+                for (Value object : list) {
+                    context.push(object);
+                    executable.invoke(context);
+                }
+            } finally {
+                list.release();
             }
-            context.pushArray(results);
+            context.pushArray(context.extractMarkedArray());
         }
     },
     COMMA {

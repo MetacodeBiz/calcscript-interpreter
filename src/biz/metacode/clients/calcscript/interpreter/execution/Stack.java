@@ -7,9 +7,9 @@ public class Stack {
 
     private final java.util.Stack<Value> data = new java.util.Stack<Value>();
 
-    private int mark = 0;
-
     private final Pool<Array> pool;
+
+    private final IntStack marks = new IntStack();
 
     public Stack(Pool<Array> pool) {
         this.pool = pool;
@@ -20,9 +20,14 @@ public class Stack {
     }
 
     public Value pop() {
-        if (mark > this.data.size() - 1)
-            mark--;
+        adjustMark();
         return this.data.pop();
+    }
+
+    private void adjustMark() {
+        if (!marks.isEmpty() && marks.peek() > this.data.size() - 1) {
+            marks.push(marks.pop() - 1);
+        }
     }
 
     public <T extends Value> T pop(Class<T> type) {
@@ -35,8 +40,7 @@ public class Stack {
     }
 
     public Value popAt(int index) {
-        if (mark > this.data.size() - 1)
-            mark--;
+        adjustMark();
         return this.data.remove(index);
     }
 
@@ -45,13 +49,14 @@ public class Stack {
     }
 
     public void markPosition() {
-        this.mark = this.data.size();
+        this.marks.push(this.data.size());
     }
 
     public Array extractMarkedArray() {
+        int mark = marks.isEmpty() ? 0 : marks.pop();
         Array part = pool.acquire();
-        for (int i = this.mark, l = this.data.size(); i < l; i++) {
-            part.add(this.data.remove(this.mark));
+        for (int i = mark, l = this.data.size(); i < l; i++) {
+            part.add(this.data.remove(mark));
         }
         return part;
     }

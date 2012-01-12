@@ -39,7 +39,7 @@ public class Main {
         engine.register("[", StackOperators.LEFT_SQUARE_BRACE);
         engine.register("]", StackOperators.RIGHT_SQUARE_BRACE);
         engine.register("sum", MathOperators.SUM);
-        print(engine.execute("[1 2 3]:b"));
+        print(engine.execute("[[1 2 3][4 5 6]]:b"));
 
         ByteArrayOutputStream str = new ByteArrayOutputStream();
         engine.saveState(str);

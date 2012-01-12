@@ -21,7 +21,7 @@ public final class Program implements Invocable {
     public void invoke(ExecutionContext context) {
         Parser parser = new Parser(source);
         for (Expression visitable : parser) {
-            visitable.hit(context);
+            visitable.evaluate(context);
         }
     }
 

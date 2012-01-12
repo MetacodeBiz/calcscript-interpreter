@@ -20,7 +20,7 @@ class Variable implements Expression {
      * If all of this fails this method exits.
      */
     @Override
-    public void hit(ExecutionContext context) {
+    public void evaluate(ExecutionContext context) {
         Invocable value = context.read(this.name);
 
         if (value != null) {

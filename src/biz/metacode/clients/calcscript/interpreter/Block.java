@@ -19,14 +19,14 @@ class Block extends Value implements Expression {
     }
 
     @Override
-    public void hit(ExecutionContext context) {
+    public void evaluate(ExecutionContext context) {
         context.push(this);
     }
 
     @Override
     public void invoke(ExecutionContext context) {
         for (Expression visitable : members) {
-            visitable.hit(context);
+            visitable.evaluate(context);
         }
     }
 

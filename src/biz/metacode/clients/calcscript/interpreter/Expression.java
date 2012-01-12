@@ -10,5 +10,5 @@ interface Expression {
      *
      * @param context Execution context.
      */
-    void hit(ExecutionContext context);
+    void evaluate(ExecutionContext context);
 }

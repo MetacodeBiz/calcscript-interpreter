@@ -18,7 +18,7 @@ class Assignment implements Expression {
     }
 
     @Override
-    public void hit(ExecutionContext context) {
+    public void evaluate(ExecutionContext context) {
         context.write(targetVariableName, context.peek());
     }
 

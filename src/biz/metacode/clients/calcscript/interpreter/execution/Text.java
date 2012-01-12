@@ -3,7 +3,7 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import biz.metacode.clients.calcscript.interpreter.Value;
 
-public class Text extends Value implements PooledObject {
+public class Text extends RefCountedValue implements PooledObject {
 
     private static final long serialVersionUID = 1168274352878421240L;
 
@@ -18,7 +18,7 @@ public class Text extends Value implements PooledObject {
 
     public String consume() {
         String value = this.value;
-        this.pool.relinquish(this);
+        this.release();
         return value;
     }
 
@@ -45,5 +45,10 @@ public class Text extends Value implements PooledObject {
 
     public void attachToPool(PoolProvider poolProvider) {
         this.pool = poolProvider.getPool(Text.class);
+    }
+
+    @Override
+    protected void relinquish() {
+        this.pool.relinquish(this);
     }
 }

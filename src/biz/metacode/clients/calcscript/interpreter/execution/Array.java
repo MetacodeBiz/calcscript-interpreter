@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class Array extends Value implements SharedArray, PooledObject {
+public class Array extends RefCountedValue implements SharedArray, PooledObject {
 
     private static final long serialVersionUID = -7480425864645673589L;
 
@@ -27,7 +27,7 @@ public class Array extends Value implements SharedArray, PooledObject {
         return clone;
     }
 
-    public void relinquish() {
+    protected void relinquish() {
         if (this.pool != null) {
             this.pool.relinquish(this);
         }
@@ -101,10 +101,6 @@ public class Array extends Value implements SharedArray, PooledObject {
 
     public boolean add(Value e) {
         return this.entries.add(e);
-    }
-
-    public void release() {
-        this.relinquish();
     }
 
     @Override

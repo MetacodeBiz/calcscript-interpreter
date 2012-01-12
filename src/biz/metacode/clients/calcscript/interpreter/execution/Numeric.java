@@ -6,7 +6,7 @@ import biz.metacode.clients.calcscript.interpreter.Value;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-public class Numeric extends Value implements PooledObject {
+public class Numeric extends RefCountedValue implements PooledObject {
 
     private static final long serialVersionUID = -7340834444775795549L;
 
@@ -29,9 +29,7 @@ public class Numeric extends Value implements PooledObject {
 
     public double consume() {
         double result = value;
-        if (this.pool != null) {
-            this.pool.relinquish(this);
-        }
+        this.release();
         return result;
     }
 
@@ -58,5 +56,10 @@ public class Numeric extends Value implements PooledObject {
 
     public void attachToPool(PoolProvider poolProvider) {
         this.pool = poolProvider.getPool(Numeric.class);
+    }
+
+    @Override
+    protected void relinquish() {
+        this.pool.relinquish(this);
     }
 }

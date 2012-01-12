@@ -9,6 +9,7 @@ public class ArrayPool implements Pool<Array> {
     public Array acquire() {
         Array cachedValue = ownedValues.poll();
         if (cachedValue != null) {
+            cachedValue.acquire();
             cachedValue.clear();
             return cachedValue;
         }

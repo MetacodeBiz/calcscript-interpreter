@@ -9,6 +9,7 @@ public class NumericPool implements Pool<Numeric> {
     public Numeric acquire(double value) {
         Numeric cachedValue = ownedValues.poll();
         if (cachedValue != null) {
+            cachedValue.acquire();
             cachedValue.set(value);
             return cachedValue;
         }

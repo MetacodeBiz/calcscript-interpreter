@@ -14,6 +14,7 @@ public class TextPool implements Pool<Text> {
     public Text acquire(String string) {
         Text text = pool.poll();
         if (text != null) {
+            text.acquire();
             text.set(string);
             return text;
         }

@@ -1,10 +1,14 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
+import java.io.Serializable;
+
 /**
  * Named variable or constant.
  */
-class Variable implements Expression {
+class Variable implements Expression, Serializable {
+
+    private static final long serialVersionUID = 4937518097465718226L;
 
     private final String name;
 

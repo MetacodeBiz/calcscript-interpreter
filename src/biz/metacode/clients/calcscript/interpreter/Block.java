@@ -1,6 +1,7 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * block is encountered during execution it is pushed onto the stack and it is
  * not executed.
  */
-class Block extends Value implements Expression {
+class Block extends Value implements Expression, Serializable {
 
     private static final long serialVersionUID = -2750855771404873550L;
 

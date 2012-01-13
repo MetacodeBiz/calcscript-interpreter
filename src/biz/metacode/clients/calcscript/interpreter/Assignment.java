@@ -1,11 +1,15 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
+import java.io.Serializable;
+
 /**
  * Assignment of the top of stack to named variable. Note that this does not pop
  * the stack.
  */
-class Assignment implements Expression {
+class Assignment implements Expression, Serializable {
+
+    private static final long serialVersionUID = 4922210833587000856L;
 
     private final String targetVariableName;
 

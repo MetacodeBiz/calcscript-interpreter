@@ -32,7 +32,7 @@ class Parser implements Iterator<Expression>, Iterable<Expression> {
             return this.parseAssignment();
         } else if ("{".equals(current)) {
             return this.parseBlock();
-        } else if ("#".equals(current.charAt(0))) {
+        } else if ('#' == current.charAt(0)) {
             this.nextConstruct();
             Expression next = this.parseTopLevel();
             if (next == null) {

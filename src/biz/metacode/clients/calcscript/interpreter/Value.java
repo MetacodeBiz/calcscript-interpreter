@@ -32,6 +32,10 @@ public abstract class Value implements Invocable {
      */
     public abstract Value duplicate();
 
+    public double toDouble() {
+        return 0;
+    }
+
     public void release() {
     }
 

@@ -52,6 +52,10 @@ public class Numeric extends RefCountedValue implements PooledObject {
         return duplicate;
     }
 
+    public double toDouble() {
+        return value;
+    }
+
     public void attachToPool(PoolProvider poolProvider) {
         this.pool = poolProvider.getPool(Numeric.class);
     }

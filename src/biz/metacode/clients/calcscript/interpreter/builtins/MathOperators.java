@@ -4,7 +4,7 @@ package biz.metacode.clients.calcscript.interpreter.builtins;
 import biz.metacode.clients.calcscript.interpreter.ExecutionContext;
 import biz.metacode.clients.calcscript.interpreter.Invocable;
 import biz.metacode.clients.calcscript.interpreter.SharedArray;
-import biz.metacode.clients.calcscript.interpreter.execution.Numeric;
+import biz.metacode.clients.calcscript.interpreter.Value;
 
 public enum MathOperators implements Invocable {
 
@@ -13,8 +13,8 @@ public enum MathOperators implements Invocable {
             SharedArray list = (SharedArray) context.pop();
             try {
                 double sum = 0;
-                for (Object o : list) {
-                    sum += ((Numeric) o).get();
+                for (Value value : list) {
+                    sum += value.toDouble();
                 }
                 context.pushDouble(sum);
             } finally {

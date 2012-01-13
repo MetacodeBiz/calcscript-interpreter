@@ -8,28 +8,28 @@ public enum ArithmeticOperators implements Invocable {
         public void invoke(ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
-            context.pushDouble(first + second);
+            context.pushDouble(second + first);
         }
     },
     SUBSTRACTION {
         public void invoke(ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
-            context.pushDouble(first - second);
+            context.pushDouble(second - first);
         }
     },
     MULTIPLICATION {
         public void invoke(ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
-            context.pushDouble(first * second);
+            context.pushDouble(second * first);
         }
     },
     DIVISION {
         public void invoke(ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
-            context.pushDouble(first / second);
+            context.pushDouble(second / first);
         }
     }
 }

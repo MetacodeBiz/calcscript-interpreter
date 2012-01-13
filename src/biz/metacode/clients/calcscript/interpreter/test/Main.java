@@ -1,5 +1,5 @@
 
-package biz.metacode.clients.calcscript.interpreter.execution;
+package biz.metacode.clients.calcscript.interpreter.test;
 
 import biz.metacode.clients.calcscript.interpreter.SharedArray;
 import biz.metacode.clients.calcscript.interpreter.Value;
@@ -7,6 +7,8 @@ import biz.metacode.clients.calcscript.interpreter.builtins.ArithmeticOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.ArrayOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.MathOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.StackOperators;
+import biz.metacode.clients.calcscript.interpreter.execution.Engine;
+import biz.metacode.clients.calcscript.interpreter.execution.ExecutionException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -53,7 +55,7 @@ public class Main {
         engine.register("@", StackOperators.ROT3);
         print(engine.execute("1 2 3@"));
         print(engine.execute("1 2 3@"));
-        print(engine.execute("1 2][3 4]]:b;{~.@-.*\\/}:c;"));
+        print(engine.execute("1 2][3 4]]:b;{~.@-.*\\/}:c;1 2 3]sum"));
 
         ByteArrayOutputStream str = new ByteArrayOutputStream();
         engine.saveState(str);

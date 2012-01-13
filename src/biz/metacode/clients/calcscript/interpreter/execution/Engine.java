@@ -13,23 +13,25 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.EmptyStackException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 public class Engine {
 
-    private Memory memory = new Memory();
-
     private Context context = new Context();
 
+    public Engine() {
+        context.setMemory(new Memory());
+    }
+
     public void register(String name, Invocable executable) {
-        this.memory.write(name, executable);
+        this.context.write(name, executable);
     }
 
     public SharedArray execute(CharSequence source) throws ExecutionException {
         Program program = new Program(source);
         try {
-            context.setMemory(memory);
             context.clearStack();
             program.invoke(context);
         } catch (EmptyStackException e) {
@@ -41,13 +43,15 @@ public class Engine {
     }
 
     public Set<String> getVariableNames() {
-        return memory.keys();
+        return context.getRegisteredVariableNames();
     }
 
     public void saveState(OutputStream stream) throws IOException {
         ObjectOutputStream objectOut = new ObjectOutputStream(stream);
         Map<String, Serializable> persistent = new HashMap<String, Serializable>();
-        for (Map.Entry<String, Invocable> object : memory) {
+        Iterator<Map.Entry<String, Invocable>> iterator = context.getRegisteredVariables();
+        while(iterator.hasNext()) {
+            Map.Entry<String, Invocable> object = iterator.next();
             if (object.getValue() instanceof Serializable) {
                 persistent.put(object.getKey(), (Serializable) object.getValue());
             }
@@ -57,7 +61,7 @@ public class Engine {
 
     public void restoreState(InputStream stream) throws RestoreException {
         try {
-            Memory memory = new Memory();
+            context.setMemory(new Memory());
             ObjectInputStream objectOut = new ObjectInputStream(stream);
             @SuppressWarnings("unchecked")
             Map<String, Serializable> objects = (Map<String, Serializable>) objectOut.readObject();
@@ -67,10 +71,9 @@ public class Engine {
                     if (object instanceof PooledObject) {
                         ((PooledObject) object).attachToPool(context);
                     }
-                    memory.write(entry.getKey(), object);
+                    context.write(entry.getKey(), object);
                 }
             }
-            this.memory = memory;
         } catch (ClassCastException e) {
             throw new RestoreException(e);
         } catch (ClassNotFoundException e) {
@@ -81,6 +84,6 @@ public class Engine {
     }
 
     public void clearMemory() {
-        memory = new Memory();
+        context.setMemory(new Memory());
     }
 }

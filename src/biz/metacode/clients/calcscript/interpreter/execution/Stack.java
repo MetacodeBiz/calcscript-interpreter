@@ -54,7 +54,7 @@ public class Stack {
 
     public Array extractMarkedArray() {
         int mark = marks.isEmpty() ? 0 : marks.pop();
-        Array part = pool.acquire();
+        Array part = pool.create();
         for (int i = mark, l = this.data.size(); i < l; i++) {
             part.add(this.data.remove(mark));
         }
@@ -62,7 +62,8 @@ public class Stack {
     }
 
     public Array getData() {
-        Array data = pool.acquire();
+        Array data = pool.create();
+        data.acquire();
         data.addAll(this.data);
         this.data.clear();
         return data;

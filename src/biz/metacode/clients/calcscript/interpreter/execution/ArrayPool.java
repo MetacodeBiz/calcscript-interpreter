@@ -6,19 +6,23 @@ public class ArrayPool implements Pool<Array> {
 
     private final LinkedList<Array> ownedValues = new LinkedList<Array>();
 
-    public Array acquire() {
+    public Array create() {
         Array cachedValue = ownedValues.poll();
         if (cachedValue != null) {
-            cachedValue.acquire();
-            cachedValue.clear();
             return cachedValue;
         }
         return new Array(this);
     }
 
-    public void relinquish(Array value) {
+    public void destroy(Array value) {
         assert !ownedValues.contains(value): "Releasing twice the same object!";
+        value.clear();
         ownedValues.add(value);
+    }
+
+    @Override
+    public String toString() {
+        return "ArrayPool: " + ownedValues;
     }
 
 }

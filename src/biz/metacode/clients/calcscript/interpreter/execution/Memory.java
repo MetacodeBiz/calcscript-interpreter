@@ -15,8 +15,8 @@ public class Memory implements Serializable, Iterable<Map.Entry<String, Invocabl
 
     private final Map<String, Invocable> data = new HashMap<String, Invocable>();
 
-    public void write(String name, Invocable data) {
-        this.data.put(name, data);
+    public Invocable write(String name, Invocable data) {
+        return this.data.put(name, data);
     }
 
     public Invocable read(String name) {

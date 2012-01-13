@@ -27,10 +27,8 @@ public class Numeric extends RefCountedValue implements PooledObject {
         this.value = value;
     }
 
-    public double consume() {
-        double result = value;
-        this.release();
-        return result;
+    public double get() {
+        return value;
     }
 
     void set(double value) {
@@ -49,7 +47,7 @@ public class Numeric extends RefCountedValue implements PooledObject {
 
     @Override
     public Value duplicate() {
-        Numeric duplicate = this.pool.acquire();
+        Numeric duplicate = this.pool.create();
         duplicate.set(value);
         return duplicate;
     }
@@ -60,6 +58,6 @@ public class Numeric extends RefCountedValue implements PooledObject {
 
     @Override
     protected void relinquish() {
-        this.pool.relinquish(this);
+        this.pool.destroy(this);
     }
 }

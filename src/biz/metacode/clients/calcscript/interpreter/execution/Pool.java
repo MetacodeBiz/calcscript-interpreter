@@ -2,7 +2,7 @@
 package biz.metacode.clients.calcscript.interpreter.execution;
 
 public interface Pool<T extends PooledObject> {
-    T acquire();
+    T create();
 
-    void relinquish(T object);
+    void destroy(T object);
 }

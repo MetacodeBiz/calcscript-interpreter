@@ -7,7 +7,6 @@ import biz.metacode.clients.calcscript.interpreter.Value;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 public class Array extends RefCountedValue implements SharedArray, PooledObject {
 
@@ -21,19 +20,16 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
         this.pool = pool;
     }
 
-    public List<Value> consume() {
-        List<Value> clone = new ArrayList<Value>(entries);
-        this.relinquish();
-        return clone;
-    }
-
     protected void relinquish() {
-        if (this.pool != null) {
-            this.pool.relinquish(this);
-        }
+        this.pool.destroy(this);
     }
 
     public void clear() {
+        for (Value value : entries) {
+            if (value instanceof RefCountedValue) {
+                ((RefCountedValue) value).release();
+            }
+        }
         this.entries.clear();
     }
 
@@ -105,7 +101,7 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
 
     @Override
     public Value duplicate() {
-        Array duplicate = this.pool.acquire();
+        Array duplicate = this.pool.create();
         for (Value value : this.entries) {
             duplicate.add(value.duplicate());
         }

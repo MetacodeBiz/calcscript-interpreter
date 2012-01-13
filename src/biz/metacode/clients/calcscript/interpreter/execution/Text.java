@@ -16,9 +16,7 @@ public class Text extends RefCountedValue implements PooledObject {
         this.value = value;
     }
 
-    public String consume() {
-        String value = this.value;
-        this.release();
+    public String get() {
         return value;
     }
 
@@ -38,7 +36,7 @@ public class Text extends RefCountedValue implements PooledObject {
 
     @Override
     public Value duplicate() {
-        Text duplicate = this.pool.acquire();
+        Text duplicate = this.pool.create();
         duplicate.set(value);
         return duplicate;
     }
@@ -49,6 +47,6 @@ public class Text extends RefCountedValue implements PooledObject {
 
     @Override
     protected void relinquish() {
-        this.pool.relinquish(this);
+        this.pool.destroy(this);
     }
 }

@@ -24,7 +24,7 @@ public enum StackOperators implements Invocable {
     },
     DROP {
         public void invoke(ExecutionContext context) {
-            context.pop();
+            context.pop().release();
         }
     },
     SWAP {
@@ -33,6 +33,8 @@ public enum StackOperators implements Invocable {
             Value second = context.pop();
             context.push(first);
             context.push(second);
+            first.release();
+            second.release();
         }
     },
     ROT3 {
@@ -43,6 +45,9 @@ public enum StackOperators implements Invocable {
             context.push(second);
             context.push(first);
             context.push(third);
+            first.release();
+            second.release();
+            third.release();
         }
     }
 }

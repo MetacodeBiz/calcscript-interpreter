@@ -8,7 +8,7 @@ public abstract class RefCountedValue extends Value {
 
     private static final long serialVersionUID = 6994581318461354474L;
 
-    private int refCounter = 1;
+    private transient int refCounter;
 
     public void invoke(ExecutionContext context) {
         super.invoke(context);
@@ -21,7 +21,7 @@ public abstract class RefCountedValue extends Value {
 
     public void release() {
         --refCounter;
-        assert refCounter >= 0 : "Released object more than once!";
+        assert refCounter >= 0 : "Object " + this + " released more than once!";
         if (refCounter == 0) {
             relinquish();
         }

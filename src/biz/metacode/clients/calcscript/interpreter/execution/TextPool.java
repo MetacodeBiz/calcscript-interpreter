@@ -11,22 +11,26 @@ public class TextPool implements Pool<Text> {
 
     }
 
-    public Text acquire(String string) {
+    public Text create(String string) {
         Text text = pool.poll();
         if (text != null) {
-            text.acquire();
             text.set(string);
             return text;
         }
         return new Text(this, string);
     }
 
-    public void relinquish(Text text) {
+    public void destroy(Text text) {
         assert !pool.contains(text): "Releasing twice the same object!";
         this.pool.add(text);
     }
 
-    public Text acquire() {
-        return acquire(null);
+    public Text create() {
+        return create(null);
+    }
+
+    @Override
+    public String toString() {
+        return "TextPool: " + pool;
     }
 }

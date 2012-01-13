@@ -4,6 +4,7 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 import biz.metacode.clients.calcscript.interpreter.SharedArray;
 import biz.metacode.clients.calcscript.interpreter.Value;
 import biz.metacode.clients.calcscript.interpreter.builtins.ArithmeticOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.ArrayOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.MathOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.StackOperators;
 
@@ -38,8 +39,13 @@ public class Main {
         engine.register("+", ArithmeticOperators.ADDITION);
         engine.register("[", StackOperators.LEFT_SQUARE_BRACE);
         engine.register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        engine.register("%", ArrayOperators.MAP);
+        engine.register(",", ArrayOperators.COMMA);
         engine.register("sum", MathOperators.SUM);
-        print(engine.execute("3:b;b b]sum"));
+        engine.register("@", StackOperators.ROT3);
+        //print(engine.execute("1 2 3@"));
+        //print(engine.execute("1 2 3@"));
+        print(engine.execute("1 2][3 4]]{,}%"));
 
         ByteArrayOutputStream str = new ByteArrayOutputStream();
         engine.saveState(str);

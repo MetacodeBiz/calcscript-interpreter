@@ -6,6 +6,9 @@ import biz.metacode.clients.calcscript.interpreter.Invocable;
 import biz.metacode.clients.calcscript.interpreter.Value;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class Context implements ExecutionContext, PoolProvider {
 
@@ -35,8 +38,14 @@ public class Context implements ExecutionContext, PoolProvider {
         return stack.getData();
     }
 
-    public void write(String name, Invocable data) {
-        this.memory.write(name, data);
+    public void write(String name, Invocable element) {
+        if (element instanceof RefCountedValue) {
+            ((RefCountedValue) element).acquire();
+        }
+        Invocable previous = this.memory.write(name, element);
+        if (previous instanceof Value) {
+            ((Value) previous).release();
+        }
     }
 
     public Invocable read(String name) {
@@ -44,15 +53,18 @@ public class Context implements ExecutionContext, PoolProvider {
     }
 
     public void push(Value element) {
+        if (element instanceof RefCountedValue) {
+            ((RefCountedValue) element).acquire();
+        }
         this.stack.push(element);
     }
 
     public void pushDouble(double element) {
-        this.stack.push(valuePool.acquire(element));
+        this.push(valuePool.create(element));
     }
 
     public void pushString(String element) {
-        this.stack.push(textPool.acquire(element));
+        this.push(textPool.create(element));
     }
 
     public Value pop() {
@@ -60,11 +72,21 @@ public class Context implements ExecutionContext, PoolProvider {
     }
 
     public double popDouble() {
-        return stack.pop(Numeric.class).consume();
+        Numeric result = (Numeric) pop();
+        try {
+            return result.get();
+        } finally {
+            result.release();
+        }
     }
 
     public String popString() {
-        return stack.pop(Text.class).consume();
+        Text result = (Text) pop();
+        try {
+            return result.get();
+        } finally {
+            result.release();
+        }
     }
 
     public Value peek() {
@@ -88,7 +110,7 @@ public class Context implements ExecutionContext, PoolProvider {
     }
 
     public Array acquireArray() {
-        return arrayPool.acquire();
+        return arrayPool.create();
     }
 
     public void pushArray(Collection<? extends Value> array) {
@@ -113,5 +135,13 @@ public class Context implements ExecutionContext, PoolProvider {
             return (Pool<T>) arrayPool;
         }
         throw new IllegalArgumentException("This type of pool is not supported: " + pooledObject);
+    }
+
+    public Set<String> getRegisteredVariableNames() {
+        return memory.keys();
+    }
+
+    public Iterator<Map.Entry<String, Invocable>> getRegisteredVariables() {
+        return memory.iterator();
     }
 }

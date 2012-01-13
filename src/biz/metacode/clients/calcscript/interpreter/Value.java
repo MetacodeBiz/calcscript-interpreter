@@ -32,6 +32,9 @@ public abstract class Value implements Invocable {
      */
     public abstract Value duplicate();
 
+    public void release() {
+    }
+
     /**
      * Order two values (this and other) according to their priorities.
      *

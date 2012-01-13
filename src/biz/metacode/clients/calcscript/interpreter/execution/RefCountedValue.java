@@ -8,7 +8,7 @@ public abstract class RefCountedValue extends Value {
 
     private static final long serialVersionUID = 6994581318461354474L;
 
-    private transient int refCounter;
+    private int refCounter;
 
     public void invoke(ExecutionContext context) {
         super.invoke(context);

@@ -37,27 +37,36 @@ public class Main {
          */
         Engine engine = new Engine();
         engine.register("+", ArithmeticOperators.ADDITION);
+        engine.register("-", ArithmeticOperators.SUBSTRACTION);
+        engine.register("*", ArithmeticOperators.MULTIPLICATION);
+        engine.register("/", ArithmeticOperators.DIVISION);
         engine.register("[", StackOperators.LEFT_SQUARE_BRACE);
         engine.register("]", StackOperators.RIGHT_SQUARE_BRACE);
-        engine.register("%", ArrayOperators.MAP);
-        engine.register(",", ArrayOperators.COMMA);
         engine.register("sum", MathOperators.SUM);
+        engine.register("%", ArrayOperators.MAP);
+        engine.register("abs", MathOperators.ABSOLUTE);
+        engine.register(";", StackOperators.DROP);
+        engine.register("\\", StackOperators.SWAP);
+        engine.register(",", ArrayOperators.COMMA);
+        engine.register(".", StackOperators.DUPLICATE);
+        engine.register("~", ArrayOperators.EXTRACT);
         engine.register("@", StackOperators.ROT3);
-        //print(engine.execute("1 2 3@"));
-        //print(engine.execute("1 2 3@"));
-        print(engine.execute("1 2][3 4]]{,}%"));
+        print(engine.execute("1 2 3@"));
+        print(engine.execute("1 2 3@"));
+        print(engine.execute("1 2][3 4]]:b;{~.@-.*\\/}:c;"));
 
         ByteArrayOutputStream str = new ByteArrayOutputStream();
         engine.saveState(str);
 
         ByteArrayInputStream str2 = new ByteArrayInputStream(str.toByteArray());
         engine = new Engine();
+        engine.register(".", StackOperators.DUPLICATE);
         System.out.println("BEFORE");
         print(engine.execute("b"));
 
         engine.restoreState(str2);
         System.out.println("AFTER");
-        print(engine.execute("b"));
+        print(engine.execute("b{c}"));
     }
 
 }

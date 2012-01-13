@@ -103,7 +103,11 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
     public Value duplicate() {
         Array duplicate = this.pool.create();
         for (Value value : this.entries) {
-            duplicate.add(value.duplicate());
+            Value valueDuplicate = value.duplicate();
+            if (valueDuplicate instanceof RefCountedValue) {
+                ((RefCountedValue) valueDuplicate).acquire();
+            }
+            duplicate.add(valueDuplicate);
         }
         return duplicate;
     }

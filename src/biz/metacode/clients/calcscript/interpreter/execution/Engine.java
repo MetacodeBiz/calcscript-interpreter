@@ -4,6 +4,7 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 import biz.metacode.clients.calcscript.interpreter.Invocable;
 import biz.metacode.clients.calcscript.interpreter.Program;
 import biz.metacode.clients.calcscript.interpreter.SharedArray;
+import biz.metacode.clients.calcscript.interpreter.Value;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,6 +73,11 @@ public class Engine {
                         ((PooledObject) object).attachToPool(context);
                     }
                     context.write(entry.getKey(), object);
+                    // writing value to memory will increase its reference counter
+                    // above what it had when was serialized
+                    if (object instanceof Value) {
+                        ((Value) object).release();
+                    }
                 }
             }
         } catch (ClassCastException e) {

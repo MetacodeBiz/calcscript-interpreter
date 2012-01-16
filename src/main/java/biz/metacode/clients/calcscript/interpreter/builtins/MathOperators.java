@@ -11,15 +11,15 @@ public enum MathOperators implements Invocable {
     SUM {
         public void invoke(ExecutionContext context) {
             SharedArray list = (SharedArray) context.pop();
+            double sum = 0;
             try {
-                double sum = 0;
                 for (Value value : list) {
                     sum += value.toDouble();
                 }
-                context.pushDouble(sum);
             } finally {
                 list.release();
             }
+            context.pushDouble(sum);
         }
     },
     ABSOLUTE {

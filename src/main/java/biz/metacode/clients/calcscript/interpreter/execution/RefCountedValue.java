@@ -1,7 +1,6 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-import biz.metacode.clients.calcscript.interpreter.ExecutionContext;
 import biz.metacode.clients.calcscript.interpreter.Value;
 
 public abstract class RefCountedValue extends Value {
@@ -9,11 +8,6 @@ public abstract class RefCountedValue extends Value {
     private static final long serialVersionUID = 6994581318461354474L;
 
     private int refCounter;
-
-    public void invoke(ExecutionContext context) {
-        super.invoke(context);
-        refCounter++;
-    }
 
     public void acquire() {
         refCounter++;

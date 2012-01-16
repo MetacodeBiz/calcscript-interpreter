@@ -152,9 +152,9 @@ public class PoolTest {
     }
 
     @Test
-    public void duplicateSerializableTest() throws ExecutionException, IOException, RestoreException {
+    public void clearingSerializableTest() throws ExecutionException, IOException, RestoreException {
         Engine engine = getEngine();
-        Assert.assertEquals("6", toString(engine.execute("1 2]:b;6")));
+        Assert.assertEquals("6", toString(engine.execute("1 2][3 4]]:b;6")));
 
         // serializing memory to stream
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -164,12 +164,19 @@ public class PoolTest {
         engine = getEngine();
 
         engine.restoreState(inStream);
-        Assert.assertEquals("6", toString(engine.execute("b.sum\\sum]sum")));
+        Assert.assertEquals("10", toString(engine.execute("b{~+}%sum")));
         // intermediate sums are released
         Assert.assertEquals(2, engine.getTestHelper().getCurrentNumericPoolSize());
         // arrays assigned to "b" are not released to pool only the array used
         // for sum and engine.execute is released
         Assert.assertEquals(1, engine.getTestHelper().getCurrentArrayPoolSize());
+        Assert.assertEquals(0, engine.getTestHelper().getCurrentTextPoolSize());
+
+        Assert.assertEquals("6", toString(engine.execute("7:b;6")));
+        // one numeric is held in memory, the others are released with the array "b"
+        Assert.assertEquals(5, engine.getTestHelper().getCurrentNumericPoolSize());
+        // nested arrays assigned to "b" are released
+        Assert.assertEquals(4, engine.getTestHelper().getCurrentArrayPoolSize());
         Assert.assertEquals(0, engine.getTestHelper().getCurrentTextPoolSize());
     }
 }

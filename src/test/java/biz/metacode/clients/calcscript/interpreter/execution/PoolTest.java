@@ -144,4 +144,32 @@ public class PoolTest {
         Assert.assertEquals(1, engine.getTestHelper().getCurrentArrayPoolSize());
         Assert.assertEquals(0, engine.getTestHelper().getCurrentTextPoolSize());
     }
+
+    @Test
+    public void duplicateTest() throws ExecutionException {
+        Engine engine = getEngine();
+        Assert.assertEquals("6", toString(engine.execute("1 2].sum\\sum]sum")));
+    }
+
+    @Test
+    public void duplicateSerializableTest() throws ExecutionException, IOException, RestoreException {
+        Engine engine = getEngine();
+        Assert.assertEquals("6", toString(engine.execute("1 2]:b;6")));
+
+        // serializing memory to stream
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        engine.saveState(outStream);
+
+        ByteArrayInputStream inStream = new ByteArrayInputStream(outStream.toByteArray());
+        engine = getEngine();
+
+        engine.restoreState(inStream);
+        Assert.assertEquals("6", toString(engine.execute("b.sum\\sum]sum")));
+        // intermediate sums are released
+        Assert.assertEquals(2, engine.getTestHelper().getCurrentNumericPoolSize());
+        // arrays assigned to "b" are not released to pool only the array used
+        // for sum and engine.execute is released
+        Assert.assertEquals(1, engine.getTestHelper().getCurrentArrayPoolSize());
+        Assert.assertEquals(0, engine.getTestHelper().getCurrentTextPoolSize());
+    }
 }

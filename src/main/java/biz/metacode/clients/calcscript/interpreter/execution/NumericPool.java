@@ -29,4 +29,8 @@ public class NumericPool implements Pool<Numeric> {
     public String toString() {
         return "NumericPool: " + ownedValues;
     }
+
+    int internalGetPooledObjectsCount() {
+        return ownedValues.size();
+    }
 }

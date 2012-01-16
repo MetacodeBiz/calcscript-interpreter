@@ -33,4 +33,8 @@ public class TextPool implements Pool<Text> {
     public String toString() {
         return "TextPool: " + pool;
     }
+
+    int internalGetPooledObjectsCount() {
+        return pool.size();
+    }
 }

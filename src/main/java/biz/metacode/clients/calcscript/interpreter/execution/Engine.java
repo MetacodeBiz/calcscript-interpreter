@@ -92,4 +92,8 @@ public class Engine {
     public void clearMemory() {
         context.setMemory(new Memory());
     }
+
+    EngineTestHelper getTestHelper() {
+        return new EngineTestHelper(context);
+    }
 }

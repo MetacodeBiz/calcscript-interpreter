@@ -25,4 +25,8 @@ public class ArrayPool implements Pool<Array> {
         return "ArrayPool: " + ownedValues;
     }
 
+    int internalGetPooledObjectsCount() {
+        return ownedValues.size();
+    }
+
 }

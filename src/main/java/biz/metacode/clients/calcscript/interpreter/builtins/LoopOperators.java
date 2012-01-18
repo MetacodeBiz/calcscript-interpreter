@@ -27,6 +27,9 @@ public enum LoopOperators implements Invocable {
             Invocable block = (Invocable) context.pop();
             double times = context.popDouble();
             for (int i = (int) times - 1; i >= 0; i--) {
+                if (Thread.interrupted()) {
+                    throw new InterruptedException();
+                }
                 block.invoke(context);
             }
         }

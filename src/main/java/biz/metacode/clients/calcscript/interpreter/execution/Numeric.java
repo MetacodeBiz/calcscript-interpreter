@@ -69,4 +69,9 @@ public class Numeric extends RefCountedValue implements PooledObject {
     public String getTypeName() {
         return "numeric";
     }
+
+    @Override
+    public boolean toBoolean() {
+        return value != 0;
+    }
 }

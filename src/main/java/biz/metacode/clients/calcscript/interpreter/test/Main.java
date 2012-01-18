@@ -68,7 +68,7 @@ public class Main {
         engine.register("do", LoopOperators.DO);
 
         ExecutorService service = Executors.newSingleThreadExecutor();
-        Future<SharedArray> future = service.submit(engine.executeLater("{3%}[6 7 8]%"));
+        Future<SharedArray> future = service.submit(engine.executeLater("5{1-..}do"));
 
         try {
             SharedArray result = future.get(3, TimeUnit.SECONDS);

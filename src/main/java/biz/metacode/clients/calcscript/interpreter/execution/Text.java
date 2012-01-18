@@ -54,4 +54,9 @@ public class Text extends RefCountedValue implements PooledObject {
     public String getTypeName() {
         return "string";
     }
+
+    @Override
+    public boolean toBoolean() {
+        return !"".equals(value);
+    }
 }

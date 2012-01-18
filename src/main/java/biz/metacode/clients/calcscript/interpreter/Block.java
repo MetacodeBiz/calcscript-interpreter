@@ -60,4 +60,9 @@ public class Block extends Value implements Expression, Serializable {
         return "block";
     }
 
+    @Override
+    public boolean toBoolean() {
+        return !members.isEmpty();
+    }
+
 }

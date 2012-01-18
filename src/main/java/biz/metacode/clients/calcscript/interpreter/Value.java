@@ -37,6 +37,8 @@ public abstract class Value implements Invocable {
         return 0;
     }
 
+    public abstract boolean toBoolean();
+
     public void release() {
     }
 

@@ -65,6 +65,9 @@ public class Stack {
         Array data = pool.create();
         data.acquire();
         data.addAll(this.data);
+        for (Value value : this.data) {
+            value.release();
+        }
         this.data.clear();
         return data;
     }

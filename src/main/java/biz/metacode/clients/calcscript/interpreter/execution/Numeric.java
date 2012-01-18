@@ -83,7 +83,7 @@ public class Numeric extends RefCountedValue implements PooledObject {
 
     @Override
     public String getTypeName() {
-        return "numeric";
+        return "number";
     }
 
     @Override

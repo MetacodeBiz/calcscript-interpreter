@@ -48,6 +48,14 @@ public abstract class Value implements Invocable, Comparable<Value> {
         return this.toString().compareTo(o.toString());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Value) {
+            return this.toString().equals(obj.toString());
+        }
+        return false;
+    }
+
     /**
      * Order two values (this and other) according to their priorities.
      *

@@ -49,5 +49,13 @@ public enum StackOperators implements Invocable {
             second.release();
             third.release();
         }
+    },
+    GET_NTH {
+
+        public void invoke(ExecutionContext context) {
+            Value value = context.peekNth((int) context.popDouble());
+            context.push(value);
+        }
+
     }
 }

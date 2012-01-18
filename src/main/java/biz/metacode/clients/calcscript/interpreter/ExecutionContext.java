@@ -19,6 +19,8 @@ public interface ExecutionContext {
 
     Value pop();
 
+    Value peekNth(int n);
+
     Value peek();
 
     void pushDouble(double value);

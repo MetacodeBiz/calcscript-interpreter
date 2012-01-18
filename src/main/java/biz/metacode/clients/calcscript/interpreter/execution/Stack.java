@@ -41,11 +41,11 @@ public class Stack {
 
     public Value popAt(int index) {
         adjustMark();
-        return this.data.remove(index);
+        return this.data.remove(this.data.size() - index - 1);
     }
 
     public Value peekAt(int index) {
-        return this.data.get(index);
+        return this.data.get(this.data.size() - index - 1);
     }
 
     public void markPosition() {

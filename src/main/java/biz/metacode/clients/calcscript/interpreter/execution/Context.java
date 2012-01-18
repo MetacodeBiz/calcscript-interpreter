@@ -77,6 +77,10 @@ public class Context implements ExecutionContext, PoolProvider {
         return stack.pop();
     }
 
+    public Value peekNth(int n) {
+        return stack.peekAt(n);
+    }
+
     public double popDouble() {
         Numeric result = (Numeric) pop();
         try {

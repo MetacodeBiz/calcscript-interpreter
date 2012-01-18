@@ -12,6 +12,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
 
     /**
      * Invoke this value. By default it places this object onto the stack.
+     *
      * @throws InterruptedException
      */
     public void invoke(ExecutionContext context) throws InterruptedException {
@@ -54,6 +55,11 @@ public abstract class Value implements Invocable, Comparable<Value> {
             return this.toString().equals(obj.toString());
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
     }
 
     /**

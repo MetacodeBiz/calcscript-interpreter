@@ -84,6 +84,11 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
     }
 
     public boolean addAll(Collection<? extends Value> c) {
+        for (Value value : c) {
+            if (value instanceof RefCountedValue) {
+                ((RefCountedValue) value).acquire();
+            }
+        }
         return this.entries.addAll(c);
     }
 

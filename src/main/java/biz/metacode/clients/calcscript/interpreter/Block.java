@@ -2,6 +2,7 @@
 package biz.metacode.clients.calcscript.interpreter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,6 +64,13 @@ public class Block extends Value implements Expression, Serializable {
     @Override
     public boolean toBoolean() {
         return !members.isEmpty();
+    }
+
+    public Block concatenate(Block other) {
+        List<Expression> exprs = new ArrayList<Expression>(this.members.size() + other.members.size());
+        exprs.addAll(this.members);
+        exprs.addAll(other.members);
+        return new Block(exprs);
     }
 
 }

@@ -21,7 +21,7 @@ public class TextPool implements Pool<Text> {
     }
 
     public void destroy(Text text) {
-        assert !pool.contains(text): "Releasing twice the same object!";
+        assert !containsIdentical(text) : "Releasing twice the same object!";
         this.pool.add(text);
     }
 
@@ -32,6 +32,15 @@ public class TextPool implements Pool<Text> {
     @Override
     public String toString() {
         return "TextPool: " + pool;
+    }
+
+    private boolean containsIdentical(Object o) {
+        for (Object obj : pool) {
+            if (obj == o) {
+                return true;
+            }
+        }
+        return false;
     }
 
     int internalGetPooledObjectsCount() {

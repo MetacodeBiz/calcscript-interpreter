@@ -1,3 +1,4 @@
+
 package biz.metacode.clients.calcscript.interpreter.execution;
 
 import java.util.LinkedList;
@@ -15,7 +16,7 @@ public class ArrayPool implements Pool<Array> {
     }
 
     public void destroy(Array value) {
-        assert !ownedValues.contains(value): "Releasing twice the same object!";
+        assert !containsIdentical(value) : "Releasing twice the same object!";
         value.clear();
         ownedValues.add(value);
     }
@@ -23,6 +24,15 @@ public class ArrayPool implements Pool<Array> {
     @Override
     public String toString() {
         return "ArrayPool: " + ownedValues;
+    }
+
+    private boolean containsIdentical(Object o) {
+        for (Object obj : ownedValues) {
+            if (obj == o) {
+                return true;
+            }
+        }
+        return false;
     }
 
     int internalGetPooledObjectsCount() {

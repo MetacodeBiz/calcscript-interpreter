@@ -17,7 +17,7 @@ public class NumericPool implements Pool<Numeric> {
     }
 
     public void destroy(Numeric value) {
-        assert !ownedValues.contains(value) : "Releasing twice the same object!";
+        assert !containsIdentical(value) : "Releasing twice the same object!";
         ownedValues.add(value);
     }
 
@@ -28,6 +28,15 @@ public class NumericPool implements Pool<Numeric> {
     @Override
     public String toString() {
         return "NumericPool: " + ownedValues;
+    }
+
+    private boolean containsIdentical(Object o) {
+        for (Object obj : ownedValues) {
+            if (obj == o) {
+                return true;
+            }
+        }
+        return false;
     }
 
     int internalGetPooledObjectsCount() {

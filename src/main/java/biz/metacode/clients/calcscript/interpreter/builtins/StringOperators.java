@@ -58,5 +58,20 @@ public enum StringOperators implements Invocable {
             }
             context.pushString(sb.toString());
         }
+    },
+    JOIN {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            String first = context.popString();
+            String second = context.popString();
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0, l = second.length(); i < l; i++) {
+                sb.append(second.charAt(i));
+                if (i != l - 1) {
+                    sb.append(first);
+                }
+            }
+            context.pushString(sb.toString());
+        }
     }
 }

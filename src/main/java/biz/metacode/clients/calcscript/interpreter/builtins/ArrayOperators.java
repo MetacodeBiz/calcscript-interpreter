@@ -8,6 +8,7 @@ import biz.metacode.clients.calcscript.interpreter.Value;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public enum ArrayOperators implements Invocable {
@@ -52,6 +53,32 @@ public enum ArrayOperators implements Invocable {
             try {
                 List<Value> values = new ArrayList<Value>(array);
                 Collections.sort(values);
+                SharedArray sorted = context.acquireArray();
+                sorted.addAll(values);
+                context.pushArray(sorted);
+            } finally {
+                array.release();
+            }
+        }
+    },
+    SORT_BY_MAPPING {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            final Invocable mapping = context.pop();
+            SharedArray array = (SharedArray) context.pop();
+            try {
+                List<Value> values = new ArrayList<Value>(array);
+                Collections.sort(values, new Comparator<Value>() {
+                    public int compare(Value first, Value second) {
+                        int result = first.compareTo(second);
+                        context.pushDouble(result);
+                        try {
+                            mapping.invoke(context);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                        return (int) context.popDouble();
+                    }
+                });
                 SharedArray sorted = context.acquireArray();
                 sorted.addAll(values);
                 context.pushArray(sorted);

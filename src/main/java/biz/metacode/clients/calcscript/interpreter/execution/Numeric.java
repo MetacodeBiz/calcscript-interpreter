@@ -46,6 +46,14 @@ public class Numeric extends RefCountedValue implements PooledObject {
     }
 
     @Override
+    public int compareTo(Value o) {
+        if (o instanceof Numeric) {
+            return Double.compare(value, ((Numeric) o).value);
+        }
+        return super.compareTo(o);
+    }
+
+    @Override
     public Value duplicate() {
         Numeric duplicate = this.pool.create();
         duplicate.set(value);

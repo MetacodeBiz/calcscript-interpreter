@@ -6,7 +6,7 @@ package biz.metacode.clients.calcscript.interpreter;
  * Values can be placed on stack so that functions can use them as arguments or
  * return values. There are four basic types: numeric, array, string and block.
  */
-public abstract class Value implements Invocable {
+public abstract class Value implements Invocable, Comparable<Value> {
 
     private static final long serialVersionUID = -1274916686056050022L;
 
@@ -43,6 +43,10 @@ public abstract class Value implements Invocable {
     }
 
     public abstract String getTypeName();
+
+    public int compareTo(Value o) {
+        return this.toString().compareTo(o.toString());
+    }
 
     /**
      * Order two values (this and other) according to their priorities.

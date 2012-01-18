@@ -174,5 +174,33 @@ public enum ArrayOperators implements Invocable {
                 first.release();
             }
         }
+    },
+    FOLD {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            Invocable block = context.pop();
+            SharedArray array = (SharedArray) context.pop();
+            try {
+                Value accumulator = null;
+                Iterator<Value> iterator = array.iterator();
+                while (iterator.hasNext()) {
+                    if (accumulator == null) {
+                        accumulator = iterator.next();
+                    } else {
+                        context.push(iterator.next());
+                        context.push(accumulator);
+                        block.invoke(context);
+                        accumulator.release();
+                        if (Thread.interrupted()) {
+                            throw new InterruptedException();
+                        }
+                        accumulator = context.pop();
+                    }
+                }
+                context.push(accumulator);
+                accumulator.release();
+            } finally {
+                array.release();
+            }
+        }
     }
 }

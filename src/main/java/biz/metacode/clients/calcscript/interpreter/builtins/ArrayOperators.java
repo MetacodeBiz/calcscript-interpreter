@@ -154,5 +154,25 @@ public enum ArrayOperators implements Invocable {
                 first.release();
             }
         }
+    },
+    JOIN_ARRAYS {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            SharedArray first = (SharedArray) context.pop();
+            SharedArray second = (SharedArray) context.pop();
+            try {
+                SharedArray result = context.acquireArray();
+                Iterator<Value> iterator = second.iterator();
+                while (iterator.hasNext()) {
+                    result.add(iterator.next());
+                    if (iterator.hasNext()) {
+                        result.addAll(first);
+                    }
+                }
+                context.pushArray(result);
+            } finally {
+                second.release();
+                first.release();
+            }
+        }
     }
 }

@@ -89,17 +89,32 @@ public enum ArrayOperators implements Invocable {
     },
     CONCATENATE {
         public void invoke(final ExecutionContext context) throws InterruptedException {
-          SharedArray first = (SharedArray) context.pop();
-          SharedArray second = (SharedArray) context.pop();
-          try {
-              SharedArray result = context.acquireArray();
-              result.addAll(second);
-              result.addAll(first);
-              context.pushArray(result);
-          } finally {
-              second.release();
-              first.release();
-          }
+            SharedArray first = (SharedArray) context.pop();
+            SharedArray second = (SharedArray) context.pop();
+            try {
+                SharedArray result = context.acquireArray();
+                result.addAll(second);
+                result.addAll(first);
+                context.pushArray(result);
+            } finally {
+                second.release();
+                first.release();
+            }
+        }
+    },
+    SUBSTRACT {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            SharedArray first = (SharedArray) context.pop();
+            SharedArray second = (SharedArray) context.pop();
+            try {
+                SharedArray result = context.acquireArray();
+                result.addAll(second);
+                result.removeAll(first);
+                context.pushArray(result);
+            } finally {
+                second.release();
+                first.release();
+            }
         }
     }
 }

@@ -31,5 +31,12 @@ public enum ArithmeticOperators implements Invocable {
             double second = context.popDouble();
             context.pushDouble(second / first);
         }
+    },
+    MODULO {
+        public void invoke(ExecutionContext context) {
+            double first = context.popDouble();
+            double second = context.popDouble();
+            context.pushDouble(second % first);
+        }
     }
 }

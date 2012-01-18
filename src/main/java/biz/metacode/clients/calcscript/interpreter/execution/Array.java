@@ -101,6 +101,9 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
     }
 
     public boolean add(Value e) {
+        if (e instanceof RefCountedValue) {
+            ((RefCountedValue) e).acquire();
+        }
         return this.entries.add(e);
     }
 

@@ -23,7 +23,7 @@ public abstract class Value implements Invocable {
      *
      * @return Value priority. Lower integers indicate lower priority.
      */
-    protected abstract int getPriority();
+    public abstract int getPriority();
 
     /**
      * Creates a deep copy of this object that is separate from the original. If
@@ -66,6 +66,10 @@ public abstract class Value implements Invocable {
         public Pair(Value first, Value second) {
             this.first = first;
             this.second = second;
+        }
+
+        public String getTypeName() {
+            return this.first.getTypeName() + "_" + this.second.getTypeName();
         }
     }
 }

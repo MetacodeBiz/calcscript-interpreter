@@ -1,6 +1,8 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
+import biz.metacode.clients.calcscript.interpreter.Value.Pair;
+
 import java.util.Collection;
 
 /**
@@ -30,6 +32,8 @@ public interface ExecutionContext {
     void pushArray(Collection<? extends Value> array);
 
     SharedArray acquireArray();
+
+    Pair coerce(Value first, Value second);
 
     public void markPosition();
 

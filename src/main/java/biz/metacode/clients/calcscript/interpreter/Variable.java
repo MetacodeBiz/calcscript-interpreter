@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * Named variable or constant.
  */
-class Variable implements Expression, Serializable {
+public class Variable implements Expression, Serializable {
 
     private static final long serialVersionUID = 4937518097465718226L;
 
@@ -64,8 +64,8 @@ class Variable implements Expression, Serializable {
     }
 
     private static boolean isString(String text) {
-        return ('"' == text.charAt(0) && '"' == text.charAt(text.length() - 1))
-                || ('\'' == text.charAt(0) && '\'' == text.charAt(text.length() - 1));
+        return (text.length() >= 2) && (('"' == text.charAt(0) && '"' == text.charAt(text.length() - 1))
+                || ('\'' == text.charAt(0) && '\'' == text.charAt(text.length() - 1)));
     }
 
     @Override

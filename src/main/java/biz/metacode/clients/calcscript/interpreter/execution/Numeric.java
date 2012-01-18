@@ -41,7 +41,7 @@ public class Numeric extends RefCountedValue implements PooledObject {
     }
 
     @Override
-    protected int getPriority() {
+    public int getPriority() {
         return 1;
     }
 

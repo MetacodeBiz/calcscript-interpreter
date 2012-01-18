@@ -51,7 +51,7 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
     }
 
     @Override
-    protected int getPriority() {
+    public int getPriority() {
         return 2;
     }
 

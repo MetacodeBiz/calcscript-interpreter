@@ -1,12 +1,18 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
+import biz.metacode.clients.calcscript.interpreter.Block;
 import biz.metacode.clients.calcscript.interpreter.ExecutionContext;
+import biz.metacode.clients.calcscript.interpreter.Expression;
 import biz.metacode.clients.calcscript.interpreter.Invocable;
 import biz.metacode.clients.calcscript.interpreter.Value;
+import biz.metacode.clients.calcscript.interpreter.Value.Pair;
+import biz.metacode.clients.calcscript.interpreter.Variable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -143,5 +149,42 @@ public class Context implements ExecutionContext, PoolProvider {
 
     public Iterator<Map.Entry<String, Invocable>> getRegisteredVariables() {
         return memory.iterator();
+    }
+
+    public Pair coerce(Value first, Value second) {
+        if (first.getPriority() == second.getPriority()) {
+            return new Pair(first, second);
+        }
+        while (first.getPriority() < second.getPriority()) {
+            first = convertUp(first);
+        }
+        while (second.getPriority() < first.getPriority()) {
+            second = convertUp(second);
+        }
+        return new Pair(first, second);
+    }
+
+    private Value convertUp(Value value) {
+        if (value instanceof Numeric) {
+            Array array = this.acquireArray();
+            array.add(value);
+            return array;
+        } else if (value instanceof Array) {
+            StringBuilder sb = new StringBuilder();
+            for (Value element : (Array) value) {
+                sb.append(element).append(' ');
+            }
+
+            if (sb.length() > 0) {
+                sb.delete(sb.length() - 1, sb.length());
+            }
+
+            return textPool.create(sb.toString());
+        } else if (value instanceof Text) {
+            List<Expression> variables = new ArrayList<Expression>(1);
+            variables.add(new Variable(((Text) value).get()));
+            return new Block(variables);
+        }
+        throw new IllegalArgumentException("Unknown type: " + value.getTypeName());
     }
 }

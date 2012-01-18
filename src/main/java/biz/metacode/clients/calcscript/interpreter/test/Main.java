@@ -5,10 +5,12 @@ import biz.metacode.clients.calcscript.interpreter.SharedArray;
 import biz.metacode.clients.calcscript.interpreter.Value;
 import biz.metacode.clients.calcscript.interpreter.builtins.ArithmeticOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.ArrayOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.CoercingDispatcher;
 import biz.metacode.clients.calcscript.interpreter.builtins.LoopOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.MathOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.OrderedDispatcher;
 import biz.metacode.clients.calcscript.interpreter.builtins.StackOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.StringOperators;
 import biz.metacode.clients.calcscript.interpreter.execution.Engine;
 import biz.metacode.clients.calcscript.interpreter.execution.ScriptExecutionException;
 
@@ -43,14 +45,16 @@ public class Main {
          * System.out.println("TOK: " + token); }
          */
         Engine engine = new Engine();
-        engine.register("+", ArithmeticOperators.ADDITION);
+        engine.register("+", new CoercingDispatcher("+"));
+        engine.register("+_numeric_numeric", ArithmeticOperators.ADDITION);
+        engine.register("+_string_string", StringOperators.CONCATENATE);
         engine.register("-", ArithmeticOperators.SUBSTRACTION);
         engine.register("*", ArithmeticOperators.MULTIPLICATION);
         engine.register("/", ArithmeticOperators.DIVISION);
         engine.register("[", StackOperators.LEFT_SQUARE_BRACE);
         engine.register("]", StackOperators.RIGHT_SQUARE_BRACE);
         engine.register("sum", MathOperators.SUM);
-        //engine.register("%", ArrayOperators.MAP);
+        // engine.register("%", ArrayOperators.MAP);
         engine.register("%", new OrderedDispatcher("%"));
         engine.register("%_numeric_numeric", ArithmeticOperators.MODULO);
         engine.register("%_block_array", ArrayOperators.MAP);
@@ -64,14 +68,15 @@ public class Main {
         engine.register("do", LoopOperators.DO);
 
         ExecutorService service = Executors.newSingleThreadExecutor();
-        Future<SharedArray> future = service.submit(engine.executeLater("6 7 8]{3%}%"));
+        Future<SharedArray> future = service.submit(engine.executeLater("{3%}[6 7 8]%"));
 
         try {
             SharedArray result = future.get(3, TimeUnit.SECONDS);
             print(result);
-        } catch(TimeoutException e) {
+        } catch (TimeoutException e) {
             System.out.println("Timed out!");
             future.cancel(true);
+        } finally {
             service.shutdown();
         }
     }

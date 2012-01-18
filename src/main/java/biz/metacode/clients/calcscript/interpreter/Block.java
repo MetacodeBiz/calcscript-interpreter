@@ -9,7 +9,7 @@ import java.util.List;
  * block is encountered during execution it is pushed onto the stack and it is
  * not executed.
  */
-class Block extends Value implements Expression, Serializable {
+public class Block extends Value implements Expression, Serializable {
 
     private static final long serialVersionUID = -2750855771404873550L;
 
@@ -43,7 +43,7 @@ class Block extends Value implements Expression, Serializable {
     }
 
     @Override
-    protected int getPriority() {
+    public int getPriority() {
         return 4;
     }
 

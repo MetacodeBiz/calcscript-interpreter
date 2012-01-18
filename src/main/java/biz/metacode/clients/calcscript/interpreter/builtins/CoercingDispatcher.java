@@ -5,17 +5,17 @@ import biz.metacode.clients.calcscript.interpreter.ExecutionContext;
 import biz.metacode.clients.calcscript.interpreter.Value;
 import biz.metacode.clients.calcscript.interpreter.Value.Pair;
 
-public class OrderedDispatcher extends FunctionDispatcher {
+public class CoercingDispatcher extends FunctionDispatcher {
 
-    private static final long serialVersionUID = 5670005527311115309L;
+    private static final long serialVersionUID = -3727454201677770896L;
 
-    public OrderedDispatcher(String prefix) {
+    public CoercingDispatcher(String prefix) {
         super(prefix);
     }
 
     @Override
     protected Pair transform(ExecutionContext context, Value first, Value second) {
-        return first.order(second);
+        return context.coerce(first, second);
     }
 
 }

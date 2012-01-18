@@ -86,5 +86,20 @@ public enum ArrayOperators implements Invocable {
                 array.release();
             }
         }
+    },
+    CONCATENATE {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+          SharedArray first = (SharedArray) context.pop();
+          SharedArray second = (SharedArray) context.pop();
+          try {
+              SharedArray result = context.acquireArray();
+              result.addAll(second);
+              result.addAll(first);
+              context.pushArray(result);
+          } finally {
+              second.release();
+              first.release();
+          }
+        }
     }
 }

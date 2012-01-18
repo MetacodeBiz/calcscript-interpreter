@@ -116,5 +116,23 @@ public enum ArrayOperators implements Invocable {
                 first.release();
             }
         }
+    },
+    REPEAT {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            SharedArray first = (SharedArray) context.pop();
+            double times = context.popDouble();
+            try {
+                SharedArray result = context.acquireArray();
+                for (int i = (int) times - 1; i >= 0; i--) {
+                    if (Thread.interrupted()) {
+                        throw new InterruptedException();
+                    }
+                    result.addAll(first);
+                }
+                context.pushArray(result);
+            } finally {
+                first.release();
+            }
+        }
     }
 }

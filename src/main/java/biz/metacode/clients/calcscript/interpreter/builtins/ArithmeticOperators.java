@@ -1,3 +1,4 @@
+
 package biz.metacode.clients.calcscript.interpreter.builtins;
 
 import biz.metacode.clients.calcscript.interpreter.ExecutionContext;
@@ -37,6 +38,11 @@ public enum ArithmeticOperators implements Invocable {
             double first = context.popDouble();
             double second = context.popDouble();
             context.pushDouble(second % first);
+        }
+    },
+    BITWISE_NEGATION {
+        public void invoke(ExecutionContext context) {
+            context.pushDouble(~ (long) (context.popDouble()));
         }
     }
 }

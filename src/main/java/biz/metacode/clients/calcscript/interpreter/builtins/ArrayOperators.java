@@ -9,6 +9,7 @@ import biz.metacode.clients.calcscript.interpreter.Value;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 public enum ArrayOperators implements Invocable {
@@ -130,6 +131,25 @@ public enum ArrayOperators implements Invocable {
                     result.addAll(first);
                 }
                 context.pushArray(result);
+            } finally {
+                first.release();
+            }
+        }
+    },
+    JOIN {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            String separator = context.popString();
+            SharedArray first = (SharedArray) context.pop();
+            try {
+                StringBuilder sb = new StringBuilder();
+                Iterator<Value> iterator = first.iterator();
+                while (iterator.hasNext()) {
+                    sb.append(iterator.next());
+                    if (iterator.hasNext()) {
+                        sb.append(separator);
+                    }
+                }
+                context.pushString(sb.toString());
             } finally {
                 first.release();
             }

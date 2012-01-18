@@ -31,15 +31,15 @@ public class Engine {
         this.context.write(name, executable);
     }
 
-    public SharedArray execute(CharSequence source) throws ExecutionException, InterruptedException {
+    public SharedArray execute(CharSequence source) throws ScriptExecutionException, InterruptedException {
         Program program = new Program(source);
         try {
             context.clearStack();
             program.invoke(context);
         } catch (EmptyStackException e) {
-            throw new ExecutionException("Stack is empty", e);
+            throw new ScriptExecutionException("Stack is empty", e);
         } catch (ClassCastException e) {
-            throw new ExecutionException("Wrong type", e);
+            throw new ScriptExecutionException("Wrong type", e);
         }
         return context.getData();
     }

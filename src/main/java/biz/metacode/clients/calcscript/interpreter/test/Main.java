@@ -9,7 +9,7 @@ import biz.metacode.clients.calcscript.interpreter.builtins.LoopOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.MathOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.StackOperators;
 import biz.metacode.clients.calcscript.interpreter.execution.Engine;
-import biz.metacode.clients.calcscript.interpreter.execution.ExecutionException;
+import biz.metacode.clients.calcscript.interpreter.execution.ScriptExecutionException;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -33,7 +33,7 @@ public class Main {
 
     /**
      * @param args
-     * @throws ExecutionException
+     * @throws ScriptExecutionException
      * @throws IOException
      */
     public static void main(String[] args) throws Exception {
@@ -60,7 +60,7 @@ public class Main {
         engine.register("do", LoopOperators.DO);
 
         ExecutorService service = Executors.newSingleThreadExecutor();
-        Future<SharedArray> future = service.submit(engine.executeLater("5{1-..}do"));
+        Future<SharedArray> future = service.submit(engine.executeLater("5do"));
 
         try {
             SharedArray result = future.get(3, TimeUnit.SECONDS);

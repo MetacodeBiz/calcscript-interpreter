@@ -120,4 +120,9 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
             }
         }
     }
+
+    @Override
+    public String getTypeName() {
+        return "array";
+    }
 }

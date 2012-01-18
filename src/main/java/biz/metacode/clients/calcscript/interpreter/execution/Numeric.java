@@ -64,4 +64,9 @@ public class Numeric extends RefCountedValue implements PooledObject {
     protected void relinquish() {
         this.pool.destroy(this);
     }
+
+    @Override
+    public String getTypeName() {
+        return "numeric";
+    }
 }

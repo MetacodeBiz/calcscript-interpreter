@@ -40,6 +40,8 @@ public abstract class Value implements Invocable {
     public void release() {
     }
 
+    public abstract String getTypeName();
+
     /**
      * Order two values (this and other) according to their priorities.
      *

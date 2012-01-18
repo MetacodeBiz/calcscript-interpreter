@@ -5,14 +5,18 @@ import biz.metacode.clients.calcscript.interpreter.SharedArray;
 import biz.metacode.clients.calcscript.interpreter.Value;
 import biz.metacode.clients.calcscript.interpreter.builtins.ArithmeticOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.ArrayOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.LoopOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.MathOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.StackOperators;
 import biz.metacode.clients.calcscript.interpreter.execution.Engine;
 import biz.metacode.clients.calcscript.interpreter.execution.ExecutionException;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class Main {
 
@@ -53,22 +57,19 @@ public class Main {
         engine.register(".", StackOperators.DUPLICATE);
         engine.register("~", ArrayOperators.EXTRACT);
         engine.register("@", StackOperators.ROT3);
-        print(engine.execute("1 2 3@"));
-        print(engine.execute("1 2 3@"));
-        print(engine.execute("1 2][3 4]]:b;{~.@-.*\\/}:c;1 2 3]sum"));
+        engine.register("do", LoopOperators.DO);
 
-        ByteArrayOutputStream str = new ByteArrayOutputStream();
-        engine.saveState(str);
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        Future<SharedArray> future = service.submit(engine.executeLater("5{1-..}do"));
 
-        ByteArrayInputStream str2 = new ByteArrayInputStream(str.toByteArray());
-        engine = new Engine();
-        engine.register(".", StackOperators.DUPLICATE);
-        System.out.println("BEFORE");
-        print(engine.execute("b"));
-
-        engine.restoreState(str2);
-        System.out.println("AFTER");
-        print(engine.execute("b{c}"));
+        try {
+            SharedArray result = future.get(3, TimeUnit.SECONDS);
+            print(result);
+        } catch(TimeoutException e) {
+            System.out.println("Timed out!");
+            future.cancel(true);
+            service.shutdown();
+        }
     }
 
 }

@@ -18,5 +18,5 @@ public interface Invocable extends Serializable {
      *
      * @param context Execution context of current program
      */
-    void invoke(ExecutionContext context);
+    void invoke(ExecutionContext context) throws InterruptedException;
 }

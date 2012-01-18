@@ -8,7 +8,7 @@ import biz.metacode.clients.calcscript.interpreter.Value;
 
 public enum ArrayOperators implements Invocable {
     MAP {
-        public void invoke(ExecutionContext context) {
+        public void invoke(ExecutionContext context) throws InterruptedException {
             Invocable executable = (Invocable) context.pop();
             SharedArray list = (SharedArray) context.pop();
             context.markPosition();

@@ -24,7 +24,7 @@ class Block extends Value implements Expression, Serializable {
     }
 
     @Override
-    public void invoke(ExecutionContext context) {
+    public void invoke(ExecutionContext context) throws InterruptedException {
         for (Expression visitable : members) {
             visitable.evaluate(context);
         }

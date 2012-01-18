@@ -17,7 +17,7 @@ public final class Program implements Invocable {
         this.source = source;
     }
 
-    public void invoke(ExecutionContext context) {
+    public void invoke(ExecutionContext context) throws InterruptedException {
         Parser parser = new Parser(source);
         for (Expression visitable : parser) {
             visitable.evaluate(context);

@@ -22,8 +22,13 @@ class Variable implements Expression, Serializable {
      * is retrieved and invoked. Otherwise if this variable represents a numeric
      * or text constant it is interpreted like that and placed onto the stack.
      * If all of this fails this method exits.
+     * @throws InterruptedException
      */
-    public void evaluate(ExecutionContext context) {
+    public void evaluate(ExecutionContext context) throws InterruptedException {
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+        }
+
         Invocable value = context.read(this.name);
 
         if (value != null) {

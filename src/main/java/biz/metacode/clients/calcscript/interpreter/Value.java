@@ -12,8 +12,9 @@ public abstract class Value implements Invocable {
 
     /**
      * Invoke this value. By default it places this object onto the stack.
+     * @throws InterruptedException
      */
-    public void invoke(ExecutionContext context) {
+    public void invoke(ExecutionContext context) throws InterruptedException {
         context.push(this);
     }
 

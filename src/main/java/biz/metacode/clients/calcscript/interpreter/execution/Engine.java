@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 public class Engine {
 
@@ -30,7 +31,7 @@ public class Engine {
         this.context.write(name, executable);
     }
 
-    public SharedArray execute(CharSequence source) throws ExecutionException {
+    public SharedArray execute(CharSequence source) throws ExecutionException, InterruptedException {
         Program program = new Program(source);
         try {
             context.clearStack();
@@ -43,6 +44,14 @@ public class Engine {
         return context.getData();
     }
 
+    public Callable<SharedArray> executeLater(final CharSequence source) {
+        return new Callable<SharedArray>() {
+            public SharedArray call() throws Exception {
+                return Engine.this.execute(source);
+            }
+        };
+    }
+
     public Set<String> getVariableNames() {
         return context.getRegisteredVariableNames();
     }
@@ -51,7 +60,7 @@ public class Engine {
         ObjectOutputStream objectOut = new ObjectOutputStream(stream);
         Map<String, Serializable> persistent = new HashMap<String, Serializable>();
         Iterator<Map.Entry<String, Invocable>> iterator = context.getRegisteredVariables();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Map.Entry<String, Invocable> object = iterator.next();
             if (object.getValue() instanceof Serializable) {
                 persistent.put(object.getKey(), (Serializable) object.getValue());
@@ -73,7 +82,8 @@ public class Engine {
                         ((PooledObject) object).attachToPool(context);
                     }
                     context.write(entry.getKey(), object);
-                    // writing value to memory will increase its reference counter
+                    // writing value to memory will increase its reference
+                    // counter
                     // above what it had when was serialized
                     if (object instanceof Value) {
                         ((Value) object).release();

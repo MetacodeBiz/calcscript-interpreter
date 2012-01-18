@@ -52,7 +52,7 @@ public class PoolTest {
     }
 
     @Test
-    public void rot3Test() throws ExecutionException {
+    public void rot3Test() throws ExecutionException, InterruptedException {
         Engine engine = getEngine();
         Assert.assertEquals("2 3 1", toString(engine.execute("1 2 3@")));
         // three numbers from above
@@ -63,7 +63,7 @@ public class PoolTest {
     }
 
     @Test
-    public void sumTest() throws ExecutionException {
+    public void sumTest() throws ExecutionException, InterruptedException {
         Engine engine = getEngine();
         Assert.assertEquals("6", toString(engine.execute("[1 2 3]sum")));
         // three numbers from above
@@ -75,7 +75,7 @@ public class PoolTest {
     }
 
     @Test
-    public void mapTest() throws ExecutionException {
+    public void mapTest() throws ExecutionException, InterruptedException {
         Engine engine = getEngine();
         Assert.assertEquals("[1 3 2]", toString(engine.execute("[[1][4 1 6][3 5]]{,}%")));
         // numbers from arrays plus array lengths
@@ -87,7 +87,7 @@ public class PoolTest {
     }
 
     @Test
-    public void memoryTest() throws ExecutionException {
+    public void memoryTest() throws ExecutionException, InterruptedException {
         Engine engine = getEngine();
         Assert.assertEquals("6", toString(engine.execute("1 2][3 4]]:b;{~.@-.*\\/}:c;1 2 3]sum")));
         // numbers assigned to "b" are int memory thus not released
@@ -99,7 +99,7 @@ public class PoolTest {
     }
 
     @Test
-    public void memoryOverwriteTest() throws ExecutionException {
+    public void memoryOverwriteTest() throws ExecutionException, InterruptedException {
         Engine engine = getEngine();
         Assert.assertEquals("6", toString(engine.execute("1 2][3 4]]:b;6")));
 
@@ -117,7 +117,8 @@ public class PoolTest {
     }
 
     @Test
-    public void serializationTest() throws ExecutionException, IOException, RestoreException {
+    public void serializationTest() throws ExecutionException, IOException, RestoreException,
+            InterruptedException {
         Engine engine = getEngine();
         Assert.assertEquals("6", toString(engine.execute("1 2]:b;6")));
         // numbers assigned to "b" are int memory thus not released
@@ -146,13 +147,14 @@ public class PoolTest {
     }
 
     @Test
-    public void duplicateTest() throws ExecutionException {
+    public void duplicateTest() throws ExecutionException, InterruptedException {
         Engine engine = getEngine();
         Assert.assertEquals("6", toString(engine.execute("1 2].sum\\sum]sum")));
     }
 
     @Test
-    public void clearingSerializableTest() throws ExecutionException, IOException, RestoreException {
+    public void clearingSerializableTest() throws ExecutionException, IOException,
+            RestoreException, InterruptedException {
         Engine engine = getEngine();
         Assert.assertEquals("6", toString(engine.execute("1 2][3 4]]:b;6")));
 
@@ -173,7 +175,8 @@ public class PoolTest {
         Assert.assertEquals(0, engine.getTestHelper().getCurrentTextPoolSize());
 
         Assert.assertEquals("6", toString(engine.execute("7:b;6")));
-        // one numeric is held in memory, the others are released with the array "b"
+        // one numeric is held in memory, the others are released with the array
+        // "b"
         Assert.assertEquals(5, engine.getTestHelper().getCurrentNumericPoolSize());
         // nested arrays assigned to "b" are released
         Assert.assertEquals(4, engine.getTestHelper().getCurrentArrayPoolSize());

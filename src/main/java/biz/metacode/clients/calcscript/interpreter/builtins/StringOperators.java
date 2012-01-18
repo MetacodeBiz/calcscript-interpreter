@@ -43,5 +43,20 @@ public enum StringOperators implements Invocable {
                 first.release();
             }
         }
+    },
+    REPEAT {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            String first = context.popString();
+            double times = context.popDouble();
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = (int) times - 1; i >= 0; i--) {
+                if (Thread.interrupted()) {
+                    throw new InterruptedException();
+                }
+                sb.append(first);
+            }
+            context.pushString(sb.toString());
+        }
     }
 }

@@ -35,6 +35,8 @@ public interface ExecutionContext {
 
     SharedArray acquireArray();
 
+    Value convertToValue(Collection<? extends Value> array);
+
     Pair coerce(Value first, Value second);
 
     public void markPosition();

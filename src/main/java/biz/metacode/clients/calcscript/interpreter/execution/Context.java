@@ -123,14 +123,18 @@ public class Context implements ExecutionContext, PoolProvider {
         return arrayPool.create();
     }
 
-    public void pushArray(Collection<? extends Value> array) {
+    public Value convertToValue(Collection<? extends Value> array) {
         if (array instanceof Array) {
-            this.push((Array) array);
+            return (Array) array;
         } else {
             Array temporary = this.acquireArray();
             temporary.addAll(array);
-            this.push(temporary);
+            return temporary;
         }
+    }
+
+    public void pushArray(Collection<? extends Value> array) {
+        this.push(convertToValue(array));
     }
 
     @SuppressWarnings("unchecked")

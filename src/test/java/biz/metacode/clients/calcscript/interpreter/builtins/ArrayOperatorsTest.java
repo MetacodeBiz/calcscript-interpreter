@@ -104,4 +104,13 @@ public class ArrayOperatorsTest extends OperatorTestBase {
         register(")_array", ArrayOperators.UNCONS_RIGHT);
         assertEval("[1 2] 3", "[1 2 3])");
     }
+
+    @Test
+    public void zip() throws ScriptExecutionException, InterruptedException {
+        register("[", StackOperators.LEFT_SQUARE_BRACE);
+        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("zip", ArrayOperators.ZIP);
+        assertEval("[[1 4 7] [2 5 8] [3 6 9]]", "[[1 2 3][4 5 6][7 8 9]]zip");
+    }
+
 }

@@ -66,7 +66,7 @@ public class Context implements ExecutionContext, PoolProvider {
     }
 
     public void pushDouble(double element) {
-        this.push(valuePool.create(element));
+        this.push(convertToValue(element));
     }
 
     public void pushString(String element) {
@@ -148,6 +148,10 @@ public class Context implements ExecutionContext, PoolProvider {
 
     public Value convertToValue(String string) {
         return textPool.create(string);
+    }
+
+    public Value convertToValue(double element) {
+        return valuePool.create(element);
     }
 
     public void pushArray(Collection<? extends Value> array) {

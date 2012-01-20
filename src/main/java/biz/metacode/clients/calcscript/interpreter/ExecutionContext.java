@@ -43,6 +43,8 @@ public interface ExecutionContext {
 
     Value convertToValue(String string);
 
+    Value convertToValue(double value);
+
     Pair coerce(Value first, Value second);
 
     public void markPosition();

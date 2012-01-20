@@ -31,6 +31,10 @@ public interface ExecutionContext {
 
     String popString();
 
+    void pushBoolean(boolean value);
+
+    boolean popBoolean();
+
     void pushArray(Collection<? extends Value> array);
 
     SharedArray acquireArray();
@@ -44,4 +48,6 @@ public interface ExecutionContext {
     public void markPosition();
 
     public SharedArray extractMarkedArray();
+
+    void interruptionPoint() throws InterruptedException;
 }

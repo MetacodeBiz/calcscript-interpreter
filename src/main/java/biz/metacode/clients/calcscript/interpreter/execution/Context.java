@@ -73,6 +73,10 @@ public class Context implements ExecutionContext, PoolProvider {
         this.push(convertToValue(element));
     }
 
+    public void pushBoolean(boolean value) {
+        this.pushDouble(value ? 1 : 0);
+    }
+
     public Value pop() {
         return stack.pop();
     }
@@ -94,6 +98,15 @@ public class Context implements ExecutionContext, PoolProvider {
         Text result = (Text) pop();
         try {
             return result.get();
+        } finally {
+            result.release();
+        }
+    }
+
+    public boolean popBoolean() {
+        Value result = pop();
+        try {
+            return result.toBoolean();
         } finally {
             result.release();
         }
@@ -198,5 +211,11 @@ public class Context implements ExecutionContext, PoolProvider {
             return new Block(variables);
         }
         throw new IllegalArgumentException("Unknown type: " + value.getTypeName());
+    }
+
+    public void interruptionPoint() throws InterruptedException {
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+        }
     }
 }

@@ -70,7 +70,7 @@ public class Context implements ExecutionContext, PoolProvider {
     }
 
     public void pushString(String element) {
-        this.push(textPool.create(element));
+        this.push(convertToValue(element));
     }
 
     public Value pop() {
@@ -131,6 +131,10 @@ public class Context implements ExecutionContext, PoolProvider {
             temporary.addAll(array);
             return temporary;
         }
+    }
+
+    public Value convertToValue(String string) {
+        return textPool.create(string);
     }
 
     public void pushArray(Collection<? extends Value> array) {

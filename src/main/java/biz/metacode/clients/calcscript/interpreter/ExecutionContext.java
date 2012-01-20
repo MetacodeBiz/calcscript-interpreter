@@ -37,6 +37,8 @@ public interface ExecutionContext {
 
     Value convertToValue(Collection<? extends Value> array);
 
+    Value convertToValue(String string);
+
     Pair coerce(Value first, Value second);
 
     public void markPosition();

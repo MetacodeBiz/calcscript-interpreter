@@ -7,6 +7,8 @@ import biz.metacode.clients.calcscript.interpreter.Value;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 public class Array extends RefCountedValue implements SharedArray, PooledObject {
 
@@ -137,5 +139,45 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
     @Override
     public boolean toBoolean() {
         return !this.isEmpty();
+    }
+
+    public boolean addAll(int index, Collection<? extends Value> c) {
+        return this.entries.addAll(c);
+    }
+
+    public Value get(int index) {
+        return this.entries.get(index);
+    }
+
+    public Value set(int index, Value element) {
+        return this.entries.set(index, element);
+    }
+
+    public void add(int index, Value element) {
+        this.entries.add(index, element);
+    }
+
+    public Value remove(int index) {
+        return this.entries.remove(index);
+    }
+
+    public int indexOf(Object o) {
+        return this.entries.indexOf(o);
+    }
+
+    public int lastIndexOf(Object o) {
+        return this.entries.lastIndexOf(o);
+    }
+
+    public ListIterator<Value> listIterator() {
+        return this.entries.listIterator();
+    }
+
+    public ListIterator<Value> listIterator(int index) {
+        return this.entries.listIterator(index);
+    }
+
+    public List<Value> subList(int fromIndex, int toIndex) {
+        return this.entries.subList(fromIndex, toIndex);
     }
 }

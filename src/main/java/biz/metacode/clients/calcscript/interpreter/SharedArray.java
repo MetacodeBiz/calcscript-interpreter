@@ -1,12 +1,12 @@
 
 package biz.metacode.clients.calcscript.interpreter;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents array that is pooled.
  */
-public interface SharedArray extends Collection<Value> {
+public interface SharedArray extends List<Value> {
 
     /**
      * Releases current object into array pool. Always execute this method after

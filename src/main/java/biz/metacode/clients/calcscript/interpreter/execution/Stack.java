@@ -56,7 +56,9 @@ public class Stack {
         int mark = marks.isEmpty() ? 0 : marks.pop();
         Array part = pool.create();
         for (int i = mark, l = this.data.size(); i < l; i++) {
-            part.add(this.data.remove(mark));
+            Value value = this.data.remove(mark);
+            part.add(value);
+            value.release();
         }
         return part;
     }

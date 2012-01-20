@@ -61,5 +61,23 @@ public enum BlockOperators implements Invocable {
                 array.release();
             }
         }
+    },
+    FIND {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            Invocable filter = context.pop();
+            SharedArray array = (SharedArray) context.pop();
+            try {
+                for (Value value : array) {
+                    context.push(value);
+                    filter.invoke(context);
+                    if (context.popBoolean()) {
+                        context.push(value);
+                        return;
+                    }
+                }
+            } finally {
+                array.release();
+            }
+        }
     }
 }

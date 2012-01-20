@@ -202,5 +202,37 @@ public enum ArrayOperators implements Invocable {
                 array.release();
             }
         }
+    },
+    SPLIT_AROUND_MATCHES {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            SharedArray matches = (SharedArray)  context.pop();
+            SharedArray array = (SharedArray) context.pop();
+            try {
+                SharedArray result = context.acquireArray();
+                SharedArray matchResult = context.acquireArray();
+                for (int i = 0, l = array.size(); i < l; i++) {
+                    if (isMatch(array, i, matches)) {
+                        result.add(context.convertToValue(matchResult));
+                        matchResult = context.acquireArray();
+                        i += matches.size() - 1;
+                    } else {
+                        matchResult.add(array.get(i));
+                    }
+                }
+                result.add(context.convertToValue(matchResult));
+                context.pushArray(result);
+            } finally {
+                matches.release();
+                array.release();
+            }
+        }
+        private boolean isMatch(SharedArray first, int position, SharedArray find) {
+            for (int i = 0, l = find.size(); i < l; i++) {
+                if (!first.get(i + position).equals(find.get(i))) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

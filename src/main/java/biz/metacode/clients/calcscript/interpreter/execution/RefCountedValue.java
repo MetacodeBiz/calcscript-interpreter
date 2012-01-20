@@ -23,4 +23,8 @@ public abstract class RefCountedValue extends Value {
 
     protected abstract void relinquish();
 
+    protected boolean isShared() {
+        return refCounter > 0;
+    }
+
 }

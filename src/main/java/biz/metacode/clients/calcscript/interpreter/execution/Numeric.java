@@ -32,6 +32,9 @@ public class Numeric extends RefCountedValue implements PooledObject {
     }
 
     void set(double value) {
+        if (isShared()) {
+            throw new IllegalStateException("Object is shared.");
+        }
         this.value = value;
     }
 

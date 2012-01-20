@@ -65,12 +65,12 @@ public class Stack {
 
     public Array getData() {
         Array data = pool.create();
-        data.acquire();
         data.addAll(this.data);
         for (Value value : this.data) {
             value.release();
         }
         this.data.clear();
+        data.acquire();
         return data;
     }
 }

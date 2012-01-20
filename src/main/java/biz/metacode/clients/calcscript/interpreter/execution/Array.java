@@ -27,10 +27,9 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
     }
 
     public void clear() {
+        checkModification();
         for (Value value : entries) {
-            if (value instanceof RefCountedValue) {
-                ((RefCountedValue) value).release();
-            }
+            value.release();
         }
         this.entries.clear();
     }
@@ -78,6 +77,10 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
     }
 
     public boolean remove(Object o) {
+        checkModification();
+        if (o instanceof Value) {
+            ((Value) o).release();
+        }
         return this.entries.remove(o);
     }
 
@@ -86,6 +89,7 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
     }
 
     public boolean addAll(Collection<? extends Value> c) {
+        checkModification();
         for (Value value : c) {
             if (value instanceof RefCountedValue) {
                 ((RefCountedValue) value).acquire();
@@ -95,14 +99,22 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
     }
 
     public boolean removeAll(Collection<?> c) {
+        checkModification();
+        for (Object value : c) {
+            if (value instanceof Value) {
+                ((Value) value).release();
+            }
+        }
         return this.entries.removeAll(c);
     }
 
     public boolean retainAll(Collection<?> c) {
-        return this.entries.retainAll(c);
+        throw new UnsupportedOperationException("Not supported yet.");
+        //return this.entries.retainAll(c);
     }
 
     public boolean add(Value e) {
+        checkModification();
         if (e instanceof RefCountedValue) {
             ((RefCountedValue) e).acquire();
         }
@@ -150,15 +162,23 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
     }
 
     public Value set(int index, Value element) {
+        if (element instanceof RefCountedValue) {
+            ((RefCountedValue) element).acquire();
+        }
         return this.entries.set(index, element);
     }
 
     public void add(int index, Value element) {
+        if (element instanceof RefCountedValue) {
+            ((RefCountedValue) element).acquire();
+        }
         this.entries.add(index, element);
     }
 
     public Value remove(int index) {
-        return this.entries.remove(index);
+        Value value = this.entries.remove(index);
+        value.release();
+        return value;
     }
 
     public int indexOf(Object o) {
@@ -179,5 +199,11 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
 
     public List<Value> subList(int fromIndex, int toIndex) {
         return this.entries.subList(fromIndex, toIndex);
+    }
+
+    private void checkModification() {
+        if (isShared()) {
+            throw new IllegalStateException("Cannot modify shared object.");
+        }
     }
 }

@@ -21,6 +21,9 @@ public class Text extends RefCountedValue implements PooledObject {
     }
 
     void set(String string) {
+        if (isShared()) {
+            throw new IllegalStateException("Object is shared.");
+        }
         this.value = string;
     }
 

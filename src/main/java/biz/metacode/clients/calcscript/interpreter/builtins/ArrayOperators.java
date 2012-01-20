@@ -199,7 +199,6 @@ public enum ArrayOperators implements Invocable {
                     }
                 }
                 context.push(accumulator);
-                accumulator.release();
             } finally {
                 array.release();
             }

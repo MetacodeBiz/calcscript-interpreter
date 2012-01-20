@@ -77,4 +77,13 @@ public class ArrayOperatorsTest extends OperatorTestBase {
         register(",_number", ArrayOperators.CREATE_ARRAY);
         assertEval("[0 1 2 3 4 5 6 7 8 9]", "10,");
     }
+
+    @Test
+    public void indexOf() throws ScriptExecutionException, InterruptedException {
+        register("[", StackOperators.LEFT_SQUARE_BRACE);
+        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("?", new OrderedDispatcher("?"));
+        register("?_array_number", ArrayOperators.INDEX_OF);
+        assertEval("2", "5 [4 3 5 1] ?");
+    }
 }

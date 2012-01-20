@@ -67,5 +67,24 @@ public enum BooleanOperators implements Invocable {
                 first.release();
             }
         }
+    },
+    IF {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            Value first = context.pop();
+            Value second = context.pop();
+            Value third = context.pop();
+            try {
+                if (third.toBoolean()) {
+                    second.invoke(context);
+                } else {
+                    first.invoke(context);
+                }
+            } finally {
+                third.release();
+                second.release();
+                first.release();
+            }
+        }
+
     }
 }

@@ -37,4 +37,12 @@ public class BooleanOperatorsTest extends OperatorTestBase {
         assertEval("0", "2 [3] xor");
     }
 
+    @Test
+    public void ifOperator() throws ScriptExecutionException, InterruptedException {
+        register(".", StackOperators.DUPLICATE);
+        register("if", BooleanOperators.IF);
+        assertEval("2", "1 2 3 if");
+        assertEval("1 1", "0 2 {1.} if");
+    }
+
 }

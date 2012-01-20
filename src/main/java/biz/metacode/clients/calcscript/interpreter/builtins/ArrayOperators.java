@@ -270,5 +270,29 @@ public enum ArrayOperators implements Invocable {
                 array.release();
             }
         }
+    },
+    EVERY_NTH_ELEMENT {
+
+        public void invoke(ExecutionContext context) throws InterruptedException {
+
+            SharedArray array = (SharedArray) context.pop();
+            double step = context.popDouble();
+            try {
+                if (step != 0) {
+                    SharedArray result = context.acquireArray();
+                    int s = (int) Math.abs(step);
+                    for (int i = 0, l = array.size(); i < l; i += s) {
+                        result.add(array.get(i));
+                    }
+                    if (step < 0) {
+                        Collections.reverse(result);
+                    }
+                    context.pushArray(result);
+                }
+            } finally {
+                array.release();
+            }
+        }
+
     }
 }

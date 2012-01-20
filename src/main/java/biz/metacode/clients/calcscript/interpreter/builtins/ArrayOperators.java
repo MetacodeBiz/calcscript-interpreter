@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public enum ArrayOperators implements Invocable {
     MAP {
@@ -294,5 +296,70 @@ public enum ArrayOperators implements Invocable {
             }
         }
 
+    },
+    UNION {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            SharedArray first = (SharedArray) context.pop();
+            SharedArray second = (SharedArray) context.pop();
+            try {
+                SharedArray result = context.acquireArray();
+                result.addAll(union(first, second));
+                context.pushArray(result);
+            } finally {
+                second.release();
+                first.release();
+            }
+        }
+    },
+    INTERSECTION {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            SharedArray first = (SharedArray) context.pop();
+            SharedArray second = (SharedArray) context.pop();
+            try {
+                SharedArray result = context.acquireArray();
+                result.addAll(intersection(first, second));
+                context.pushArray(result);
+            } finally {
+                second.release();
+                first.release();
+            }
+        }
+    },
+    SYMMETRIC_DIFFERENCE {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            SharedArray first = (SharedArray) context.pop();
+            SharedArray second = (SharedArray) context.pop();
+            try {
+                SharedArray result = context.acquireArray();
+                List<Value> temporary = union(first, second);
+                temporary.removeAll(intersection(first, second));
+                result.addAll(temporary);
+                context.pushArray(result);
+            } finally {
+                second.release();
+                first.release();
+            }
+        }
+    };
+
+    protected <T> List<T> union(List<T> list1, List<T> list2) {
+        Set<T> set = new TreeSet<T>();
+
+        set.addAll(list1);
+        set.addAll(list2);
+
+        return new ArrayList<T>(set);
+    }
+
+    protected <T> List<T> intersection(List<T> list1, List<T> list2) {
+        List<T> list = new ArrayList<T>();
+
+        for (T t : list1) {
+            if (list2.contains(t)) {
+                list.add(t);
+            }
+        }
+
+        return list;
     }
 }

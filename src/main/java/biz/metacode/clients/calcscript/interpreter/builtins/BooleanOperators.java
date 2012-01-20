@@ -8,11 +8,63 @@ import biz.metacode.clients.calcscript.interpreter.Value;
 public enum BooleanOperators implements Invocable {
     NOT {
         public void invoke(ExecutionContext context) throws InterruptedException {
-            Value value = context.pop();
+            context.pushBoolean(!context.popBoolean());
+        }
+    },
+    OR {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            Value first = context.pop();
+            Value second = context.pop();
             try {
-                context.pushDouble(value.toBoolean() ? 0 : 1);
+                second.invoke(context);
+                if (!context.peek().toBoolean()) {
+                    first.invoke(context);
+                }
             } finally {
-                value.release();
+                second.release();
+                first.release();
+            }
+        }
+    },
+    AND {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            Value first = context.pop();
+            Value second = context.pop();
+            try {
+                second.invoke(context);
+                if (context.peek().toBoolean()) {
+                    context.pop().release();
+                    first.invoke(context);
+                }
+            } finally {
+                second.release();
+                first.release();
+            }
+        }
+    },
+    XOR {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            Value first = context.pop();
+            Value second = context.pop();
+            try {
+                second.invoke(context);
+                Value secondRes = context.pop();
+                first.invoke(context);
+                Value firstRes = context.pop();
+
+                try {
+                    if (secondRes.toBoolean() ^ firstRes.toBoolean()) {
+                        context.push(firstRes);
+                    } else {
+                        context.pushDouble(0);
+                    }
+                } finally {
+                    secondRes.release();
+                    firstRes.release();
+                }
+            } finally {
+                second.release();
+                first.release();
             }
         }
     }

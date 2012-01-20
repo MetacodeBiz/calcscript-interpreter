@@ -86,4 +86,13 @@ public class ArrayOperatorsTest extends OperatorTestBase {
         register("?_array_number", ArrayOperators.INDEX_OF);
         assertEval("2", "5 [4 3 5 1] ?");
     }
+
+    @Test
+    public void uncons() throws ScriptExecutionException, InterruptedException {
+        register("[", StackOperators.LEFT_SQUARE_BRACE);
+        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("(", new SingleDispatcher("("));
+        register("(_array", ArrayOperators.UNCONS);
+        assertEval("[2 3] 1", "[1 2 3](");
+    }
 }

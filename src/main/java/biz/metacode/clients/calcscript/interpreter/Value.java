@@ -52,7 +52,8 @@ public abstract class Value implements Invocable, Comparable<Value> {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Value) {
-            return this.toString().equals(obj.toString());
+            return this.getTypeName().equals(((Value) obj).getTypeName())
+                    && this.toString().equals(obj.toString());
         }
         return false;
     }

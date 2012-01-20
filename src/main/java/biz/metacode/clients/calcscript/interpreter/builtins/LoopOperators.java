@@ -14,9 +14,7 @@ public enum LoopOperators implements Invocable {
                 if (value != null) {
                     value.release();
                 }
-                if (Thread.interrupted()) {
-                    throw new InterruptedException();
-                }
+                context.interruptionPoint();
                 block.invoke(context);
                 value = context.pop();
             } while (value.toBoolean());
@@ -27,11 +25,37 @@ public enum LoopOperators implements Invocable {
             Invocable block = (Invocable) context.pop();
             double times = context.popDouble();
             for (int i = (int) times - 1; i >= 0; i--) {
-                if (Thread.interrupted()) {
-                    throw new InterruptedException();
-                }
+                context.interruptionPoint();
                 block.invoke(context);
             }
         }
     },
+    WHILE {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            Invocable body = (Invocable) context.pop();
+            Invocable test = (Invocable) context.pop();
+            do {
+                context.interruptionPoint();
+                test.invoke(context);
+                if (!context.popBoolean()) {
+                    break;
+                }
+                body.invoke(context);
+            } while(true);
+        }
+    },
+    UNTIL {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            Invocable body = (Invocable) context.pop();
+            Invocable test = (Invocable) context.pop();
+            do {
+                context.interruptionPoint();
+                test.invoke(context);
+                if (context.popBoolean()) {
+                    break;
+                }
+                body.invoke(context);
+            } while(true);
+        }
+    }
 }

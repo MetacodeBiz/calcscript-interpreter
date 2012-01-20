@@ -340,6 +340,36 @@ public enum ArrayOperators implements Invocable {
                 first.release();
             }
         }
+    },
+    INDEX_LESS_THAN {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            SharedArray first = (SharedArray) context.pop();
+            int index = (int) context.popDouble();
+            try {
+                SharedArray result = context.acquireArray();
+                for (int i = 0; i < index; i++) {
+                    result.add(first.get(i));
+                }
+                context.pushArray(result);
+            } finally {
+                first.release();
+            }
+        }
+    },
+    INDEX_GREATER_THAN {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            SharedArray first = (SharedArray) context.pop();
+            int index = (int) context.popDouble();
+            try {
+                SharedArray result = context.acquireArray();
+                for (int i = index; i < first.size(); i++) {
+                    result.add(first.get(i));
+                }
+                context.pushArray(result);
+            } finally {
+                first.release();
+            }
+        }
     };
 
     protected <T> List<T> union(List<T> list1, List<T> list2) {

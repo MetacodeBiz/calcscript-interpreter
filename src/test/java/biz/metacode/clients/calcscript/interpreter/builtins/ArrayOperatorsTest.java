@@ -113,4 +113,14 @@ public class ArrayOperatorsTest extends OperatorTestBase {
         assertEval("[[1 4 7] [2 5 8] [3 6 9]]", "[[1 2 3][4 5 6][7 8 9]]zip");
     }
 
+    @Test
+    public void fold() throws ScriptExecutionException, InterruptedException {
+        register("[", StackOperators.LEFT_SQUARE_BRACE);
+        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("*", new OrderedDispatcher("*"));
+        register("*_number_number", ArithmeticOperators.MULTIPLICATION);
+        register("*_block_array", ArrayOperators.FOLD);
+        assertEval("6", "1 2 3]{*}*");
+    }
+
 }

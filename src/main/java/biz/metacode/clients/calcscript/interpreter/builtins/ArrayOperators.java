@@ -256,5 +256,19 @@ public enum ArrayOperators implements Invocable {
                 array.release();
             }
         }
+    },
+    EACH {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            Invocable function = context.pop();
+            SharedArray array = (SharedArray) context.pop();
+            try {
+                for (Value value : array) {
+                    context.push(value);
+                    function.invoke(context);
+                }
+            } finally {
+                array.release();
+            }
+        }
     }
 }

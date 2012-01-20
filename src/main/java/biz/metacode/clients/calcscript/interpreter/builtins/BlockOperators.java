@@ -5,6 +5,7 @@ import biz.metacode.clients.calcscript.interpreter.Block;
 import biz.metacode.clients.calcscript.interpreter.ExecutionContext;
 import biz.metacode.clients.calcscript.interpreter.Invocable;
 import biz.metacode.clients.calcscript.interpreter.SharedArray;
+import biz.metacode.clients.calcscript.interpreter.Value;
 
 public enum BlockOperators implements Invocable {
     CONCATENATE {
@@ -26,7 +27,7 @@ public enum BlockOperators implements Invocable {
             Invocable loop = context.pop();
             Invocable test = context.pop();
             SharedArray result = context.acquireArray();
-            while(true) {
+            while (true) {
                 context.interruptionPoint();
                 context.push(context.peek().duplicate());
                 test.invoke(context);
@@ -40,6 +41,25 @@ public enum BlockOperators implements Invocable {
             }
             context.pop().release();
             context.pushArray(result);
+        }
+    },
+    FILTER {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            Invocable filter = context.pop();
+            SharedArray array = (SharedArray) context.pop();
+            try {
+                SharedArray result = context.acquireArray();
+                for (Value value : array) {
+                    context.push(value);
+                    filter.invoke(context);
+                    if (context.popBoolean()) {
+                        result.add(value);
+                    }
+                }
+                context.pushArray(result);
+            } finally {
+                array.release();
+            }
         }
     }
 }

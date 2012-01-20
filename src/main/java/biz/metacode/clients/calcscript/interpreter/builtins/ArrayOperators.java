@@ -382,6 +382,16 @@ public enum ArrayOperators implements Invocable {
                 first.release();
             }
         }
+    },
+    CREATE_ARRAY {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            int upTo = (int) context.popDouble();
+            SharedArray result = context.acquireArray();
+            for (int i = 0; i < upTo; i++) {
+                result.add(context.convertToValue(i));
+            }
+            context.pushArray(result);
+        }
     };
 
     protected <T> List<T> union(List<T> list1, List<T> list2) {

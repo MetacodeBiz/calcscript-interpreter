@@ -70,4 +70,11 @@ public class ArrayOperatorsTest extends OperatorTestBase {
         register("=_array_number", ArrayOperators.GET_ELEMENT);
         assertEval("3", "[1 2 3] 2 =");
     }
+
+    @Test
+    public void createArray() throws ScriptExecutionException, InterruptedException {
+        register(",", new SingleDispatcher(","));
+        register(",_number", ArrayOperators.CREATE_ARRAY);
+        assertEval("[0 1 2 3 4 5 6 7 8 9]", "10,");
+    }
 }

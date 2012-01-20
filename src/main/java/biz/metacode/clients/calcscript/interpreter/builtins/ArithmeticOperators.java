@@ -42,7 +42,14 @@ public enum ArithmeticOperators implements Invocable {
     },
     BITWISE_NEGATION {
         public void invoke(ExecutionContext context) {
-            context.pushDouble(~ (long) (context.popDouble()));
+            context.pushDouble(~(long) (context.popDouble()));
+        }
+    },
+    POWER {
+        public void invoke(ExecutionContext context) {
+            double first = context.popDouble();
+            double second = context.popDouble();
+            context.pushDouble(Math.pow(second, first));
         }
     }
 }

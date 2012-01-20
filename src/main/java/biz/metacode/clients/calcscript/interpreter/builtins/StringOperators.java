@@ -76,11 +76,10 @@ public enum StringOperators implements Invocable {
             context.pushString(sb.toString());
         }
     },
-    SPLIT_AROUND_MATCHES {
+    SPLIT_AROUND_MATCHES_NONEMPTY {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             String delim = context.popString();
             String text = context.popString();
-            // FIXME: When two delimiters are adjacent there is no empty element added to result
             StringTokenizer tokenizer = new StringTokenizer(text, delim);
             SharedArray result = context.acquireArray();
             while (tokenizer.hasMoreTokens()) {

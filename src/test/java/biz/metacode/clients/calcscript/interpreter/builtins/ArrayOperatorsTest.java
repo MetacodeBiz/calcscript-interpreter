@@ -61,4 +61,13 @@ public class ArrayOperatorsTest extends OperatorTestBase {
         register(">_array_number", ArrayOperators.INDEX_GREATER_THAN);
         assertEval("[3]", "[1 2 3] 2 >");
     }
+
+    @Test
+    public void getElement() throws ScriptExecutionException, InterruptedException {
+        register("[", StackOperators.LEFT_SQUARE_BRACE);
+        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("=", new OrderedDispatcher("="));
+        register("=_array_number", ArrayOperators.GET_ELEMENT);
+        assertEval("3", "[1 2 3] 2 =");
+    }
 }

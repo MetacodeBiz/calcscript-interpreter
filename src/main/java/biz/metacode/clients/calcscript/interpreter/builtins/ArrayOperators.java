@@ -205,7 +205,7 @@ public enum ArrayOperators implements Invocable {
     },
     SPLIT_AROUND_MATCHES {
         public void invoke(final ExecutionContext context) throws InterruptedException {
-            SharedArray matches = (SharedArray)  context.pop();
+            SharedArray matches = (SharedArray) context.pop();
             SharedArray array = (SharedArray) context.pop();
             try {
                 SharedArray result = context.acquireArray();
@@ -226,6 +226,7 @@ public enum ArrayOperators implements Invocable {
                 array.release();
             }
         }
+
         private boolean isMatch(SharedArray first, int position, SharedArray find) {
             for (int i = 0, l = find.size(); i < l; i++) {
                 if (!first.get(i + position).equals(find.get(i))) {
@@ -233,6 +234,27 @@ public enum ArrayOperators implements Invocable {
                 }
             }
             return true;
+        }
+    },
+    SPLIT_INTO_GROUPS {
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            SharedArray array = (SharedArray) context.pop();
+            int groupSize = (int) context.popDouble();
+            try {
+                SharedArray result = context.acquireArray();
+                SharedArray groupResult = context.acquireArray();
+                for (int i = 0, l = array.size(); i < l; i++) {
+                    for (int j = 0; j < groupSize && i + j < l; j++) {
+                        groupResult.add(array.get(i + j));
+                    }
+                    result.add(context.convertToValue(groupResult));
+                    groupResult = context.acquireArray();
+                    i += groupSize - 1;
+                }
+                context.pushArray(result);
+            } finally {
+                array.release();
+            }
         }
     }
 }

@@ -51,5 +51,15 @@ public enum ArithmeticOperators implements Invocable {
             double second = context.popDouble();
             context.pushDouble(Math.pow(second, first));
         }
+    },
+    DECREMENT {
+        public void invoke(ExecutionContext context) {
+            context.pushDouble(context.popDouble() - 1);
+        }
+    },
+    INCREMENT {
+        public void invoke(ExecutionContext context) {
+            context.pushDouble(context.popDouble() + 1);
+        }
     }
 }

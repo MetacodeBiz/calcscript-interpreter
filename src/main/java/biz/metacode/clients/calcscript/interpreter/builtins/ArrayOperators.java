@@ -182,6 +182,7 @@ public enum ArrayOperators implements Invocable {
             Invocable block = context.pop();
             SharedArray array = (SharedArray) context.pop();
             try {
+                boolean shouldCloseAccumulator = false;
                 Value accumulator = null;
                 Iterator<Value> iterator = array.iterator();
                 while (iterator.hasNext()) {
@@ -191,11 +192,12 @@ public enum ArrayOperators implements Invocable {
                         context.push(iterator.next());
                         context.push(accumulator);
                         block.invoke(context);
-                        accumulator.release();
-                        if (Thread.interrupted()) {
-                            throw new InterruptedException();
+                        if (shouldCloseAccumulator) {
+                            accumulator.release();
                         }
+                        context.interruptionPoint();
                         accumulator = context.pop();
+                        shouldCloseAccumulator = true;
                     }
                 }
                 context.push(accumulator);

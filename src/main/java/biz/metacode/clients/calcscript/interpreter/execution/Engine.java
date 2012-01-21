@@ -31,6 +31,12 @@ public class Engine {
         this.context.write(name, executable);
     }
 
+    public void register(Map<String, Invocable> executables) {
+        for (Map.Entry<String, Invocable> executable : executables.entrySet()) {
+            register(executable.getKey(), executable.getValue());
+        }
+    }
+
     public SharedArray execute(CharSequence source) throws ScriptExecutionException, InterruptedException {
         Program program = new Program(source);
         try {

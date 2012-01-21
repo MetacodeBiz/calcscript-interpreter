@@ -228,4 +228,11 @@ public class Context implements ExecutionContext, PoolProvider {
         arrayPool.setTrait(trait);
         textPool.setTrait(trait);
     }
+
+    public void remove(String name) {
+        Invocable previous = memory.remove(name);
+        if (previous instanceof Value) {
+            ((Value) previous).release();
+        }
+    }
 }

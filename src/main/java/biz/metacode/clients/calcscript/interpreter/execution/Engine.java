@@ -37,6 +37,14 @@ public class Engine {
         }
     }
 
+    public Invocable read(String name) {
+        return this.context.read(name);
+    }
+
+    public void remove(String name) {
+        this.context.remove(name);
+    }
+
     public SharedArray execute(CharSequence source) throws ScriptExecutionException, InterruptedException {
         Program program = new Program(source);
         try {

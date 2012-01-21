@@ -31,4 +31,8 @@ public class Memory implements Serializable, Iterable<Map.Entry<String, Invocabl
         return this.data.entrySet().iterator();
     }
 
+    public Invocable remove(String name) {
+        return this.data.remove(name);
+    }
+
 }

@@ -12,4 +12,13 @@ public class StringOperatorsTest extends OperatorTestBase {
         register("%_string_string", StringOperators.SPLIT_AROUND_MATCHES_NONEMPTY);
         assertEval("[a df]", "'assdfs' 's'%");
     }
+
+
+    @Test
+    public void eval() throws ScriptExecutionException, InterruptedException {
+        register("+", ArithmeticOperators.ADDITION);
+        register("~", new SingleDispatcher("~"));
+        register("~_string", StringOperators.EVAL);
+        assertEval("3", "'1 2+'~");
+    }
 }

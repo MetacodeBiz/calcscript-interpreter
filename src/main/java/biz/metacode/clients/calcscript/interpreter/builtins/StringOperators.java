@@ -3,6 +3,7 @@ package biz.metacode.clients.calcscript.interpreter.builtins;
 
 import biz.metacode.clients.calcscript.interpreter.ExecutionContext;
 import biz.metacode.clients.calcscript.interpreter.Invocable;
+import biz.metacode.clients.calcscript.interpreter.Program;
 import biz.metacode.clients.calcscript.interpreter.SharedArray;
 import biz.metacode.clients.calcscript.interpreter.Value;
 
@@ -86,6 +87,13 @@ public enum StringOperators implements Invocable {
                 result.add(context.convertToValue(tokenizer.nextToken()));
             }
             context.pushArray(result);
+        }
+    },
+    EVAL {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            String code = context.popString();
+            Program program = new Program(code);
+            program.invoke(context);
         }
     }
 }

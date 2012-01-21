@@ -443,9 +443,9 @@ public enum ArrayOperators implements Invocable {
             try {
                 SharedArray first = (SharedArray) array.get(0);
                 SharedArray result = context.acquireArray();
-                for (int i = 0; i < array.size(); i++) {
+                for (int i = 0; i < first.size(); i++) {
                     SharedArray part = context.acquireArray();
-                    for (int j = 0; j < first.size(); j++) {
+                    for (int j = 0; j < array.size(); j++) {
                         part.add(((SharedArray) array.get(j)).get(i));
                     }
                     result.add(context.convertToValue(part));

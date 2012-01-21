@@ -201,6 +201,9 @@ public enum ArrayOperators implements Invocable {
                     }
                 }
                 context.push(accumulator);
+                if (shouldCloseAccumulator && accumulator != null) {
+                    accumulator.release();
+                }
             } finally {
                 array.release();
             }
@@ -411,9 +414,10 @@ public enum ArrayOperators implements Invocable {
             Value array = context.pop();
             try {
                 SharedArray result = (SharedArray) array.duplicate();
-                Value first = result.remove(0);
+                Value first = result.get(0);
                 context.pushArray(result);
                 context.push(first);
+                result.remove(0);
             } finally {
                 array.release();
             }
@@ -424,9 +428,10 @@ public enum ArrayOperators implements Invocable {
             Value array = context.pop();
             try {
                 SharedArray result = (SharedArray) array.duplicate();
-                Value last = result.remove(result.size() - 1);
+                Value last = result.get(result.size() - 1);
                 context.pushArray(result);
                 context.push(last);
+                result.remove(result.size() - 1);
             } finally {
                 array.release();
             }

@@ -5,6 +5,8 @@ import biz.metacode.clients.calcscript.interpreter.Value;
 
 public abstract class RefCountedValue extends Value {
 
+    transient String trait;
+
     private static final long serialVersionUID = 6994581318461354474L;
 
     private int refCounter;
@@ -26,5 +28,12 @@ public abstract class RefCountedValue extends Value {
     protected boolean isShared() {
         return refCounter > 0;
     }
+
+    /* Add slash at the end to enable reference tracking *
+    protected void finalize() throws Throwable {
+        System.out.println("Finalized object with trait: " + trait + " " + toString());
+        super.finalize();
+    };
+    /* */
 
 }

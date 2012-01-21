@@ -5,6 +5,8 @@ import java.util.LinkedList;
 
 public class NumericPool implements Pool<Numeric> {
 
+    private String trait;
+
     private final LinkedList<Numeric> ownedValues = new LinkedList<Numeric>();
 
     public Numeric create(double value) {
@@ -13,11 +15,14 @@ public class NumericPool implements Pool<Numeric> {
             cachedValue.set(value);
             return cachedValue;
         }
-        return new Numeric(this, value);
+        Numeric numeric = new Numeric(this, value);
+        numeric.trait = trait;
+        return numeric;
     }
 
     public void destroy(Numeric value) {
         assert !containsIdentical(value) : "Releasing twice the same object!";
+        assert !value.isShared() : "Releasing shared object!";
         ownedValues.add(value);
     }
 
@@ -41,5 +46,12 @@ public class NumericPool implements Pool<Numeric> {
 
     int internalGetPooledObjectsCount() {
         return ownedValues.size();
+    }
+
+    public void setTrait(String trait) {
+        this.trait = trait;
+        for (RefCountedValue value : ownedValues) {
+            value.trait = trait;
+        }
     }
 }

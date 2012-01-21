@@ -103,7 +103,7 @@ public class Engine {
         context.setMemory(new Memory());
     }
 
-    EngineTestHelper getTestHelper() {
+    public EngineTestHelper getTestHelper() {
         return new EngineTestHelper(context);
     }
 }

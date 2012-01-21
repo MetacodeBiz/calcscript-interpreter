@@ -1,7 +1,7 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-class EngineTestHelper {
+public class EngineTestHelper {
 
     private final Context context;
 
@@ -19,5 +19,9 @@ class EngineTestHelper {
 
     public int getCurrentTextPoolSize() {
         return ((TextPool) context.getPool(Text.class)).internalGetPooledObjectsCount();
+    }
+
+    public void setTrait(String trait) {
+        context.setTrait(trait);
     }
 }

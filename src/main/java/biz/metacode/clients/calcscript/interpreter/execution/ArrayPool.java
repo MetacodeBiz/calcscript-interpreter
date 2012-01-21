@@ -5,6 +5,8 @@ import java.util.LinkedList;
 
 public class ArrayPool implements Pool<Array> {
 
+    private String trait;
+
     private final LinkedList<Array> ownedValues = new LinkedList<Array>();
 
     public Array create() {
@@ -12,7 +14,9 @@ public class ArrayPool implements Pool<Array> {
         if (cachedValue != null) {
             return cachedValue;
         }
-        return new Array(this);
+        Array array = new Array(this);
+        array.trait = trait;
+        return array;
     }
 
     public void destroy(Array value) {
@@ -37,6 +41,13 @@ public class ArrayPool implements Pool<Array> {
 
     int internalGetPooledObjectsCount() {
         return ownedValues.size();
+    }
+
+    public void setTrait(String trait) {
+        this.trait = trait;
+        for (RefCountedValue value : ownedValues) {
+            value.trait = trait;
+        }
     }
 
 }

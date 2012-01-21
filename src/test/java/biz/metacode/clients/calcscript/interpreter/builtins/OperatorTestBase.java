@@ -1,29 +1,32 @@
 
 package biz.metacode.clients.calcscript.interpreter.builtins;
 
-import org.junit.Before;
-
-import junit.framework.Assert;
 import biz.metacode.clients.calcscript.interpreter.Invocable;
 import biz.metacode.clients.calcscript.interpreter.SharedArray;
 import biz.metacode.clients.calcscript.interpreter.Value;
 import biz.metacode.clients.calcscript.interpreter.execution.Engine;
 import biz.metacode.clients.calcscript.interpreter.execution.ScriptExecutionException;
 
+import org.junit.Rule;
+import org.junit.rules.TestName;
+
+import java.util.Random;
+
+import junit.framework.Assert;
+
 public abstract class OperatorTestBase {
 
-    private Engine engine;
+    private static Engine engine = new Engine();
 
-    @Before
-    public void setupEngine() {
-        engine = new Engine();
-    }
+    @Rule
+    public TestName name = new TestName();
 
     protected void register(String name, Invocable function) {
         engine.register(name, function);
     }
 
     protected String eval(String code) throws ScriptExecutionException, InterruptedException {
+        engine.getTestHelper().setTrait("test:" + name.getMethodName() + (new Random().nextInt()));
         SharedArray array = engine.execute(code);
         StringBuilder sb = new StringBuilder();
         try {

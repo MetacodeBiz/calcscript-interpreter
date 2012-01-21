@@ -2,6 +2,7 @@
 package biz.metacode.clients.calcscript.interpreter.test;
 
 import biz.metacode.clients.calcscript.interpreter.SharedArray;
+import biz.metacode.clients.calcscript.interpreter.SyntaxException;
 import biz.metacode.clients.calcscript.interpreter.Value;
 import biz.metacode.clients.calcscript.interpreter.builtins.ArithmeticOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.ArrayOperators;
@@ -24,6 +25,10 @@ import java.io.IOException;
 public class Main {
 
     private static void print(SharedArray array) {
+        if (array == null) {
+            System.out.println("ERR");
+            return;
+        }
         System.out.println("Array: " + Integer.toHexString(System.identityHashCode(array)));
         try {
             for (Value out : array) {
@@ -34,14 +39,24 @@ public class Main {
         }
     }
 
+    private static final Engine engine = new Engine();
+
+    private static SharedArray execute(String code) {
+        try {
+            return engine.execute(code);
+        } catch (ScriptExecutionException e) {
+        } catch (InterruptedException e) {
+        } catch (SyntaxException e) {
+        }
+        return null;
+    }
+
     /**
      * @param args
      * @throws ScriptExecutionException
      * @throws IOException
      */
     public static void main(String[] args) throws Exception {
-        Engine engine = new Engine();
-
         engine.register("+", new CoercingDispatcher("+"));
         engine.register("+_number_number", ArithmeticOperators.ADDITION);
         engine.register("+_string_string", StringOperators.CONCATENATE);
@@ -65,7 +80,8 @@ public class Main {
         engine.register("/", new OrderedDispatcher("/"));
         engine.register("/_number_number", ArithmeticOperators.DIVISION);
         engine.register("/_array_array", ArrayOperators.SPLIT_AROUND_MATCHES);
-        //engine.register("/_string_string", StringOperators.SPLIT_AROUND_MATCHES);
+        // engine.register("/_string_string",
+        // StringOperators.SPLIT_AROUND_MATCHES);
         engine.register("/_array_number", ArrayOperators.SPLIT_INTO_GROUPS);
         engine.register("/_block_block", BlockOperators.UNFOLD);
         engine.register("/_block_array", ArrayOperators.EACH);
@@ -153,20 +169,24 @@ public class Main {
         engine.register("while", LoopOperators.WHILE);
         engine.register("until", LoopOperators.UNTIL);
 
-        print(engine.execute("1 2+"));
-        //print(engine.execute("'12' 12 ="));
-        //ExecutorService service = Executors.newSingleThreadExecutor();
-        /*Future<SharedArray> future = service.submit();
-
-        try {
-            SharedArray result = future.get(3, TimeUnit.SECONDS);
-            print(result);
-        } catch (TimeoutException e) {
-            System.out.println("Timed out!");
-            future.cancel(true);
-        } finally {
-            service.shutdown();
-        }*/
+        //print(execute("1"));
+        //print(execute("1 "));
+        //print(execute("1 2"));
+        //print(execute("1 2 "));
+        //print(execute("1 2 3"));
+        //print(execute("1 2 3]"));
+        //print(execute("1 2 3]{"));
+        //print(execute("1 2 3]{*"));
+        //print(execute("1 2 3]{*}"));
+        print(execute("1 2 3]{+}*"));
+        // print(engine.execute("'12' 12 ="));
+        // ExecutorService service = Executors.newSingleThreadExecutor();
+        /*
+         * Future<SharedArray> future = service.submit(); try { SharedArray
+         * result = future.get(3, TimeUnit.SECONDS); print(result); } catch
+         * (TimeoutException e) { System.out.println("Timed out!");
+         * future.cancel(true); } finally { service.shutdown(); }
+         */
     }
 
 }

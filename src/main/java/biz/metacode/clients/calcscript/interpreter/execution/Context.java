@@ -222,4 +222,10 @@ public class Context implements ExecutionContext, PoolProvider {
             throw new InterruptedException();
         }
     }
+
+    public void setTrait(String trait) {
+        valuePool.setTrait(trait);
+        arrayPool.setTrait(trait);
+        textPool.setTrait(trait);
+    }
 }

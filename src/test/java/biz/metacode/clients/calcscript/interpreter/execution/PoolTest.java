@@ -33,6 +33,7 @@ public class PoolTest {
 
     private static Engine getEngine() {
         Engine engine = new Engine();
+        engine.getTestHelper().setTrait("pool");
         engine.register("+", ArithmeticOperators.ADDITION);
         engine.register("-", ArithmeticOperators.SUBSTRACTION);
         engine.register("*", ArithmeticOperators.MULTIPLICATION);

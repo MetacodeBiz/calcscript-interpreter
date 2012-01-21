@@ -5,6 +5,8 @@ import java.util.LinkedList;
 
 public class TextPool implements Pool<Text> {
 
+    private String trait;
+
     private LinkedList<Text> pool = new LinkedList<Text>();
 
     TextPool() {
@@ -17,7 +19,9 @@ public class TextPool implements Pool<Text> {
             text.set(string);
             return text;
         }
-        return new Text(this, string);
+        text = new Text(this, string);
+        text.trait = trait;
+        return text;
     }
 
     public void destroy(Text text) {
@@ -45,5 +49,12 @@ public class TextPool implements Pool<Text> {
 
     int internalGetPooledObjectsCount() {
         return pool.size();
+    }
+
+    public void setTrait(String trait) {
+        this.trait = trait;
+        for (RefCountedValue value : pool) {
+            value.trait = trait;
+        }
     }
 }

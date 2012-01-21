@@ -37,4 +37,12 @@ public class BlockOperatorsTest extends OperatorTestBase {
         register("?_block_array", BlockOperators.FIND);
         assertEval("5", "[1 2 3 4 5 6] {.* 20>} ?");
     }
+
+    @Test
+    public void execute() throws ScriptExecutionException, InterruptedException {
+        register("+", ArithmeticOperators.ADDITION);
+        register("~", new SingleDispatcher("~"));
+        register("~_block", BlockOperators.EXECUTE);
+        assertEval("3", "{1 2+}~");
+    }
 }

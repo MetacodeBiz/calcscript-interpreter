@@ -79,5 +79,14 @@ public enum BlockOperators implements Invocable {
                 array.release();
             }
         }
-    }
+    },
+    EXECUTE {
+        public void invoke(ExecutionContext context) throws InterruptedException {
+            Value executable = context.pop();
+            try {
+                executable.invoke(context);
+            } finally {
+                executable.release();
+            }
+        }}
 }

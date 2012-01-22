@@ -22,6 +22,7 @@ public class BooleanOperatorsTest extends EngineTestBase {
     @Test
     public void or() throws ScriptExecutionException, InterruptedException {
         register("/", ArithmeticOperators.DIVISION);
+        register("+", ArithmeticOperators.ADDITION);
         register("or", BooleanOperators.OR);
         assertEval("5", "5 {1 0/} or");
         assertEval("2", "0 {1 1+} or");

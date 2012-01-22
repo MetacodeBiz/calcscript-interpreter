@@ -1,6 +1,7 @@
 package biz.metacode.clients.calcscript.interpreter.builtins.test;
 
 import biz.metacode.clients.calcscript.interpreter.builtins.ArithmeticOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.ComparisonOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.LoopOperators;
 import biz.metacode.clients.calcscript.interpreter.builtins.OrderedDispatcher;
 import biz.metacode.clients.calcscript.interpreter.builtins.StackOperators;
@@ -39,6 +40,8 @@ public class LoopOperatorsTest extends EngineTestBase {
     public void untilLoop() throws ScriptExecutionException, InterruptedException {
         register(".", StackOperators.DUPLICATE);
         register("-", ArithmeticOperators.SUBSTRACTION);
+        register("+", ArithmeticOperators.ADDITION);
+        register(">", ComparisonOperators.GREATER_THAN);
         register("until", LoopOperators.UNTIL);
         assertEval("5", "5{.}{1-.}until");
         assertEval("1 2 3 4 5 6 6", "0{.5>}{1+.}until");

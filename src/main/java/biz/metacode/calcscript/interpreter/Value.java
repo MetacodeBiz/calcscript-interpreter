@@ -43,16 +43,20 @@ public abstract class Value implements Invocable, Comparable<Value> {
     public void release() {
     }
 
-    public abstract String getTypeName();
+    public abstract Type getType();
 
     public int compareTo(Value o) {
         return this.toString().compareTo(o.toString());
     }
 
+    public SharedArray asArray() {
+        throw new InvalidTypeException(Type.ARRAY, getType());
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Value) {
-            return this.getTypeName().equals(((Value) obj).getTypeName())
+            return this.getType() == ((Value) obj).getType()
                     && this.toString().equals(obj.toString());
         }
         return false;
@@ -76,6 +80,14 @@ public abstract class Value implements Invocable, Comparable<Value> {
         return new Pair(this, other);
     }
 
+    public enum Type {
+        NUMBER, ARRAY, STRING, BLOCK, OTHER;
+
+        public String toString() {
+            return name().toLowerCase();
+        };
+    }
+
     /**
      * Ordered pair of values.
      */
@@ -90,7 +102,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
         }
 
         public String getTypeName() {
-            return this.first.getTypeName() + "_" + this.second.getTypeName();
+            return this.first.getType() + "_" + this.second.getType();
         }
     }
 }

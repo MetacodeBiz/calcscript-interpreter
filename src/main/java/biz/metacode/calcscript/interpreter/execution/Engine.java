@@ -2,6 +2,7 @@
 package biz.metacode.calcscript.interpreter.execution;
 
 import biz.metacode.calcscript.interpreter.Invocable;
+import biz.metacode.calcscript.interpreter.ScriptExecutionException;
 import biz.metacode.calcscript.interpreter.SharedArray;
 import biz.metacode.calcscript.interpreter.Value;
 import biz.metacode.calcscript.interpreter.source.Program;
@@ -12,7 +13,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -45,16 +45,11 @@ public class Engine {
         this.context.remove(name);
     }
 
-    public SharedArray execute(CharSequence source) throws ScriptExecutionException, InterruptedException {
+    public SharedArray execute(CharSequence source) throws ScriptExecutionException,
+            InterruptedException {
         Program program = new Program(source);
-        try {
-            context.clearStack();
-            program.invoke(context);
-        } catch (EmptyStackException e) {
-            throw new ScriptExecutionException("Stack is empty", e);
-        } catch (ClassCastException e) {
-            throw new ScriptExecutionException("Wrong type", e);
-        }
+        context.clearStack();
+        program.invoke(context);
         return context.getData();
     }
 
@@ -120,6 +115,7 @@ public class Engine {
     }
 
     private EngineTestHelper testHelper;
+
     EngineTestHelper getTestHelper() {
         if (testHelper == null) {
             testHelper = new EngineTestHelper(context);

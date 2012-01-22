@@ -60,8 +60,8 @@ class Block extends Value implements Expression, Serializable {
     }
 
     @Override
-    public String getTypeName() {
-        return "block";
+    public Type getType() {
+        return Type.BLOCK;
     }
 
     @Override

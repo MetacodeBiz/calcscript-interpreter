@@ -1,11 +1,11 @@
 
 package biz.metacode.calcscript.interpreter.test;
 
+import biz.metacode.calcscript.interpreter.ScriptExecutionException;
 import biz.metacode.calcscript.interpreter.SharedArray;
 import biz.metacode.calcscript.interpreter.Value;
 import biz.metacode.calcscript.interpreter.builtins.Builtins;
 import biz.metacode.calcscript.interpreter.execution.Engine;
-import biz.metacode.calcscript.interpreter.execution.ScriptExecutionException;
 import biz.metacode.calcscript.interpreter.source.SyntaxException;
 
 import java.io.IOException;

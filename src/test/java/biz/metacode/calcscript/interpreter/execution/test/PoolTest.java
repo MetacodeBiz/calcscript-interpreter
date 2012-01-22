@@ -1,6 +1,7 @@
 
 package biz.metacode.calcscript.interpreter.execution.test;
 
+import biz.metacode.calcscript.interpreter.ScriptExecutionException;
 import biz.metacode.calcscript.interpreter.builtins.ArrayOperators;
 import biz.metacode.calcscript.interpreter.builtins.Builtins;
 import biz.metacode.calcscript.interpreter.builtins.MathOperators;
@@ -8,7 +9,6 @@ import biz.metacode.calcscript.interpreter.builtins.OrderedDispatcher;
 import biz.metacode.calcscript.interpreter.builtins.StackOperators;
 import biz.metacode.calcscript.interpreter.execution.EngineTestBase;
 import biz.metacode.calcscript.interpreter.execution.RestoreException;
-import biz.metacode.calcscript.interpreter.execution.ScriptExecutionException;
 
 import org.junit.Test;
 

@@ -3,6 +3,7 @@ package biz.metacode.calcscript.interpreter.builtins;
 
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.Invocable;
+import biz.metacode.calcscript.interpreter.OverloadMissingException;
 import biz.metacode.calcscript.interpreter.Value;
 
 public class SingleDispatcher implements Invocable {
@@ -17,7 +18,7 @@ public class SingleDispatcher implements Invocable {
 
     public final void invoke(ExecutionContext context) throws InterruptedException {
         Value first = context.pop();
-        String methodName = prefix + "_" + first.getTypeName();
+        String methodName = prefix + "_" + first.getType();
 
         context.push(first);
 
@@ -27,7 +28,7 @@ public class SingleDispatcher implements Invocable {
         if (targetMethod != null) {
             targetMethod.invoke(context);
         } else {
-            throw new ClassCastException("ERR!!");
+            throw new OverloadMissingException(first.getType());
         }
     }
 

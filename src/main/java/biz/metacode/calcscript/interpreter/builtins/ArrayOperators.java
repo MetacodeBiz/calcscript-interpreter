@@ -17,8 +17,8 @@ import java.util.TreeSet;
 public enum ArrayOperators implements Invocable {
     MAP {
         public void invoke(ExecutionContext context) throws InterruptedException {
-            Invocable executable = (Invocable) context.pop();
-            SharedArray list = (SharedArray) context.pop();
+            Value executable = context.pop();
+            SharedArray list = context.pop().asArray();
             context.markPosition();
             try {
                 for (Value object : list) {
@@ -27,20 +27,21 @@ public enum ArrayOperators implements Invocable {
                 }
             } finally {
                 list.release();
+                executable.release();
             }
             context.pushArray(context.extractMarkedArray());
         }
     },
     GET_LENGTH {
         public void invoke(ExecutionContext context) {
-            SharedArray array = (SharedArray) context.pop();
+            SharedArray array = context.pop().asArray();
             context.pushDouble(array.size());
             array.release();
         }
     },
     EXTRACT {
         public void invoke(ExecutionContext context) {
-            SharedArray array = (SharedArray) context.pop();
+            SharedArray array = context.pop().asArray();
             try {
                 for (Value value : array) {
                     context.push(value);
@@ -52,7 +53,7 @@ public enum ArrayOperators implements Invocable {
     },
     SORT {
         public void invoke(ExecutionContext context) throws InterruptedException {
-            SharedArray array = (SharedArray) context.pop();
+            SharedArray array = context.pop().asArray();
             try {
                 List<Value> values = new ArrayList<Value>(array);
                 Collections.sort(values);
@@ -67,7 +68,7 @@ public enum ArrayOperators implements Invocable {
     SORT_BY_MAPPING {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             final Invocable mapping = context.pop();
-            SharedArray array = (SharedArray) context.pop();
+            SharedArray array = context.pop().asArray();
             try {
                 List<Value> values = new ArrayList<Value>(array);
                 Collections.sort(values, new Comparator<Value>() {
@@ -92,8 +93,8 @@ public enum ArrayOperators implements Invocable {
     },
     CONCATENATE {
         public void invoke(final ExecutionContext context) throws InterruptedException {
-            SharedArray first = (SharedArray) context.pop();
-            SharedArray second = (SharedArray) context.pop();
+            SharedArray first = context.pop().asArray();
+            SharedArray second = context.pop().asArray();
             try {
                 SharedArray result = context.acquireArray();
                 result.addAll(second);
@@ -107,8 +108,8 @@ public enum ArrayOperators implements Invocable {
     },
     SUBSTRACT {
         public void invoke(final ExecutionContext context) throws InterruptedException {
-            SharedArray first = (SharedArray) context.pop();
-            SharedArray second = (SharedArray) context.pop();
+            SharedArray first = context.pop().asArray();
+            SharedArray second = context.pop().asArray();
             try {
                 SharedArray result = context.acquireArray();
                 result.addAll(second);
@@ -122,7 +123,7 @@ public enum ArrayOperators implements Invocable {
     },
     REPEAT {
         public void invoke(final ExecutionContext context) throws InterruptedException {
-            SharedArray first = (SharedArray) context.pop();
+            SharedArray first = context.pop().asArray();
             double times = context.popDouble();
             try {
                 SharedArray result = context.acquireArray();
@@ -139,7 +140,7 @@ public enum ArrayOperators implements Invocable {
     JOIN_BY_SEPARATOR {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             String separator = context.popString();
-            SharedArray first = (SharedArray) context.pop();
+            SharedArray first = context.pop().asArray();
             try {
                 StringBuilder sb = new StringBuilder();
                 Iterator<Value> iterator = first.iterator();
@@ -157,8 +158,8 @@ public enum ArrayOperators implements Invocable {
     },
     JOIN_ARRAYS {
         public void invoke(final ExecutionContext context) throws InterruptedException {
-            SharedArray first = (SharedArray) context.pop();
-            SharedArray second = (SharedArray) context.pop();
+            SharedArray first = context.pop().asArray();
+            SharedArray second = context.pop().asArray();
             try {
                 SharedArray result = context.acquireArray();
                 Iterator<Value> iterator = second.iterator();
@@ -178,7 +179,7 @@ public enum ArrayOperators implements Invocable {
     FOLD {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             Invocable block = context.pop();
-            SharedArray array = (SharedArray) context.pop();
+            SharedArray array = context.pop().asArray();
             try {
                 boolean shouldCloseAccumulator = false;
                 Value accumulator = null;
@@ -209,8 +210,8 @@ public enum ArrayOperators implements Invocable {
     },
     SPLIT_AROUND_MATCHES {
         public void invoke(final ExecutionContext context) throws InterruptedException {
-            SharedArray matches = (SharedArray) context.pop();
-            SharedArray array = (SharedArray) context.pop();
+            SharedArray matches = context.pop().asArray();
+            SharedArray array = context.pop().asArray();
             try {
                 SharedArray result = context.acquireArray();
                 SharedArray matchResult = context.acquireArray();
@@ -242,7 +243,7 @@ public enum ArrayOperators implements Invocable {
     },
     SPLIT_INTO_GROUPS {
         public void invoke(final ExecutionContext context) throws InterruptedException {
-            SharedArray array = (SharedArray) context.pop();
+            SharedArray array = context.pop().asArray();
             int groupSize = (int) context.popDouble();
             try {
                 SharedArray result = context.acquireArray();
@@ -267,7 +268,7 @@ public enum ArrayOperators implements Invocable {
     EACH {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Invocable function = context.pop();
-            SharedArray array = (SharedArray) context.pop();
+            SharedArray array = context.pop().asArray();
             try {
                 for (Value value : array) {
                     context.push(value);
@@ -282,7 +283,7 @@ public enum ArrayOperators implements Invocable {
 
         public void invoke(ExecutionContext context) throws InterruptedException {
 
-            SharedArray array = (SharedArray) context.pop();
+            SharedArray array = context.pop().asArray();
             double step = context.popDouble();
             try {
                 if (step != 0) {
@@ -304,8 +305,8 @@ public enum ArrayOperators implements Invocable {
     },
     UNION {
         public void invoke(ExecutionContext context) throws InterruptedException {
-            SharedArray first = (SharedArray) context.pop();
-            SharedArray second = (SharedArray) context.pop();
+            SharedArray first = context.pop().asArray();
+            SharedArray second = context.pop().asArray();
             try {
                 SharedArray result = context.acquireArray();
                 result.addAll(union(first, second));
@@ -318,8 +319,8 @@ public enum ArrayOperators implements Invocable {
     },
     INTERSECTION {
         public void invoke(ExecutionContext context) throws InterruptedException {
-            SharedArray first = (SharedArray) context.pop();
-            SharedArray second = (SharedArray) context.pop();
+            SharedArray first = context.pop().asArray();
+            SharedArray second = context.pop().asArray();
             try {
                 SharedArray result = context.acquireArray();
                 result.addAll(intersection(first, second));
@@ -332,8 +333,8 @@ public enum ArrayOperators implements Invocable {
     },
     SYMMETRIC_DIFFERENCE {
         public void invoke(ExecutionContext context) throws InterruptedException {
-            SharedArray first = (SharedArray) context.pop();
-            SharedArray second = (SharedArray) context.pop();
+            SharedArray first = context.pop().asArray();
+            SharedArray second = context.pop().asArray();
             try {
                 SharedArray result = context.acquireArray();
                 List<Value> temporary = union(first, second);
@@ -348,7 +349,7 @@ public enum ArrayOperators implements Invocable {
     },
     INDEX_LESS_THAN {
         public void invoke(ExecutionContext context) throws InterruptedException {
-            SharedArray first = (SharedArray) context.pop();
+            SharedArray first = context.pop().asArray();
             int index = (int) context.popDouble();
             try {
                 SharedArray result = context.acquireArray();
@@ -363,7 +364,7 @@ public enum ArrayOperators implements Invocable {
     },
     INDEX_GREATER_THAN {
         public void invoke(ExecutionContext context) throws InterruptedException {
-            SharedArray first = (SharedArray) context.pop();
+            SharedArray first = context.pop().asArray();
             int index = (int) context.popDouble();
             try {
                 SharedArray result = context.acquireArray();
@@ -378,7 +379,7 @@ public enum ArrayOperators implements Invocable {
     },
     GET_ELEMENT {
         public void invoke(ExecutionContext context) throws InterruptedException {
-            SharedArray first = (SharedArray) context.pop();
+            SharedArray first = context.pop().asArray();
             int index = (int) context.popDouble();
             try {
                 context.push(first.get(index));
@@ -400,7 +401,7 @@ public enum ArrayOperators implements Invocable {
     },
     INDEX_OF {
         public void invoke(ExecutionContext context) throws InterruptedException {
-            SharedArray first = (SharedArray) context.pop();
+            SharedArray first = context.pop().asArray();
             Value second = context.pop();
             try {
                 context.pushDouble(first.indexOf(second));
@@ -414,7 +415,7 @@ public enum ArrayOperators implements Invocable {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value array = context.pop();
             try {
-                SharedArray result = (SharedArray) array.duplicate();
+                SharedArray result = array.duplicate().asArray();
                 Value first = result.get(0);
                 context.pushArray(result);
                 context.push(first);
@@ -428,7 +429,7 @@ public enum ArrayOperators implements Invocable {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value array = context.pop();
             try {
-                SharedArray result = (SharedArray) array.duplicate();
+                SharedArray result = array.duplicate().asArray();
                 Value last = result.get(result.size() - 1);
                 context.pushArray(result);
                 context.push(last);
@@ -440,14 +441,14 @@ public enum ArrayOperators implements Invocable {
     },
     ZIP {
         public void invoke(ExecutionContext context) throws InterruptedException {
-            SharedArray array = (SharedArray) context.pop();
+            SharedArray array = context.pop().asArray();
             try {
-                SharedArray first = (SharedArray) array.get(0);
+                SharedArray first = array.get(0).asArray();
                 SharedArray result = context.acquireArray();
                 for (int i = 0; i < first.size(); i++) {
                     SharedArray part = context.acquireArray();
                     for (int j = 0; j < array.size(); j++) {
-                        part.add(((SharedArray) array.get(j)).get(i));
+                        part.add(array.get(j).asArray().get(i));
                     }
                     result.add(context.convertToValue(part));
                 }

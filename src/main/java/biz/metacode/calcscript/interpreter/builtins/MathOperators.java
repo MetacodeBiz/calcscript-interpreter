@@ -10,7 +10,7 @@ public enum MathOperators implements Invocable {
 
     SUM {
         public void invoke(ExecutionContext context) {
-            SharedArray list = (SharedArray) context.pop();
+            SharedArray list = context.pop().asArray();
             double sum = 0;
             try {
                 for (Value value : list) {

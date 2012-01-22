@@ -3,6 +3,7 @@ package biz.metacode.calcscript.interpreter.source;
 
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.Invocable;
+import biz.metacode.calcscript.interpreter.ScriptExecutionException;
 
 import java.io.Serializable;
 
@@ -25,6 +26,7 @@ class Variable implements Expression, Serializable {
      * is retrieved and invoked. Otherwise if this variable represents a numeric
      * or text constant it is interpreted like that and placed onto the stack.
      * If all of this fails this method exits.
+     *
      * @throws InterruptedException
      */
     public void evaluate(ExecutionContext context) throws InterruptedException {
@@ -35,7 +37,12 @@ class Variable implements Expression, Serializable {
         Invocable value = context.read(this.name);
 
         if (value != null) {
-            value.invoke(context);
+            try {
+                value.invoke(context);
+            } catch (ScriptExecutionException e) {
+                e.setOperatorName(this.name);
+                throw e;
+            }
         } else {
 
             if (interpretAsDouble(context)) {
@@ -67,8 +74,9 @@ class Variable implements Expression, Serializable {
     }
 
     private static boolean isString(String text) {
-        return (text.length() >= 2) && (('"' == text.charAt(0) && '"' == text.charAt(text.length() - 1))
-                || ('\'' == text.charAt(0) && '\'' == text.charAt(text.length() - 1)));
+        return (text.length() >= 2)
+                && (('"' == text.charAt(0) && '"' == text.charAt(text.length() - 1)) || ('\'' == text
+                        .charAt(0) && '\'' == text.charAt(text.length() - 1)));
     }
 
     @Override

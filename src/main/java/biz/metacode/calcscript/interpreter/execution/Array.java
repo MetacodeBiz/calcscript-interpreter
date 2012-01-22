@@ -22,6 +22,10 @@ class Array extends RefCountedValue implements SharedArray, PooledObject {
         this.pool = pool;
     }
 
+    public SharedArray asArray() {
+        return this;
+    }
+
     protected void relinquish() {
         this.pool.destroy(this);
     }
@@ -145,8 +149,8 @@ class Array extends RefCountedValue implements SharedArray, PooledObject {
     }
 
     @Override
-    public String getTypeName() {
-        return "array";
+    public Type getType() {
+        return Type.ARRAY;
     }
 
     @Override

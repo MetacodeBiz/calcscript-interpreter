@@ -3,6 +3,7 @@ package biz.metacode.calcscript.interpreter.builtins;
 
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.Invocable;
+import biz.metacode.calcscript.interpreter.OverloadMissingException;
 import biz.metacode.calcscript.interpreter.Value;
 import biz.metacode.calcscript.interpreter.Value.Pair;
 
@@ -34,7 +35,7 @@ public abstract class FunctionDispatcher implements Invocable {
         if (targetMethod != null) {
             targetMethod.invoke(context);
         } else {
-            throw new ClassCastException("ERR!!");
+            throw new OverloadMissingException(ordered.second.getType(), ordered.first.getType());
         }
     }
 

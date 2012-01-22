@@ -45,8 +45,8 @@ public enum BlockOperators implements Invocable {
     },
     FILTER {
         public void invoke(final ExecutionContext context) throws InterruptedException {
-            Invocable filter = context.pop();
-            SharedArray array = (SharedArray) context.pop();
+            Value filter = context.pop();
+            SharedArray array = context.pop().asArray();
             try {
                 SharedArray result = context.acquireArray();
                 for (Value value : array) {
@@ -58,14 +58,15 @@ public enum BlockOperators implements Invocable {
                 }
                 context.pushArray(result);
             } finally {
+                filter.release();
                 array.release();
             }
         }
     },
     FIND {
         public void invoke(final ExecutionContext context) throws InterruptedException {
-            Invocable filter = context.pop();
-            SharedArray array = (SharedArray) context.pop();
+            Value filter = context.pop();
+            SharedArray array = context.pop().asArray();
             try {
                 for (Value value : array) {
                     context.push(value);
@@ -76,6 +77,7 @@ public enum BlockOperators implements Invocable {
                     }
                 }
             } finally {
+                filter.release();
                 array.release();
             }
         }

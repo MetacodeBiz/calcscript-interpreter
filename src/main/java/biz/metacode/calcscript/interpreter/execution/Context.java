@@ -3,11 +3,14 @@ package biz.metacode.calcscript.interpreter.execution;
 
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.Invocable;
+import biz.metacode.calcscript.interpreter.OverloadMissingException;
 import biz.metacode.calcscript.interpreter.Value;
+import biz.metacode.calcscript.interpreter.ValueMissingException;
 import biz.metacode.calcscript.interpreter.Value.Pair;
 import biz.metacode.calcscript.interpreter.source.Program;
 
 import java.util.Collection;
+import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -74,7 +77,11 @@ class Context implements ExecutionContext, PoolProvider {
     }
 
     public Value pop() {
-        return stack.pop();
+        try {
+            return stack.pop();
+        } catch (EmptyStackException e) {
+            throw new ValueMissingException(e);
+        }
     }
 
     public Value peekNth(int n) {
@@ -208,7 +215,7 @@ class Context implements ExecutionContext, PoolProvider {
         } else if (value instanceof Text) {
             return Program.createInvocable(value.toString());
         }
-        throw new IllegalArgumentException("Unknown type: " + value.getTypeName());
+        throw new OverloadMissingException(value.getType());
     }
 
     public void interruptionPoint() throws InterruptedException {

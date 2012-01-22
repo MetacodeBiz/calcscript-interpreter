@@ -65,6 +65,12 @@ class Numeric extends RefCountedValue implements PooledObject {
     }
 
     @Override
+    public int hashCode() {
+        long v = Double.doubleToLongBits(this.value);
+        return (int) (v ^ (v >>> 32));
+    }
+
+    @Override
     public Value duplicate() {
         Numeric duplicate = this.pool.create();
         duplicate.set(value);
@@ -85,8 +91,8 @@ class Numeric extends RefCountedValue implements PooledObject {
     }
 
     @Override
-    public String getTypeName() {
-        return "number";
+    public Type getType() {
+        return Type.NUMBER;
     }
 
     @Override

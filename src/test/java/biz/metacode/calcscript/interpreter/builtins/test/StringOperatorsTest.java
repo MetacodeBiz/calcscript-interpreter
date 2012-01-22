@@ -1,11 +1,11 @@
 package biz.metacode.calcscript.interpreter.builtins.test;
 
+import biz.metacode.calcscript.interpreter.ScriptExecutionException;
 import biz.metacode.calcscript.interpreter.builtins.ArithmeticOperators;
 import biz.metacode.calcscript.interpreter.builtins.OrderedDispatcher;
 import biz.metacode.calcscript.interpreter.builtins.SingleDispatcher;
 import biz.metacode.calcscript.interpreter.builtins.StringOperators;
 import biz.metacode.calcscript.interpreter.execution.EngineTestBase;
-import biz.metacode.calcscript.interpreter.execution.ScriptExecutionException;
 
 import org.junit.Test;
 

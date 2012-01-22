@@ -54,12 +54,26 @@ class Text extends RefCountedValue implements PooledObject {
     }
 
     @Override
-    public String getTypeName() {
-        return "string";
+    public Type getType() {
+        return Type.STRING;
     }
 
     @Override
     public boolean toBoolean() {
         return !"".equals(value);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Text) {
+            return this.value.equals(((Text) obj).value);
+        }
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.value.hashCode();
+    }
+
 }

@@ -18,9 +18,7 @@ public enum LoopOperators implements Invocable {
                 block.invoke(context);
                 value = context.pop();
             } while (value.toBoolean());
-            if (value != null) {
-                value.release();
-            }
+            value.release();
         }
     },
     TIMES {

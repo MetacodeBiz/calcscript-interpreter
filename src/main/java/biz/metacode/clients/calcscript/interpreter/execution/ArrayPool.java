@@ -7,9 +7,12 @@ public class ArrayPool implements Pool<Array> {
 
     private String trait;
 
+    private int allocationBalance;
+
     private final LinkedList<Array> ownedValues = new LinkedList<Array>();
 
     public Array create() {
+        allocationBalance++;
         Array cachedValue = ownedValues.poll();
         if (cachedValue != null) {
             return cachedValue;
@@ -21,6 +24,7 @@ public class ArrayPool implements Pool<Array> {
 
     public void destroy(Array value) {
         assert !containsIdentical(value) : "Releasing twice the same object!";
+        allocationBalance--;
         value.clear();
         ownedValues.add(value);
     }
@@ -48,6 +52,14 @@ public class ArrayPool implements Pool<Array> {
         for (RefCountedValue value : ownedValues) {
             value.trait = trait;
         }
+    }
+
+    void internalResetAllocationBalance() {
+        allocationBalance = 0;
+    }
+
+    int internalGetAllocationBalance() {
+        return allocationBalance;
     }
 
 }

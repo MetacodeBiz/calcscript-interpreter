@@ -117,7 +117,11 @@ public class Engine {
         context.setMemory(new Memory());
     }
 
+    private EngineTestHelper testHelper;
     public EngineTestHelper getTestHelper() {
-        return new EngineTestHelper(context);
+        if (testHelper == null) {
+            testHelper = new EngineTestHelper(context);
+        }
+        return testHelper;
     }
 }

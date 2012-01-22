@@ -43,6 +43,10 @@ public abstract class OperatorTestBase {
     }
 
     protected void assertEval(String result, String code) throws ScriptExecutionException, InterruptedException {
+        engine.getTestHelper().resetAllocationBalance();
         Assert.assertEquals(result, eval(code));
+        Assert.assertEquals(0, engine.getTestHelper().getNumericAllocationBalance());
+        Assert.assertEquals(0, engine.getTestHelper().getArrayAllocationBalance());
+        Assert.assertEquals(0, engine.getTestHelper().getTextAllocationBalance());
     }
 }

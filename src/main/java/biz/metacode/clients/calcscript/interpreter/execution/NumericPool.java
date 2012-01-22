@@ -7,9 +7,12 @@ public class NumericPool implements Pool<Numeric> {
 
     private String trait;
 
+    private int allocationBalance;
+
     private final LinkedList<Numeric> ownedValues = new LinkedList<Numeric>();
 
     public Numeric create(double value) {
+        allocationBalance++;
         Numeric cachedValue = ownedValues.poll();
         if (cachedValue != null) {
             cachedValue.set(value);
@@ -23,6 +26,7 @@ public class NumericPool implements Pool<Numeric> {
     public void destroy(Numeric value) {
         assert !containsIdentical(value) : "Releasing twice the same object!";
         assert !value.isShared() : "Releasing shared object!";
+        allocationBalance--;
         ownedValues.add(value);
     }
 
@@ -53,5 +57,13 @@ public class NumericPool implements Pool<Numeric> {
         for (RefCountedValue value : ownedValues) {
             value.trait = trait;
         }
+    }
+
+    void internalResetAllocationBalance() {
+        allocationBalance = 0;
+    }
+
+    int internalGetAllocationBalance() {
+        return allocationBalance;
     }
 }

@@ -38,16 +38,16 @@ public class BooleanOperatorsTest extends EngineTestBase {
 
     @Test
     public void xor() throws ScriptExecutionException, InterruptedException {
-        register("[", StackOperators.LEFT_SQUARE_BRACE);
-        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
         register("xor", BooleanOperators.XOR);
         assertEval("[3]", "0 [3] xor");
     }
 
     @Test
     public void xor2() throws ScriptExecutionException, InterruptedException {
-        register("[", StackOperators.LEFT_SQUARE_BRACE);
-        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
         register("xor", BooleanOperators.XOR);
         assertEval("0", "2 [3] xor");
     }

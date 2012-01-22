@@ -32,7 +32,7 @@ public final class Builtins {
             put("*_block_number", LoopOperators.TIMES);
             put("*_array_number", ArrayOperators.REPEAT);
             put("*_string_number", StringOperators.REPEAT);
-            put("*_string_array", ArrayOperators.JOIN);
+            put("*_string_array", ArrayOperators.JOIN_BY_SEPARATOR);
             put("*_array_array", ArrayOperators.JOIN_ARRAYS);
             put("*_string_string", StringOperators.JOIN);
             put("*_block_array", ArrayOperators.FOLD);
@@ -59,7 +59,7 @@ public final class Builtins {
             put("$_block", ArrayOperators.SORT_BY_MAPPING);
 
             put(",", new SingleDispatcher(","));
-            put(",_array", ArrayOperators.COMMA);
+            put(",_array", ArrayOperators.GET_LENGTH);
             put(",_block", BlockOperators.FILTER);
             put(",_number", ArrayOperators.CREATE_ARRAY);
 
@@ -116,8 +116,8 @@ public final class Builtins {
             put("@", StackOperators.ROT3);
             put("\\", StackOperators.SWAP);
             put(";", StackOperators.DROP);
-            put("[", StackOperators.LEFT_SQUARE_BRACE);
-            put("]", StackOperators.RIGHT_SQUARE_BRACE);
+            put("[", StackOperators.MARK_STACK_SIZE);
+            put("]", StackOperators.SLICE_STACK);
 
             put("sum", MathOperators.SUM);
             put("do", LoopOperators.DO);

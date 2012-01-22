@@ -34,8 +34,8 @@ public class BlockOperatorsTest extends EngineTestBase {
 
     @Test
     public void filter() throws ScriptExecutionException, InterruptedException {
-        register("[", StackOperators.LEFT_SQUARE_BRACE);
-        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
         register("%", ArithmeticOperators.MODULO);
         register(",", new SingleDispatcher(","));
         register(",_block", BlockOperators.FILTER);
@@ -44,8 +44,8 @@ public class BlockOperatorsTest extends EngineTestBase {
 
     @Test
     public void find() throws ScriptExecutionException, InterruptedException {
-        register("[", StackOperators.LEFT_SQUARE_BRACE);
-        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
         register(".", StackOperators.DUPLICATE);
         register("*", ArithmeticOperators.MULTIPLICATION);
         register(">", ComparisonOperators.GREATER_THAN);

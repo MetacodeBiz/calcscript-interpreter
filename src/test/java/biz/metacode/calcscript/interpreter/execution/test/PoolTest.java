@@ -31,8 +31,8 @@ public class PoolTest extends EngineTestBase {
 
     @Test
     public void sumTest() throws ScriptExecutionException, InterruptedException {
-        register("[", StackOperators.LEFT_SQUARE_BRACE);
-        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
         register("sum", MathOperators.SUM);
         assertEval("6", "[1 2 3]sum");
         // three numbers from above
@@ -45,11 +45,11 @@ public class PoolTest extends EngineTestBase {
 
     @Test
     public void mapTest() throws ScriptExecutionException, InterruptedException {
-        register("[", StackOperators.LEFT_SQUARE_BRACE);
-        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
         register("%", new OrderedDispatcher("%"));
         register("%_block_array", ArrayOperators.MAP);
-        register(",", ArrayOperators.COMMA);
+        register(",", ArrayOperators.GET_LENGTH);
         assertEval("[1 3 2]", "[[1][4 1 6][3 5]]{,}%");
         // numbers from arrays plus array lengths
         assertCurrentNumericPoolSize(9);
@@ -73,8 +73,8 @@ public class PoolTest extends EngineTestBase {
 
     @Test
     public void memoryOverwriteTest() throws ScriptExecutionException, InterruptedException {
-        register("[", StackOperators.LEFT_SQUARE_BRACE);
-        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
         register(";", StackOperators.DROP);
         assertEvalWithoutBalance("6", "1 2][3 4]]:b;6");
 
@@ -94,8 +94,8 @@ public class PoolTest extends EngineTestBase {
     @Test
     public void serializationTest() throws ScriptExecutionException, IOException, RestoreException,
             InterruptedException {
-        register("[", StackOperators.LEFT_SQUARE_BRACE);
-        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
         register(";", StackOperators.DROP);
         assertEvalWithoutBalance("6", "1 2]:b;6");
         // numbers assigned to "b" are int memory thus not released
@@ -125,8 +125,8 @@ public class PoolTest extends EngineTestBase {
 
     @Test
     public void duplicateTest() throws ScriptExecutionException, InterruptedException {
-        register("[", StackOperators.LEFT_SQUARE_BRACE);
-        register("]", StackOperators.RIGHT_SQUARE_BRACE);
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
         register("sum", MathOperators.SUM);
         register("\\", StackOperators.SWAP);
         register(".", StackOperators.DUPLICATE);

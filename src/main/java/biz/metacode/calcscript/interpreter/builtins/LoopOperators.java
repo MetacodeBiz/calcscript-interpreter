@@ -42,7 +42,7 @@ public enum LoopOperators implements Invocable {
                     break;
                 }
                 body.invoke(context);
-            } while(true);
+            } while (true);
         }
     },
     UNTIL {
@@ -56,7 +56,7 @@ public enum LoopOperators implements Invocable {
                     break;
                 }
                 body.invoke(context);
-            } while(true);
+            } while (true);
         }
     }
 }

@@ -31,7 +31,7 @@ public enum ArrayOperators implements Invocable {
             context.pushArray(context.extractMarkedArray());
         }
     },
-    COMMA {
+    GET_LENGTH {
         public void invoke(ExecutionContext context) {
             SharedArray array = (SharedArray) context.pop();
             context.pushDouble(array.size());
@@ -136,7 +136,7 @@ public enum ArrayOperators implements Invocable {
             }
         }
     },
-    JOIN {
+    JOIN_BY_SEPARATOR {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             String separator = context.popString();
             SharedArray first = (SharedArray) context.pop();

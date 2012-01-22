@@ -88,5 +88,6 @@ public enum BlockOperators implements Invocable {
             } finally {
                 executable.release();
             }
-        }}
+        }
+    }
 }

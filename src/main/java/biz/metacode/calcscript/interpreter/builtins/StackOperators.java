@@ -6,13 +6,12 @@ import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.Value;
 
 public enum StackOperators implements Invocable {
-
-    LEFT_SQUARE_BRACE {
+    MARK_STACK_SIZE {
         public void invoke(ExecutionContext context) {
             context.markPosition();
         }
     },
-    RIGHT_SQUARE_BRACE {
+    SLICE_STACK {
         public void invoke(ExecutionContext context) {
             context.pushArray(context.extractMarkedArray());
         }
@@ -51,11 +50,9 @@ public enum StackOperators implements Invocable {
         }
     },
     GET_NTH {
-
         public void invoke(ExecutionContext context) {
             Value value = context.peekNth((int) context.popDouble());
             context.push(value);
         }
-
     }
 }

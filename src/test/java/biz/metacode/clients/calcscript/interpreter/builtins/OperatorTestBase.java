@@ -10,8 +10,6 @@ import biz.metacode.clients.calcscript.interpreter.execution.ScriptExecutionExce
 import org.junit.Rule;
 import org.junit.rules.TestName;
 
-import java.util.Random;
-
 import junit.framework.Assert;
 
 public abstract class OperatorTestBase {
@@ -26,7 +24,7 @@ public abstract class OperatorTestBase {
     }
 
     protected String eval(String code) throws ScriptExecutionException, InterruptedException {
-        engine.getTestHelper().setTrait("test:" + name.getMethodName() + (new Random().nextInt()));
+        engine.getTestHelper().setTrait(name.getMethodName());
         SharedArray array = engine.execute(code);
         StringBuilder sb = new StringBuilder();
         try {

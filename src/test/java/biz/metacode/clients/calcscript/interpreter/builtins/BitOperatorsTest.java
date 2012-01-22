@@ -27,4 +27,10 @@ public class BitOperatorsTest extends OperatorTestBase {
         register("^_number_number", BitOperators.XOR);
         assertEval("6", "5 3 ^");
     }
+
+    @Test
+    public void bitwiseNegation() throws ScriptExecutionException, InterruptedException {
+        register("~", BitOperators.NOT);
+        assertEval("-6", "5~");
+    }
 }

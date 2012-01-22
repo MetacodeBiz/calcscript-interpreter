@@ -8,10 +8,18 @@ import org.junit.Test;
 public class BooleanOperatorsTest extends OperatorTestBase {
 
     @Test
+    public void not() throws ScriptExecutionException, InterruptedException {
+        register("!", BooleanOperators.NOT);
+        assertEval("0", "5!");
+        assertEval("1", "''!");
+    }
+
+    @Test
     public void or() throws ScriptExecutionException, InterruptedException {
         register("/", ArithmeticOperators.DIVISION);
         register("or", BooleanOperators.OR);
         assertEval("5", "5 {1 0/} or");
+        assertEval("2", "0 {1 1+} or");
     }
 
     @Test
@@ -19,6 +27,7 @@ public class BooleanOperatorsTest extends OperatorTestBase {
         register("+", ArithmeticOperators.ADDITION);
         register("and", BooleanOperators.AND);
         assertEval("2", "5 {1 1+} and");
+        assertEval("0", "0 {1 1+} and");
     }
 
     @Test
@@ -43,6 +52,13 @@ public class BooleanOperatorsTest extends OperatorTestBase {
         register("if", BooleanOperators.IF);
         assertEval("2", "1 2 3 if");
         assertEval("1 1", "0 2 {1.} if");
+    }
+
+    @Test
+    public void equals() throws ScriptExecutionException, InterruptedException {
+        register("=", ComparisonOperators.EQUALS);
+        assertEval("1", "3 3=");
+        assertEval("0", "'3'3=");
     }
 
 }

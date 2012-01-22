@@ -127,9 +127,7 @@ public enum ArrayOperators implements Invocable {
             try {
                 SharedArray result = context.acquireArray();
                 for (int i = (int) times - 1; i >= 0; i--) {
-                    if (Thread.interrupted()) {
-                        throw new InterruptedException();
-                    }
+                    context.interruptionPoint();
                     result.addAll(first);
                 }
                 context.pushArray(result);
@@ -201,7 +199,7 @@ public enum ArrayOperators implements Invocable {
                     }
                 }
                 context.push(accumulator);
-                if (shouldCloseAccumulator && accumulator != null) {
+                if (shouldCloseAccumulator) {
                     accumulator.release();
                 }
             } finally {

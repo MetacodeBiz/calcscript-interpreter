@@ -64,7 +64,7 @@ public final class Builtins {
             put(",_number", ArrayOperators.CREATE_ARRAY);
 
             put("~", new SingleDispatcher("~"));
-            put("~_number", ArithmeticOperators.BITWISE_NEGATION);
+            put("~_number", BitOperators.NOT);
             put("~_array", ArrayOperators.EXTRACT);
             put("~_block", BlockOperators.EXECUTE);
             put("~_string", StringOperators.EVAL);

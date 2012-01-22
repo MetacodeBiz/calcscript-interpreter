@@ -18,6 +18,7 @@ public enum BooleanOperators implements Invocable {
             try {
                 second.invoke(context);
                 if (!context.peek().toBoolean()) {
+                    context.pop().release();
                     first.invoke(context);
                 }
             } finally {

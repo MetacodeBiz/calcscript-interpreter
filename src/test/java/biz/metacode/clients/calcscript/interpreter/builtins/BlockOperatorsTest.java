@@ -7,6 +7,14 @@ import org.junit.Test;
 public class BlockOperatorsTest extends OperatorTestBase {
 
     @Test
+    public void concatenate() throws ScriptExecutionException, InterruptedException {
+        register("+", new CoercingDispatcher("+"));
+        register("+_block_block", BlockOperators.CONCATENATE);
+        // FIXME: Space should be preserved in output
+        assertEval("{asdf1234}", "'asdf'{1234}+");
+    }
+
+    @Test
     public void unfold() throws ScriptExecutionException, InterruptedException {
         register("<", ComparisonOperators.LESS_THAN);
         register(".", StackOperators.DUPLICATE);
@@ -36,6 +44,7 @@ public class BlockOperatorsTest extends OperatorTestBase {
         register("?", new OrderedDispatcher("?"));
         register("?_block_array", BlockOperators.FIND);
         assertEval("5", "[1 2 3 4 5 6] {.* 20>} ?");
+        assertEval("", "[] {.* 20>} ?");
     }
 
     @Test
@@ -44,5 +53,11 @@ public class BlockOperatorsTest extends OperatorTestBase {
         register("~", new SingleDispatcher("~"));
         register("~_block", BlockOperators.EXECUTE);
         assertEval("3", "{1 2+}~");
+    }
+
+    @Test
+    public void getNth() throws ScriptExecutionException, InterruptedException {
+        register("$", StackOperators.GET_NTH);
+        assertEval("1 2 3 4 5 4", "1 2 3 4 5  1$");
     }
 }

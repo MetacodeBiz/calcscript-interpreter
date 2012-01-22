@@ -54,9 +54,6 @@ public enum StringOperators implements Invocable {
 
             StringBuilder sb = new StringBuilder();
             for (int i = (int) times - 1; i >= 0; i--) {
-                if (Thread.interrupted()) {
-                    throw new InterruptedException();
-                }
                 sb.append(first);
             }
             context.pushString(sb.toString());

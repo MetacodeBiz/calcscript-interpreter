@@ -25,5 +25,10 @@ public enum BitOperators implements Invocable {
             long second = (long) context.popDouble();
             context.pushDouble(first ^ second);
         }
+    },
+    NOT {
+        public void invoke(ExecutionContext context) {
+            context.pushDouble(~(long) (context.popDouble()));
+        }
     }
 }

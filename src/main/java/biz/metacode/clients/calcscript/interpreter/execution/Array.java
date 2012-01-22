@@ -78,11 +78,14 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
 
     public boolean remove(Object o) {
         checkModification();
-        boolean removed = this.entries.remove(o);
-        if (removed && o instanceof Value) {
-            ((Value) o).release();
+        int index = this.indexOf(o);
+        if (index >= 0) {
+            Value originalValue = this.get(index);
+            this.entries.remove(o);
+            originalValue.release();
+            return true;
         }
-        return removed;
+        return false;
     }
 
     public boolean containsAll(Collection<?> c) {
@@ -102,16 +105,17 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
     public boolean removeAll(Collection<?> c) {
         checkModification();
         for (Object value : c) {
-            if (this.contains(c) && value instanceof Value) {
-                ((Value) value).release();
+            // remove all occurences of object
+            while (remove(value)) {
             }
+            ;
         }
-        return this.entries.removeAll(c);
+        return false;
     }
 
     public boolean retainAll(Collection<?> c) {
         throw new UnsupportedOperationException("Not supported yet.");
-        //return this.entries.retainAll(c);
+        // return this.entries.retainAll(c);
     }
 
     public boolean add(Value e) {

@@ -1,5 +1,5 @@
 
-package biz.metacode.calcscript.interpreter;
+package biz.metacode.calcscript.interpreter.source;
 
 /**
  * Represents an error during parsing.

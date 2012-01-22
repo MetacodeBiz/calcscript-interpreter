@@ -102,7 +102,7 @@ public class Array extends RefCountedValue implements SharedArray, PooledObject 
     public boolean removeAll(Collection<?> c) {
         checkModification();
         for (Object value : c) {
-            if (value instanceof Value) {
+            if (this.contains(c) && value instanceof Value) {
                 ((Value) value).release();
             }
         }

@@ -42,11 +42,15 @@ public abstract class OperatorTestBase {
         }
     }
 
-    protected void assertEval(String result, String code) throws ScriptExecutionException, InterruptedException {
+    protected void assertEval(String result, String code) throws ScriptExecutionException,
+            InterruptedException {
         engine.getTestHelper().resetAllocationBalance();
         Assert.assertEquals(result, eval(code));
-        Assert.assertEquals(0, engine.getTestHelper().getNumericAllocationBalance());
-        Assert.assertEquals(0, engine.getTestHelper().getArrayAllocationBalance());
-        Assert.assertEquals(0, engine.getTestHelper().getTextAllocationBalance());
+        Assert.assertEquals("Numeric balance should be 0", 0, engine.getTestHelper()
+                .getNumericAllocationBalance());
+        Assert.assertEquals("Array balance should be 0", 0, engine.getTestHelper()
+                .getArrayAllocationBalance());
+        Assert.assertEquals("String balance should be 0", 0, engine.getTestHelper()
+                .getTextAllocationBalance());
     }
 }

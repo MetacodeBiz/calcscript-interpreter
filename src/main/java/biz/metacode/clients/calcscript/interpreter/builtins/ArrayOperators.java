@@ -246,13 +246,16 @@ public enum ArrayOperators implements Invocable {
             int groupSize = (int) context.popDouble();
             try {
                 SharedArray result = context.acquireArray();
-                SharedArray groupResult = context.acquireArray();
+                SharedArray groupResult = null;
                 for (int i = 0, l = array.size(); i < l; i++) {
                     for (int j = 0; j < groupSize && i + j < l; j++) {
+                        if (groupResult == null) {
+                            groupResult = context.acquireArray();
+                        }
                         groupResult.add(array.get(i + j));
                     }
                     result.add(context.convertToValue(groupResult));
-                    groupResult = context.acquireArray();
+                    groupResult = null;
                     i += groupSize - 1;
                 }
                 context.pushArray(result);

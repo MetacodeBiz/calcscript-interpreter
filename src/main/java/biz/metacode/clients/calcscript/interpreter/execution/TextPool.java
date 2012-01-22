@@ -3,17 +3,13 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import java.util.LinkedList;
 
-public class TextPool implements Pool<Text> {
+class TextPool implements Pool<Text> {
 
     private String trait;
 
     private int allocationBalance;
 
     private LinkedList<Text> pool = new LinkedList<Text>();
-
-    TextPool() {
-
-    }
 
     public Text create(String string) {
         allocationBalance++;

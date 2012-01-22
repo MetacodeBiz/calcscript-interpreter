@@ -3,7 +3,7 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import biz.metacode.clients.calcscript.interpreter.Value;
 
-public abstract class RefCountedValue extends Value {
+abstract class RefCountedValue extends Value {
 
     transient String trait;
 

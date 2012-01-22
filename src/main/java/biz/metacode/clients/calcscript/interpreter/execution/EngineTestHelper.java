@@ -1,7 +1,7 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-public class EngineTestHelper {
+class EngineTestHelper {
 
     private final Context context;
 

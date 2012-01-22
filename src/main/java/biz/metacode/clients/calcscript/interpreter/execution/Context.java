@@ -1,22 +1,18 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-import biz.metacode.clients.calcscript.interpreter.Block;
 import biz.metacode.clients.calcscript.interpreter.ExecutionContext;
-import biz.metacode.clients.calcscript.interpreter.Expression;
 import biz.metacode.clients.calcscript.interpreter.Invocable;
+import biz.metacode.clients.calcscript.interpreter.Program;
 import biz.metacode.clients.calcscript.interpreter.Value;
 import biz.metacode.clients.calcscript.interpreter.Value.Pair;
-import biz.metacode.clients.calcscript.interpreter.Variable;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Context implements ExecutionContext, PoolProvider {
+class Context implements ExecutionContext, PoolProvider {
 
     private final NumericPool valuePool = new NumericPool();
 
@@ -210,9 +206,7 @@ public class Context implements ExecutionContext, PoolProvider {
 
             return textPool.create(sb.toString());
         } else if (value instanceof Text) {
-            List<Expression> variables = new ArrayList<Expression>(1);
-            variables.add(new Variable(((Text) value).get()));
-            return new Block(variables);
+            return Program.createInvocable(value.toString());
         }
         throw new IllegalArgumentException("Unknown type: " + value.getTypeName());
     }

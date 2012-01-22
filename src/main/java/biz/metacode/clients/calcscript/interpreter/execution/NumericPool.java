@@ -3,7 +3,7 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import java.util.LinkedList;
 
-public class NumericPool implements Pool<Numeric> {
+class NumericPool implements Pool<Numeric> {
 
     private String trait;
 

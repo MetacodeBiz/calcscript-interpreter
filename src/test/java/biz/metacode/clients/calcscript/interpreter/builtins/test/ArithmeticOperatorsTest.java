@@ -1,10 +1,13 @@
-package biz.metacode.clients.calcscript.interpreter.builtins;
+package biz.metacode.clients.calcscript.interpreter.builtins.test;
 
+import biz.metacode.clients.calcscript.interpreter.builtins.ArithmeticOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.MathOperators;
+import biz.metacode.clients.calcscript.interpreter.execution.EngineTestBase;
 import biz.metacode.clients.calcscript.interpreter.execution.ScriptExecutionException;
 
 import org.junit.Test;
 
-public class ArithmeticOperatorsTest extends OperatorTestBase {
+public class ArithmeticOperatorsTest extends EngineTestBase {
 
     @Test
     public void unfold() throws ScriptExecutionException, InterruptedException {

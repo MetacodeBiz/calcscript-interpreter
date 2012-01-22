@@ -6,7 +6,7 @@ import biz.metacode.clients.calcscript.interpreter.Value;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-public class Numeric extends RefCountedValue implements PooledObject {
+class Numeric extends RefCountedValue implements PooledObject {
 
     private static final long serialVersionUID = -7340834444775795549L;
 

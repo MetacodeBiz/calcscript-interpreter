@@ -10,7 +10,7 @@ import java.util.List;
  * block is encountered during execution it is pushed onto the stack and it is
  * not executed.
  */
-public class Block extends Value implements Expression, Serializable {
+class Block extends Value implements Expression, Serializable {
 
     private static final long serialVersionUID = -2750855771404873550L;
 

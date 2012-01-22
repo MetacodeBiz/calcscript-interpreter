@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class Memory implements Serializable, Iterable<Map.Entry<String, Invocable>> {
+class Memory implements Serializable, Iterable<Map.Entry<String, Invocable>> {
 
     private static final long serialVersionUID = 2268129176519901123L;
 

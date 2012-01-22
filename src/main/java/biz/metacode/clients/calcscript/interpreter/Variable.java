@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * Named variable or constant.
  */
-public class Variable implements Expression, Serializable {
+class Variable implements Expression, Serializable {
 
     private static final long serialVersionUID = 4937518097465718226L;
 

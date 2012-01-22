@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class Array extends RefCountedValue implements SharedArray, PooledObject {
+class Array extends RefCountedValue implements SharedArray, PooledObject {
 
     private static final long serialVersionUID = -7480425864645673589L;
 

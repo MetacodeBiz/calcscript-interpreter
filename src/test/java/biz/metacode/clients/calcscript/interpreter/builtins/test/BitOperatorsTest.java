@@ -1,11 +1,14 @@
 
-package biz.metacode.clients.calcscript.interpreter.builtins;
+package biz.metacode.clients.calcscript.interpreter.builtins.test;
 
+import biz.metacode.clients.calcscript.interpreter.builtins.BitOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.OrderedDispatcher;
+import biz.metacode.clients.calcscript.interpreter.execution.EngineTestBase;
 import biz.metacode.clients.calcscript.interpreter.execution.ScriptExecutionException;
 
 import org.junit.Test;
 
-public class BitOperatorsTest extends OperatorTestBase {
+public class BitOperatorsTest extends EngineTestBase {
 
     @Test
     public void bitwiseOr() throws ScriptExecutionException, InterruptedException {

@@ -3,7 +3,7 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import biz.metacode.clients.calcscript.interpreter.Value;
 
-public class Stack {
+class Stack {
 
     private final java.util.Stack<Value> data = new java.util.Stack<Value>();
 

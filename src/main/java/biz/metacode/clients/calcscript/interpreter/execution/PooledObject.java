@@ -1,7 +1,7 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-public interface PooledObject {
+interface PooledObject {
 
     void attachToPool(PoolProvider poolProvider);
 

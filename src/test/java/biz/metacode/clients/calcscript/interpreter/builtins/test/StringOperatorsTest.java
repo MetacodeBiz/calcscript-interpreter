@@ -1,10 +1,15 @@
-package biz.metacode.clients.calcscript.interpreter.builtins;
+package biz.metacode.clients.calcscript.interpreter.builtins.test;
 
+import biz.metacode.clients.calcscript.interpreter.builtins.ArithmeticOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.OrderedDispatcher;
+import biz.metacode.clients.calcscript.interpreter.builtins.SingleDispatcher;
+import biz.metacode.clients.calcscript.interpreter.builtins.StringOperators;
+import biz.metacode.clients.calcscript.interpreter.execution.EngineTestBase;
 import biz.metacode.clients.calcscript.interpreter.execution.ScriptExecutionException;
 
 import org.junit.Test;
 
-public class StringOperatorsTest extends OperatorTestBase {
+public class StringOperatorsTest extends EngineTestBase {
 
     @Test
     public void splitAroundMatchesNonEmpty() throws ScriptExecutionException, InterruptedException {

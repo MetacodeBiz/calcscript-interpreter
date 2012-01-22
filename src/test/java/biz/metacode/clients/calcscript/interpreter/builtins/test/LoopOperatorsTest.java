@@ -1,10 +1,15 @@
-package biz.metacode.clients.calcscript.interpreter.builtins;
+package biz.metacode.clients.calcscript.interpreter.builtins.test;
 
+import biz.metacode.clients.calcscript.interpreter.builtins.ArithmeticOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.LoopOperators;
+import biz.metacode.clients.calcscript.interpreter.builtins.OrderedDispatcher;
+import biz.metacode.clients.calcscript.interpreter.builtins.StackOperators;
+import biz.metacode.clients.calcscript.interpreter.execution.EngineTestBase;
 import biz.metacode.clients.calcscript.interpreter.execution.ScriptExecutionException;
 
 import org.junit.Test;
 
-public class LoopOperatorsTest extends OperatorTestBase {
+public class LoopOperatorsTest extends EngineTestBase {
 
     @Test
     public void doLoop() throws ScriptExecutionException, InterruptedException {

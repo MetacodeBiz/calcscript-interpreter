@@ -35,4 +35,19 @@ public final class Program implements Invocable {
         return variableNames;
     }
 
+    public static Value concatenate(Value first, Value second) {
+        if (first instanceof Block && second instanceof Block) {
+            return ((Block) first).concatenate((Block) second);
+        }
+        throw new IllegalArgumentException("Cannot concatenate those invocables.");
+    }
+
+    public static Value createInvocable(String... variableNames) {
+        List<Expression> variables = new ArrayList<Expression>(variableNames.length);
+        for (String variableName : variableNames) {
+            variables.add(new Variable(variableName));
+        }
+        return new Block(variables);
+    }
+
 }

@@ -3,7 +3,7 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import biz.metacode.clients.calcscript.interpreter.Value;
 
-public class Text extends RefCountedValue implements PooledObject {
+class Text extends RefCountedValue implements PooledObject {
 
     private static final long serialVersionUID = 1168274352878421240L;
 

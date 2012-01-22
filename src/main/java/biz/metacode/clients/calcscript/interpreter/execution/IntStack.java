@@ -1,7 +1,7 @@
 
 package biz.metacode.clients.calcscript.interpreter.execution;
 
-public class IntStack {
+class IntStack {
 
     private final int[] data = new int[10];
 

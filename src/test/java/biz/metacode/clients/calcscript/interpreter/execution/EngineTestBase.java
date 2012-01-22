@@ -1,5 +1,5 @@
 
-package biz.metacode.clients.calcscript.interpreter.builtins;
+package biz.metacode.clients.calcscript.interpreter.execution;
 
 import biz.metacode.clients.calcscript.interpreter.Invocable;
 import biz.metacode.clients.calcscript.interpreter.SharedArray;
@@ -12,7 +12,7 @@ import org.junit.rules.TestName;
 
 import junit.framework.Assert;
 
-public abstract class OperatorTestBase {
+public abstract class EngineTestBase {
 
     private static Engine engine = new Engine();
 

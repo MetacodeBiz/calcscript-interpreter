@@ -3,7 +3,7 @@ package biz.metacode.clients.calcscript.interpreter.execution;
 
 import java.util.LinkedList;
 
-public class ArrayPool implements Pool<Array> {
+class ArrayPool implements Pool<Array> {
 
     private String trait;
 

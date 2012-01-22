@@ -120,7 +120,7 @@ public class Engine {
     }
 
     private EngineTestHelper testHelper;
-    public EngineTestHelper getTestHelper() {
+    EngineTestHelper getTestHelper() {
         if (testHelper == null) {
             testHelper = new EngineTestHelper(context);
         }

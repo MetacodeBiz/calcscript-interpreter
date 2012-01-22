@@ -16,21 +16,18 @@ public class SingleDispatcher implements Invocable {
     }
 
     public final void invoke(ExecutionContext context) throws InterruptedException {
-
         Value first = context.pop();
-        try {
-            String methodName = prefix + "_" + first.getTypeName();
+        String methodName = prefix + "_" + first.getTypeName();
 
-            context.push(first);
+        context.push(first);
 
-            Invocable targetMethod = context.read(methodName);
-            if (targetMethod != null) {
-                targetMethod.invoke(context);
-            } else {
-                throw new ClassCastException("ERR!!");
-            }
-        } finally {
-            first.release();
+        first.release();
+
+        Invocable targetMethod = context.read(methodName);
+        if (targetMethod != null) {
+            targetMethod.invoke(context);
+        } else {
+            throw new ClassCastException("ERR!!");
         }
     }
 

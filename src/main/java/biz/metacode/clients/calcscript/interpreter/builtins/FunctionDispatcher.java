@@ -20,23 +20,21 @@ public abstract class FunctionDispatcher implements Invocable {
 
         Value first = context.pop();
         Value second = context.pop();
-        try {
-            Pair ordered = this.transform(context, first, second);
+        Pair ordered = this.transform(context, first, second);
 
-            String methodName = prefix + "_" + ordered.getTypeName();
+        String methodName = prefix + "_" + ordered.getTypeName();
 
-            context.push(ordered.second);
-            context.push(ordered.first);
+        context.push(ordered.second);
+        context.push(ordered.first);
 
-            Invocable targetMethod = context.read(methodName);
-            if (targetMethod != null) {
-                targetMethod.invoke(context);
-            } else {
-                throw new ClassCastException("ERR!!");
-            }
-        } finally {
-            second.release();
-            first.release();
+        second.release();
+        first.release();
+
+        Invocable targetMethod = context.read(methodName);
+        if (targetMethod != null) {
+            targetMethod.invoke(context);
+        } else {
+            throw new ClassCastException("ERR!!");
         }
     }
 

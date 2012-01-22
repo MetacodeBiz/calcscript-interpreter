@@ -110,6 +110,8 @@ public class Engine {
             throw new RestoreException(e);
         } catch (IOException e) {
             throw new RestoreException(e);
+        } catch (IllegalArgumentException e) {
+            throw new RestoreException(e);
         }
     }
 

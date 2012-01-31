@@ -4,6 +4,7 @@ package biz.metacode.calcscript.interpreter.builtins;
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.Value;
+import biz.metacode.calcscript.interpreter.ValueMissingException;
 
 public enum StackOperators implements Invocable {
     MARK_STACK_SIZE {
@@ -38,20 +39,25 @@ public enum StackOperators implements Invocable {
     },
     ROT3 {
         public void invoke(ExecutionContext context) {
-            Value first = context.pop();
-            Value second = context.pop();
-            Value third = context.pop();
-            context.push(second);
-            context.push(first);
-            context.push(third);
-            first.release();
-            second.release();
-            third.release();
+            try {
+                Value first = context.pop();
+                Value second = context.pop();
+                Value third = context.pop();
+                context.push(second);
+                context.push(first);
+                context.push(third);
+                first.release();
+                second.release();
+                third.release();
+            } catch (ValueMissingException e) {
+                e.setExample("1 2 3<name>");
+                throw e;
+            }
         }
     },
     GET_NTH {
         public void invoke(ExecutionContext context) {
-            Value value = context.peekNth((int) context.popDouble());
+            Value value = context.peekAt((int) context.popDouble());
             context.push(value);
         }
     }

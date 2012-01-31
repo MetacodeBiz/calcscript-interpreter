@@ -19,7 +19,7 @@ public interface ExecutionContext {
 
     Value pop();
 
-    Value peekNth(int n);
+    Value peekAt(int n);
 
     Value peek();
 

@@ -84,10 +84,6 @@ class Context implements ExecutionContext, PoolProvider {
         }
     }
 
-    public Value peekNth(int n) {
-        return stack.peekAt(n);
-    }
-
     public double popDouble() {
         Numeric result = (Numeric) pop();
         try {
@@ -116,15 +112,31 @@ class Context implements ExecutionContext, PoolProvider {
     }
 
     public Value peek() {
-        return stack.peek();
+        try {
+            return stack.peek();
+        } catch (EmptyStackException e) {
+            throw new ValueMissingException(e);
+        }
     }
 
     public Value popAt(int index) {
-        return stack.popAt(index);
+        try {
+            return stack.popAt(index);
+        } catch (EmptyStackException e) {
+            throw new ValueMissingException(e);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new ValueMissingException(e);
+        }
     }
 
     public Value peekAt(int index) {
-        return stack.peekAt(index);
+        try {
+            return stack.peekAt(index);
+        } catch (EmptyStackException e) {
+            throw new ValueMissingException(e);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new ValueMissingException(e);
+        }
     }
 
     public void markPosition() {

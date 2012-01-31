@@ -7,6 +7,8 @@ public class ScriptExecutionException extends RuntimeException {
 
     private String operatorName;
 
+    private String example;
+
     public ScriptExecutionException(String message, Throwable cause) {
         super(message, cause);
     }
@@ -21,5 +23,13 @@ public class ScriptExecutionException extends RuntimeException {
 
     public void setOperatorName(String operatorName) {
         this.operatorName = operatorName;
+    }
+
+    public String getExample() {
+        return example;
+    }
+
+    public void setExample(String example) {
+        this.example = example;
     }
 }

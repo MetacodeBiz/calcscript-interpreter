@@ -40,7 +40,14 @@ class Variable implements Expression, Serializable {
             try {
                 value.invoke(context);
             } catch (ScriptExecutionException e) {
-                e.setOperatorName(this.name);
+                if (e.getOperatorName() == null) {
+                    e.setOperatorName(this.name);
+                }
+                if (e.getExample() == null) {
+                    e.setExample("3 1" + this.name);
+                } else {
+                    e.setExample(e.getExample().replace("<name>", this.name));
+                }
                 throw e;
             }
         } else {

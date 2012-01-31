@@ -57,7 +57,7 @@ class Parser implements Iterator<Expression>, Iterable<Expression> {
         while (!"}".equals(this.current)) {
             Expression member = this.parseTopLevel();
             if (member == null) {
-                throw new SyntaxException("} missing.");
+                throw new UnclosedBlockException();
             }
             members.add(member);
         }
@@ -67,6 +67,12 @@ class Parser implements Iterator<Expression>, Iterable<Expression> {
 
     private Expression parseAssignment() {
         this.nextConstruct();
+        if (current == null) {
+            throw new VariableNameExpectedException();
+        }
+        if ("}".equals(current) || ":".equals(current) || "#".equals(current)) {
+            throw new VariableNameExpectedException();
+        }
         Assignment assignment = new Assignment(current);
         this.nextConstruct();
         return assignment;

@@ -2,6 +2,7 @@
 package biz.metacode.calcscript.interpreter.source;
 
 import biz.metacode.calcscript.interpreter.ExecutionContext;
+import biz.metacode.calcscript.interpreter.ValueMissingException;
 
 import java.io.Serializable;
 
@@ -24,7 +25,13 @@ class Assignment implements Expression, Serializable {
     }
 
     public void evaluate(ExecutionContext context) {
-        context.write(targetVariableName, context.peek());
+        try {
+            context.write(targetVariableName, context.peek());
+        } catch (ValueMissingException e) {
+            e.setOperatorName(":");
+            e.setExample("1:a");
+            throw e;
+        }
     }
 
 }

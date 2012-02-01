@@ -2,9 +2,11 @@
 package biz.metacode.calcscript.interpreter.execution;
 
 import biz.metacode.calcscript.interpreter.ExecutionContext;
+import biz.metacode.calcscript.interpreter.InvalidTypeException;
 import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.OverloadMissingException;
 import biz.metacode.calcscript.interpreter.Value;
+import biz.metacode.calcscript.interpreter.Value.Type;
 import biz.metacode.calcscript.interpreter.ValueMissingException;
 import biz.metacode.calcscript.interpreter.Value.Pair;
 import biz.metacode.calcscript.interpreter.source.Program;
@@ -85,18 +87,26 @@ class Context implements ExecutionContext, PoolProvider {
     }
 
     public double popDouble() {
-        Numeric result = (Numeric) pop();
+        Value result = pop();
         try {
-            return result.get();
+            if (result instanceof Numeric) {
+                return ((Numeric) result).get();
+            } else {
+                throw new InvalidTypeException(Type.NUMBER, result.getType());
+            }
         } finally {
             result.release();
         }
     }
 
     public String popString() {
-        Text result = (Text) pop();
+        Value result = pop();
         try {
-            return result.get();
+            if (result instanceof Text) {
+                return ((Text) result).get();
+            } else {
+                throw new InvalidTypeException(Type.STRING, result.getType());
+            }
         } finally {
             result.release();
         }

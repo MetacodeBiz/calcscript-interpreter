@@ -59,6 +59,16 @@ public enum ArithmeticOperators implements Invocable {
             context.pushDouble(context.popDouble() + 1);
         }
     },
+    SINUS {
+        public void invoke(ExecutionContext context) {
+            context.pushDouble(Math.sin(context.popDouble()));
+        }
+    },
+    COSINUS {
+        public void invoke(ExecutionContext context) {
+            context.pushDouble(Math.cos(context.popDouble()));
+        }
+    },
     RANDOM {
         public void invoke(ExecutionContext context) {
             context.pushDouble(new Random().nextInt((int) context.popDouble()));

@@ -120,6 +120,9 @@ public final class Builtins {
             put("]", StackOperators.SLICE_STACK);
 
             put("sum", MathOperators.SUM);
+            put("rand", ArithmeticOperators.RANDOM);
+            put("sin", ArithmeticOperators.SINUS);
+            put("cos", ArithmeticOperators.COSINUS);
             put("do", LoopOperators.DO);
             put("abs", MathOperators.ABSOLUTE);
 

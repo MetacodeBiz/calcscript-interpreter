@@ -46,14 +46,15 @@ class Variable implements Expression, Serializable {
                 }
                 if (e.getExample() == null) {
                     if (value instanceof SelfDescribing) {
-                        e.setExample(((SelfDescribing) value).getExampleUsage().replace("<name>",
-                                this.name));
-                    } else {
-                        e.setExample("3 1" + this.name);
+                        e.setExample(((SelfDescribing) value).getExampleUsage());
                     }
                 } else {
-                    e.setExample(e.getExample().replace("<name>", this.name));
+                    e.setExample(e.getExample());
                 }
+                if (e.getExample() == null) {
+                    e.setExample("3 1<name>");
+                }
+                e.setExample(e.getExample().replace("<name>", this.name));
                 throw e;
             }
         } else {

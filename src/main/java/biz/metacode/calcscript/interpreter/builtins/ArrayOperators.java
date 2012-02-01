@@ -3,6 +3,7 @@ package biz.metacode.calcscript.interpreter.builtins;
 
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.Invocable;
+import biz.metacode.calcscript.interpreter.SelfDescribing;
 import biz.metacode.calcscript.interpreter.SharedArray;
 import biz.metacode.calcscript.interpreter.Value;
 
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public enum ArrayOperators implements Invocable {
+public enum ArrayOperators implements Invocable, SelfDescribing {
     MAP {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value executable = context.pop();
@@ -31,12 +32,20 @@ public enum ArrayOperators implements Invocable {
             }
             context.pushArray(context.extractMarkedArray());
         }
+
+        public String getExampleUsage() {
+            return "[1 2 3]{3*}<name>";
+        }
     },
     GET_LENGTH {
         public void invoke(ExecutionContext context) {
             SharedArray array = context.pop().asArray();
             context.pushDouble(array.size());
             array.release();
+        }
+
+        public String getExampleUsage() {
+            return "[1 2 3]<name>";
         }
     },
     EXTRACT {
@@ -49,6 +58,10 @@ public enum ArrayOperators implements Invocable {
             } finally {
                 array.release();
             }
+        }
+
+        public String getExampleUsage() {
+            return "[1 2 3]<name>";
         }
     },
     SORT {
@@ -63,6 +76,10 @@ public enum ArrayOperators implements Invocable {
             } finally {
                 array.release();
             }
+        }
+
+        public String getExampleUsage() {
+            return "[3 1 4 2]<name>";
         }
     },
     SORT_BY_MAPPING {
@@ -90,6 +107,10 @@ public enum ArrayOperators implements Invocable {
                 array.release();
             }
         }
+
+        public String getExampleUsage() {
+            return "[3 1 4 2]{-1*}<name>";
+        }
     },
     CONCATENATE {
         public void invoke(final ExecutionContext context) throws InterruptedException {
@@ -104,6 +125,10 @@ public enum ArrayOperators implements Invocable {
                 second.release();
                 first.release();
             }
+        }
+
+        public String getExampleUsage() {
+            return "[1 2][3 4]<name>";
         }
     },
     SUBSTRACT {
@@ -120,6 +145,10 @@ public enum ArrayOperators implements Invocable {
                 first.release();
             }
         }
+
+        public String getExampleUsage() {
+            return "[1 2][3 1]<name>";
+        }
     },
     REPEAT {
         public void invoke(final ExecutionContext context) throws InterruptedException {
@@ -135,6 +164,10 @@ public enum ArrayOperators implements Invocable {
             } finally {
                 first.release();
             }
+        }
+
+        public String getExampleUsage() {
+            return "[1 2 3]2<name>";
         }
     },
     JOIN_BY_SEPARATOR {
@@ -155,6 +188,10 @@ public enum ArrayOperators implements Invocable {
                 first.release();
             }
         }
+
+        public String getExampleUsage() {
+            return "[1 2 3]','<name>";
+        }
     },
     JOIN_ARRAYS {
         public void invoke(final ExecutionContext context) throws InterruptedException {
@@ -174,6 +211,10 @@ public enum ArrayOperators implements Invocable {
                 second.release();
                 first.release();
             }
+        }
+
+        public String getExampleUsage() {
+            return "[1 2 3][0]<name>";
         }
     },
     FOLD {
@@ -206,6 +247,10 @@ public enum ArrayOperators implements Invocable {
             } finally {
                 array.release();
             }
+        }
+
+        public String getExampleUsage() {
+            return "[1 2 3]{+}<name>";
         }
     },
     SPLIT_AROUND_MATCHES {
@@ -240,6 +285,10 @@ public enum ArrayOperators implements Invocable {
             }
             return true;
         }
+
+        public String getExampleUsage() {
+            return "[1 0 2 0 2][0]<name>";
+        }
     },
     SPLIT_INTO_GROUPS {
         public void invoke(final ExecutionContext context) throws InterruptedException {
@@ -264,6 +313,10 @@ public enum ArrayOperators implements Invocable {
                 array.release();
             }
         }
+
+        public String getExampleUsage() {
+            return "[1 2 3 4]2<name>";
+        }
     },
     EACH {
         public void invoke(ExecutionContext context) throws InterruptedException {
@@ -277,6 +330,10 @@ public enum ArrayOperators implements Invocable {
             } finally {
                 array.release();
             }
+        }
+
+        public String getExampleUsage() {
+            return "[1 2 3]{2*}<name>";
         }
     },
     EVERY_NTH_ELEMENT {
@@ -302,6 +359,10 @@ public enum ArrayOperators implements Invocable {
             }
         }
 
+        public String getExampleUsage() {
+            return "[1 2 3]2<name>";
+        }
+
     },
     UNION {
         public void invoke(ExecutionContext context) throws InterruptedException {
@@ -316,6 +377,10 @@ public enum ArrayOperators implements Invocable {
                 first.release();
             }
         }
+
+        public String getExampleUsage() {
+            return "[1 2 3][2 4 5]<name>";
+        }
     },
     INTERSECTION {
         public void invoke(ExecutionContext context) throws InterruptedException {
@@ -329,6 +394,10 @@ public enum ArrayOperators implements Invocable {
                 second.release();
                 first.release();
             }
+        }
+
+        public String getExampleUsage() {
+            return "[1 2 3][2 4 5]<name>";
         }
     },
     SYMMETRIC_DIFFERENCE {
@@ -346,6 +415,10 @@ public enum ArrayOperators implements Invocable {
                 first.release();
             }
         }
+
+        public String getExampleUsage() {
+            return "[1 2 3][2 4 5]<name>";
+        }
     },
     INDEX_LESS_THAN {
         public void invoke(ExecutionContext context) throws InterruptedException {
@@ -360,6 +433,10 @@ public enum ArrayOperators implements Invocable {
             } finally {
                 first.release();
             }
+        }
+
+        public String getExampleUsage() {
+            return "[1 2 3]1<name>";
         }
     },
     INDEX_GREATER_THAN {
@@ -376,6 +453,10 @@ public enum ArrayOperators implements Invocable {
                 first.release();
             }
         }
+
+        public String getExampleUsage() {
+            return "[1 2 3]1<name>";
+        }
     },
     GET_ELEMENT {
         public void invoke(ExecutionContext context) throws InterruptedException {
@@ -388,6 +469,10 @@ public enum ArrayOperators implements Invocable {
                 first.release();
             }
         }
+
+        public String getExampleUsage() {
+            return "[1 2 3]1<name>";
+        }
     },
     CREATE_ARRAY {
         public void invoke(ExecutionContext context) throws InterruptedException {
@@ -397,6 +482,10 @@ public enum ArrayOperators implements Invocable {
                 result.add(context.convertToValue(i));
             }
             context.pushArray(result);
+        }
+
+        public String getExampleUsage() {
+            return "5<name>";
         }
     },
     INDEX_OF {
@@ -409,6 +498,10 @@ public enum ArrayOperators implements Invocable {
                 second.release();
                 first.release();
             }
+        }
+
+        public String getExampleUsage() {
+            return "[1 2 3]2<name>";
         }
     },
     UNCONS {
@@ -424,6 +517,10 @@ public enum ArrayOperators implements Invocable {
                 array.release();
             }
         }
+
+        public String getExampleUsage() {
+            return "[1 2 3]<name>";
+        }
     },
     UNCONS_RIGHT {
         public void invoke(ExecutionContext context) throws InterruptedException {
@@ -437,6 +534,10 @@ public enum ArrayOperators implements Invocable {
             } finally {
                 array.release();
             }
+        }
+
+        public String getExampleUsage() {
+            return "[1 2 3]<name>";
         }
     },
     ZIP {
@@ -456,6 +557,10 @@ public enum ArrayOperators implements Invocable {
             } finally {
                 array.release();
             }
+        }
+
+        public String getExampleUsage() {
+            return "[[1 2][3 4][5 6]]<name>";
         }
     };
 

@@ -4,6 +4,7 @@ package biz.metacode.calcscript.interpreter.source;
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.ScriptExecutionException;
+import biz.metacode.calcscript.interpreter.SelfDescribing;
 
 import java.io.Serializable;
 
@@ -44,7 +45,12 @@ class Variable implements Expression, Serializable {
                     e.setOperatorName(this.name);
                 }
                 if (e.getExample() == null) {
-                    e.setExample("3 1" + this.name);
+                    if (value instanceof SelfDescribing) {
+                        e.setExample(((SelfDescribing) value).getExampleUsage().replace("<name>",
+                                this.name));
+                    } else {
+                        e.setExample("3 1" + this.name);
+                    }
                 } else {
                     e.setExample(e.getExample().replace("<name>", this.name));
                 }

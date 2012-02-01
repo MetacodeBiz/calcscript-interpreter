@@ -33,8 +33,11 @@ public class Main {
         try {
             return engine.execute(code);
         } catch (ScriptExecutionException e) {
+            System.err.println(e.getMessage() + " Example: " + e.getExample());
         } catch (InterruptedException e) {
+            System.err.println(e.getMessage());
         } catch (SyntaxException e) {
+            System.err.println(e.getMessage());
         }
         return null;
     }
@@ -57,7 +60,7 @@ public class Main {
         //print(execute("1 2 3]{"));
         //print(execute("1 2 3]{*"));
         //print(execute("1 2 3]{*}"));
-        print(execute("1 2 3]{+}*"));
+        print(execute("1 2 3]{+}*if"));
         // print(engine.execute("'12' 12 ="));
         // ExecutorService service = Executors.newSingleThreadExecutor();
         /*

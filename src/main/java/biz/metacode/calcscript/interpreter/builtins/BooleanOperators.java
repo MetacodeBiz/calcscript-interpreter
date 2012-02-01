@@ -3,9 +3,10 @@ package biz.metacode.calcscript.interpreter.builtins;
 
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.Invocable;
+import biz.metacode.calcscript.interpreter.SelfDescribing;
 import biz.metacode.calcscript.interpreter.Value;
 
-public enum BooleanOperators implements Invocable {
+public enum BooleanOperators implements Invocable, SelfDescribing {
     NOT {
         public void invoke(ExecutionContext context) throws InterruptedException {
             context.pushBoolean(!context.popBoolean());
@@ -87,5 +88,13 @@ public enum BooleanOperators implements Invocable {
             }
         }
 
+        public String getExampleUsage() {
+            return "0 2 {1.}<name>";
+        }
+
+    };
+
+    public String getExampleUsage() {
+        return null;
     }
 }

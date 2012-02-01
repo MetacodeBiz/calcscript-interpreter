@@ -35,7 +35,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
     public abstract Value duplicate();
 
     public double toDouble() {
-        return 0;
+        return toBoolean() ? 1 : 0;
     }
 
     public abstract boolean toBoolean();

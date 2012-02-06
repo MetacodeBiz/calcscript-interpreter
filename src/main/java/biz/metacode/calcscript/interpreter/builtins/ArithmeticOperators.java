@@ -4,8 +4,6 @@ package biz.metacode.calcscript.interpreter.builtins;
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.Invocable;
 
-import java.util.Random;
-
 public enum ArithmeticOperators implements Invocable {
     ADDITION {
         public void invoke(ExecutionContext context) {
@@ -71,7 +69,19 @@ public enum ArithmeticOperators implements Invocable {
     },
     RANDOM {
         public void invoke(ExecutionContext context) {
-            context.pushDouble(new Random().nextInt((int) context.popDouble()));
+            int limit = (int) context.popDouble();
+            double random;
+            if (limit < 1 && limit > -1) {
+                random = Math.random();
+            } else {
+                boolean sign = limit < 0;
+                limit = Math.abs(limit);
+                random = Math.floor(Math.random() * limit);
+                if (sign) {
+                    random *= -1;
+                }
+            }
+            context.pushDouble(random);
         }
     }
 }

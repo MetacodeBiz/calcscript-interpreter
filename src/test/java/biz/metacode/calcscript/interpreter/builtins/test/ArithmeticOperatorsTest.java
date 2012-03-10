@@ -3,8 +3,10 @@ package biz.metacode.calcscript.interpreter.builtins.test;
 import biz.metacode.calcscript.interpreter.ScriptExecutionException;
 import biz.metacode.calcscript.interpreter.builtins.ArithmeticOperators;
 import biz.metacode.calcscript.interpreter.builtins.MathOperators;
+import biz.metacode.calcscript.interpreter.builtins.StackOperators;
 import biz.metacode.calcscript.interpreter.execution.EngineTestBase;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ArithmeticOperatorsTest extends EngineTestBase {
@@ -65,5 +67,23 @@ public class ArithmeticOperatorsTest extends EngineTestBase {
         register("abs", MathOperators.ABSOLUTE);
         assertEval("4", "-4abs");
         assertEval("4", "4abs");
+    }
+
+    @Test
+    public void convertNumber() throws ScriptExecutionException, InterruptedException {
+        register("base", MathOperators.CONVERT_NUMBER_BASE);
+        assertEval("[1 1 0]", "6 2 base");
+        assertEval("[2 2]", "8 3 base");
+        assertEval("[15 15]", "255 16 base");
+    }
+
+    @Test
+    public void convertArray() throws ScriptExecutionException, InterruptedException {
+        register("base", MathOperators.CONVERT_ARRAY_BASE);
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
+        assertEval("6", "2[1 1 0]base");
+        assertEval("8", "3[2 2]base");
+        assertEval("255", "16[15 15]base");
     }
 }

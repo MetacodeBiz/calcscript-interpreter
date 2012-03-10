@@ -136,6 +136,10 @@ public final class Builtins {
             put("if", BooleanOperators.IF);
             put("while", LoopOperators.WHILE);
             put("until", LoopOperators.UNTIL);
+
+            put("base", new OrderedDispatcher("#base"));
+            put("#base_array_number", MathOperators.CONVERT_ARRAY_BASE);
+            put("#base_number_number", MathOperators.CONVERT_NUMBER_BASE);
         }
     }
 

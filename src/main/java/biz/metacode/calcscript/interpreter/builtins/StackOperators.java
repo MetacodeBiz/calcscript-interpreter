@@ -6,27 +6,51 @@ import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.Value;
 import biz.metacode.calcscript.interpreter.ValueMissingException;
 
+/**
+ * Operators that work on the stack.
+ */
 public enum StackOperators implements Invocable {
+    /**
+     * Marks current position of the stack for slicing. Does not take or leave
+     * values on stack.
+     */
     MARK_STACK_SIZE {
         public void invoke(ExecutionContext context) {
             context.markPosition();
         }
     },
+    /**
+     * Slices the stack where it was previously marked or at the bottom if no
+     * marks have been made. Does not take arguments but leaves one array on
+     * stack.
+     */
     SLICE_STACK {
         public void invoke(ExecutionContext context) {
             context.pushArray(context.extractMarkedArray());
         }
     },
+    /**
+     * Duplicates the element on top of the stack. Looks up one argument and
+     * leaves a copy of it one the stack.
+     */
     DUPLICATE {
         public void invoke(ExecutionContext context) {
             context.push(context.peek().duplicate());
         }
     },
+    /**
+     * Discards the top stack value. Takes on argument and leaves nothing on
+     * stack.
+     */
     DROP {
         public void invoke(ExecutionContext context) {
             context.pop().release();
         }
     },
+    /**
+     * Swaps two top-most values on the stack. Takes two arguments and leaves
+     * two values on stack.
+     */
     SWAP {
         public void invoke(ExecutionContext context) {
             Value first = context.pop();
@@ -37,6 +61,10 @@ public enum StackOperators implements Invocable {
             second.release();
         }
     },
+    /**
+     * Rotates three top-most values on the stack. Takes three arguments and
+     * leaves three values on stack.
+     */
     ROT3 {
         public void invoke(ExecutionContext context) {
             try {
@@ -55,6 +83,10 @@ public enum StackOperators implements Invocable {
             }
         }
     },
+    /**
+     * Returns n-th element on the stack. Takes on number (stack index) and
+     * leaves one value on the stack.
+     */
     GET_NTH {
         public void invoke(ExecutionContext context) {
             Value value = context.peekAt((int) context.popDouble());

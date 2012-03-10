@@ -2,7 +2,6 @@
 package biz.metacode.calcscript.interpreter.execution;
 
 import biz.metacode.calcscript.interpreter.Invocable;
-import biz.metacode.calcscript.interpreter.ScriptExecutionException;
 import biz.metacode.calcscript.interpreter.SharedArray;
 import biz.metacode.calcscript.interpreter.Value;
 import biz.metacode.calcscript.interpreter.source.Program;
@@ -19,41 +18,95 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.NotThreadSafe;
+
+/**
+ * Script execution engine. Maintains a persistent memory for successive
+ * executions. The engine is <em>not</em> thread safe.
+ */
+@NotThreadSafe
 public class Engine {
 
     private Context context = new Context();
 
+    /**
+     * Constructs new script engine with empty memory.
+     */
     public Engine() {
         context.setMemory(new Memory());
     }
 
-    public void register(String name, Invocable executable) {
+    /**
+     * Register an {@link Invocable} with given name.
+     *
+     * @param name Name of invocable.
+     * @param executable {@link Invocable} to be registered.
+     */
+    public void register(@Nonnull String name, @Nonnull Invocable executable) {
         this.context.write(name, executable);
     }
 
-    public void register(Map<String, Invocable> executables) {
+    /**
+     * Register many {@link Invocable} objects at once.
+     *
+     * @param executables Map of {@link Invocable}s.
+     */
+    public void register(@Nonnull Map<String, Invocable> executables) {
         for (Map.Entry<String, Invocable> executable : executables.entrySet()) {
             register(executable.getKey(), executable.getValue());
         }
     }
 
-    public Invocable read(String name) {
+    /**
+     * Returns an {@link Invocable} registered with given name. May be
+     * {@code null} if no {@link Invocable} is registered.
+     *
+     * @param name Variable name.
+     * @return {@link Invocable} object or {@code null}.
+     */
+    @Nullable
+    public Invocable read(@Nonnull String name) {
         return this.context.read(name);
     }
 
-    public void remove(String name) {
+    /**
+     * Unregisters given variable.
+     *
+     * @param name Variable name.
+     */
+    public void remove(@Nonnull String name) {
         this.context.remove(name);
     }
 
-    public SharedArray execute(CharSequence source) throws ScriptExecutionException,
-            InterruptedException {
+    /**
+     * Executes a script and returns the result. It is important to use
+     * {@link SharedArray#release()} after interacting with this method's
+     * result.
+     *
+     * @param source Script source.
+     * @return Array of values from the stack.
+     * @throws InterruptedException If script execution was interrupted.
+     */
+    @Nonnull
+    public SharedArray execute(@Nonnull CharSequence source) throws InterruptedException {
         Program program = new Program(source);
         context.clearStack();
         program.invoke(context);
         return context.getData();
     }
 
-    public Callable<SharedArray> executeLater(final CharSequence source) {
+    /**
+     * Creates a {@link Callable} that when called will execute given script. It
+     * is important to use {@link SharedArray#release()} after interacting with
+     * the array.
+     *
+     * @param source Script source.
+     * @return Callable that executes the script.
+     */
+    @Nonnull
+    public Callable<SharedArray> executeLater(@Nonnull final CharSequence source) {
         return new Callable<SharedArray>() {
             public SharedArray call() throws Exception {
                 return Engine.this.execute(source);
@@ -61,11 +114,23 @@ public class Engine {
         };
     }
 
+    /**
+     * Returns a set of registered variable names.
+     *
+     * @return Set of registered variable names.
+     */
+    @Nonnull
     public Set<String> getVariableNames() {
         return context.getRegisteredVariableNames();
     }
 
-    public void saveState(OutputStream stream) throws IOException {
+    /**
+     * Persists memory state to given stream.
+     *
+     * @param stream Stream to persist to.
+     * @throws IOException When an IO operation fails.
+     */
+    public void saveState(@Nonnull OutputStream stream) throws IOException {
         ObjectOutputStream objectOut = new ObjectOutputStream(stream);
         Map<String, Serializable> persistent = new HashMap<String, Serializable>();
         Iterator<Map.Entry<String, Invocable>> iterator = context.getRegisteredVariables();
@@ -78,7 +143,13 @@ public class Engine {
         objectOut.writeObject(persistent);
     }
 
-    public void restoreState(InputStream stream) throws RestoreException {
+    /**
+     * Restores the state of memory from given stream.
+     *
+     * @param stream Stream to read from.
+     * @throws RestoreException Thrown when restoring fails.
+     */
+    public void restoreState(@Nonnull InputStream stream) throws RestoreException {
         try {
             context.setMemory(new Memory());
             ObjectInputStream objectOut = new ObjectInputStream(stream);
@@ -110,6 +181,9 @@ public class Engine {
         }
     }
 
+    /**
+     * Clears the engine memory.
+     */
     public void clearMemory() {
         context.setMemory(new Memory());
     }

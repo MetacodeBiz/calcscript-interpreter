@@ -7,12 +7,21 @@ import biz.metacode.calcscript.interpreter.OverloadMissingException;
 import biz.metacode.calcscript.interpreter.Value;
 import biz.metacode.calcscript.interpreter.Value.Pair;
 
+/**
+ * Allows overriding function names by dispatching call to function based on the
+ * top two values on the stack.
+ */
 public abstract class FunctionDispatcher implements Invocable {
 
     private static final long serialVersionUID = -1053849869084680144L;
 
     private final String prefix;
 
+    /**
+     * Create a dispatcher for given operator prefix.
+     *
+     * @param prefix Operator prefix.
+     */
     protected FunctionDispatcher(String prefix) {
         this.prefix = prefix;
     }
@@ -39,6 +48,14 @@ public abstract class FunctionDispatcher implements Invocable {
         }
     }
 
+    /**
+     * Change or reorder arguments of the call.
+     *
+     * @param context Execution context.
+     * @param first First argument of the call.
+     * @param second Second argument of the call.
+     * @return Actual pair of values that will be used to make the call.
+     */
     protected abstract Pair transform(ExecutionContext context, Value first, Value second);
 
 }

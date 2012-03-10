@@ -10,7 +10,13 @@ import biz.metacode.calcscript.interpreter.source.Program;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
+/**
+ * Operators that work on strings.
+ */
 public enum StringOperators implements Invocable {
+    /**
+     * Joins two strings together. Takes two strings and leaves one on stack.
+     */
     CONCATENATE {
 
         public void invoke(ExecutionContext context) throws InterruptedException {
@@ -25,6 +31,9 @@ public enum StringOperators implements Invocable {
         }
 
     },
+    /**
+     * Converts value to string. Takes one value and leaves one string on stack.
+     */
     TO_STRING {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
@@ -35,6 +44,9 @@ public enum StringOperators implements Invocable {
             }
         }
     },
+    /**
+     * Sorts letters in string. Takes one string and leaves on string on stack.
+     */
     SORT_LETTERS {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
@@ -47,6 +59,10 @@ public enum StringOperators implements Invocable {
             }
         }
     },
+    /**
+     * Repeats string given number of times. Takes a string and a number and
+     * leaves one string on stack.
+     */
     REPEAT {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             String first = context.popString();
@@ -59,6 +75,10 @@ public enum StringOperators implements Invocable {
             context.pushString(sb.toString());
         }
     },
+    /**
+     * Joins a string using another string as a separator. Takes two strings and
+     * leaves one on the stack.
+     */
     JOIN {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             String first = context.popString();
@@ -74,6 +94,10 @@ public enum StringOperators implements Invocable {
             context.pushString(sb.toString());
         }
     },
+    /**
+     * Split string around matches made of another string omitting empty
+     * results. Takes two strings and leaves one array on stack.
+     */
     SPLIT_AROUND_MATCHES_NONEMPTY {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             String delim = context.popString();
@@ -86,6 +110,10 @@ public enum StringOperators implements Invocable {
             context.pushArray(result);
         }
     },
+    /**
+     * Treats a string as a script code and interprets it. Takes one string and
+     * leaves no explicit values on stack.
+     */
     EVAL {
         public void invoke(ExecutionContext context) throws InterruptedException {
             String code = context.popString();

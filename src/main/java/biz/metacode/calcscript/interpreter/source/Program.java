@@ -8,8 +8,17 @@ import biz.metacode.calcscript.interpreter.Value;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 /**
- * Micro-compiler that transforms a {@link String} into executable program.
+ * Converts a script source into executable program. This is a low-level
+ * interpreter that requires {@link ExecutionContext}. See
+ * {@link biz.metacode.calcscript.interpreter.execution.Engine} for a complete
+ * execution engine.
+ * <p>
+ * Because this class implements {@link Invocable} it can be used to store bare
+ * string scripts in engine memory using
+ * {@link biz.metacode.calcscript.interpreter.execution.Engine#register(String, Invocable)}.
  */
 public final class Program implements Invocable {
 
@@ -17,10 +26,21 @@ public final class Program implements Invocable {
 
     private final CharSequence source;
 
-    public Program(CharSequence source) {
+    /**
+     * Creates new program from given script source.
+     *
+     * @param source Script source.
+     */
+    public Program(@Nonnull CharSequence source) {
         this.source = source;
     }
 
+    /**
+     * Parses and executes script.
+     *
+     * @param context Context of execution.
+     * @throws InterruptedException If script execution is interrupted.
+     */
     public void invoke(ExecutionContext context) throws InterruptedException {
         Parser parser = new Parser(source);
         for (Expression visitable : parser) {
@@ -28,6 +48,11 @@ public final class Program implements Invocable {
         }
     }
 
+    /**
+     * Returns a list of variable names that are assigned to in this script.
+     *
+     * @return List of variable names.
+     */
     public List<String> extractTargetVariableNames() {
         List<String> variableNames = new ArrayList<String>();
         Parser parser = new Parser(source);
@@ -39,6 +64,13 @@ public final class Program implements Invocable {
         return variableNames;
     }
 
+    /**
+     * Concatenates two executables into one.
+     *
+     * @param first First executable.
+     * @param second Second executable.
+     * @return Combined executable.
+     */
     public static Value concatenate(Value first, Value second) {
         if (first instanceof Block && second instanceof Block) {
             return ((Block) first).concatenate((Block) second);
@@ -46,6 +78,13 @@ public final class Program implements Invocable {
         throw new IllegalArgumentException("Cannot concatenate those invocables.");
     }
 
+    /**
+     * Creates an executable that will when called will invoke variables given
+     * as parameters.
+     *
+     * @param variableNames Names of variables to be invoked.
+     * @return Executable.
+     */
     public static Value createInvocable(String... variableNames) {
         List<Expression> variables = new ArrayList<Expression>(variableNames.length);
         for (String variableName : variableNames) {

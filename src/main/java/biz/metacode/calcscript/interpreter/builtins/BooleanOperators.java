@@ -6,12 +6,24 @@ import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.SelfDescribing;
 import biz.metacode.calcscript.interpreter.Value;
 
+/**
+ * Operators that treat values as booleans. {@code 0}, {@code []}, {@code ""}
+ * and {@code {@literal are treated as {@code false} and everything else as
+ * {@code true}.
+ */
 public enum BooleanOperators implements Invocable, SelfDescribing {
+    /**
+     * Negates given value. Takes one value and leaves one number on stack.
+     */
     NOT {
         public void invoke(ExecutionContext context) throws InterruptedException {
             context.pushBoolean(!context.popBoolean());
         }
     },
+    /**
+     * Lazy boolean OR - executes one block and if it returns false executes
+     * another block. Takes two blocks and leaves no explicit values.
+     */
     OR {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
@@ -28,6 +40,10 @@ public enum BooleanOperators implements Invocable, SelfDescribing {
             }
         }
     },
+    /**
+     * Lazy boolean AND - executes one block and if it returns true executes
+     * another block. Takes two blocks and leaves no explicit values.
+     */
     AND {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
@@ -44,6 +60,11 @@ public enum BooleanOperators implements Invocable, SelfDescribing {
             }
         }
     },
+    /**
+     * Lazy boolean XOR - executes two blocks and leaves on stack {@code 1}
+     * (truth) if both values are different or {@code 0} (false) if they are
+     * equal. Takes two values and leaves no explicit values.
+     */
     XOR {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
@@ -70,6 +91,10 @@ public enum BooleanOperators implements Invocable, SelfDescribing {
             }
         }
     },
+    /**
+     * Executes a test and if it is true invokes first block or second if the
+     * test is false. Takes three blocks and leaves no explicit values.
+     */
     IF {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value first = context.pop();

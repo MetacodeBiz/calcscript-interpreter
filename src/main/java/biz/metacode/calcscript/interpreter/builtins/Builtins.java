@@ -7,6 +7,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Stores predefined set of operators.
+ */
 public final class Builtins {
     private Builtins() {
     }
@@ -136,6 +139,11 @@ public final class Builtins {
         }
     }
 
+    /**
+     * Return a read-only well-known configuration of operators.
+     *
+     * @return Operators and their standard names.
+     */
     public static Map<String, Invocable> getBuiltins() {
         return builtins;
     }

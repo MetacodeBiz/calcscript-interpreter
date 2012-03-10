@@ -6,6 +6,10 @@ import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.OverloadMissingException;
 import biz.metacode.calcscript.interpreter.Value;
 
+/**
+ * Allows overriding function names by dispatching call to function based on the
+ * type of the top value on the stack.
+ */
 public class SingleDispatcher implements Invocable {
 
     private static final long serialVersionUID = -8695300280295378206L;

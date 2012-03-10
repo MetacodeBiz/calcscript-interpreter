@@ -1,6 +1,8 @@
 
 package biz.metacode.calcscript.interpreter;
 
+import javax.annotation.Nonnull;
+
 /**
  * Base class for objects that can be manipulated during program execution.
  * Values can be placed on stack so that functions can use them as arguments or
@@ -34,25 +36,63 @@ public abstract class Value implements Invocable, Comparable<Value> {
      */
     public abstract Value duplicate();
 
+    /**
+     * Converts this value to number. Note that for strings it will not attempt
+     * to interpret the string as a double.
+     *
+     * @return Numeric representation of this value.
+     */
     public double toDouble() {
         return toBoolean() ? 1 : 0;
     }
 
+    /**
+     * Converts this value to boolean. Only {@code 0}, {@code ""}, {@code []}
+     * and {@literal are {@code false}, everything else is {@code true}.
+     *
+     * @return Boolean representation of this value.
+     */
     public abstract boolean toBoolean();
 
+    /**
+     * Releases this object into its pool.
+     *
+     * @see ExecutionContext#pop()
+     */
     public void release() {
     }
 
+    /**
+     * Return a type of this value.
+     *
+     * @return Value type.
+     */
+    @Nonnull
     public abstract Type getType();
 
+    /**
+     * {@inheritDoc}
+     */
     public int compareTo(Value o) {
         return this.toString().compareTo(o.toString());
     }
 
+    /**
+     * Returns this value as an array or throws {@link InvalidTypeException} if
+     * the value is not an array. Note that this value and the array represent
+     * the same object - if this value needs to be released then invoke only one
+     * release method: {@link SharedArray#release()} or {@link #release()}.
+     *
+     * @return This value as an array.
+     */
+    @Nonnull
     public SharedArray asArray() {
         throw new InvalidTypeException(Type.ARRAY, getType());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Value) {
@@ -62,6 +102,9 @@ public abstract class Value implements Invocable, Comparable<Value> {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return this.toString().hashCode();
@@ -73,15 +116,28 @@ public abstract class Value implements Invocable, Comparable<Value> {
      * @param other Second value
      * @return Ordered pair where first has higher or equal priority than second
      */
-    public Pair order(Value other) {
+    @Nonnull
+    public Pair order(@Nonnull Value other) {
         if (other.getPriority() > this.getPriority()) {
             return new Pair(other, this);
         }
         return new Pair(this, other);
     }
 
+    /**
+     * Value type.
+     */
     public enum Type {
-        NUMBER, ARRAY, STRING, BLOCK, OTHER;
+        /** Numeric type */
+        NUMBER,
+        /** Collection of other values */
+        ARRAY,
+        /** Text - collection of character */
+        STRING,
+        /** A function */
+        BLOCK,
+        /** Unknown type */
+        OTHER;
 
         public String toString() {
             return name().toLowerCase();
@@ -96,11 +152,23 @@ public abstract class Value implements Invocable, Comparable<Value> {
 
         public final Value second;
 
+        /**
+         * Creates a new ordered pair of values.
+         *
+         * @param first First value.
+         * @param second Second value.
+         */
         public Pair(Value first, Value second) {
             this.first = first;
             this.second = second;
         }
 
+        /**
+         * Returns a type name of this pair.
+         *
+         * @return Pair type name.
+         */
+        @Nonnull
         public String getTypeName() {
             return this.first.getType() + "_" + this.second.getType();
         }

@@ -15,7 +15,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Operators that work on arrays.
+ */
 public enum ArrayOperators implements Invocable, SelfDescribing {
+    /**
+     * Executes a block over all elements of the array. Takes two arguments
+     * (block and array) leaves one (array).
+     */
     MAP {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value executable = context.pop();
@@ -37,6 +44,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]{3*}<name>";
         }
     },
+    /**
+     * Returns length of the array. Takes one argument (array), leaves one
+     * argument (number).
+     */
     GET_LENGTH {
         public void invoke(ExecutionContext context) {
             SharedArray array = context.pop().asArray();
@@ -48,6 +59,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]<name>";
         }
     },
+    /**
+     * Extracts elements of an array onto the stack. Takes one argument (array),
+     * leaves {@code array.length} elements on stack.
+     */
     EXTRACT {
         public void invoke(ExecutionContext context) {
             SharedArray array = context.pop().asArray();
@@ -64,6 +79,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]<name>";
         }
     },
+    /**
+     * Sorts elements in an array using {@link Value#compareTo(Value)} method.
+     * Takes one array and leaves one array on stack.
+     */
     SORT {
         public void invoke(ExecutionContext context) throws InterruptedException {
             SharedArray array = context.pop().asArray();
@@ -82,6 +101,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[3 1 4 2]<name>";
         }
     },
+    /**
+     * Sorts elements in an array using block as a comparator. Takes a block and
+     * an array and leaves one array on stack.
+     */
     SORT_BY_MAPPING {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             final Invocable mapping = context.pop();
@@ -112,6 +135,9 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[3 1 4 2]{-1*}<name>";
         }
     },
+    /**
+     * Joins two arrays together. Takes two arrays and leaves one on the stack.
+     */
     CONCATENATE {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             SharedArray first = context.pop().asArray();
@@ -131,6 +157,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2][3 4]<name>";
         }
     },
+    /**
+     * Removes elements from one array that are present in second one. Takes two
+     * arrays and leaves one.
+     */
     SUBSTRACT {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             SharedArray first = context.pop().asArray();
@@ -150,6 +180,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2][3 1]<name>";
         }
     },
+    /**
+     * Repeats array given number of times. Takes an array and a number, leaves
+     * repeated array on stack.
+     */
     REPEAT {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             SharedArray first = context.pop().asArray();
@@ -170,6 +204,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]2<name>";
         }
     },
+    /**
+     * Joins an array using string separator. Takes one array and string
+     * separator, leaves joined string on stack.
+     */
     JOIN_BY_SEPARATOR {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             String separator = context.popString();
@@ -193,6 +231,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]','<name>";
         }
     },
+    /**
+     * Join two arrays together. Takes two arrays and leaves one joined array on
+     * stack.
+     */
     JOIN_ARRAYS {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             SharedArray first = context.pop().asArray();
@@ -217,6 +259,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3][0]<name>";
         }
     },
+    /**
+     * Reduce an array using block to single value. Takes a block and an array
+     * and leaves single value (type depends on the block).
+     */
     FOLD {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             Invocable block = context.pop();
@@ -253,6 +299,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]{+}<name>";
         }
     },
+    /**
+     * Split an array around matches that are determined by the second array.
+     * Takes two arrays as arguments and leaves one nested array on stack.
+     */
     SPLIT_AROUND_MATCHES {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             SharedArray matches = context.pop().asArray();
@@ -290,6 +340,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 0 2 0 2][0]<name>";
         }
     },
+    /**
+     * Splits an array into groups of specified size. Takes an array and group
+     * size (number) as arguments, leaves one nested array on stack.
+     */
     SPLIT_INTO_GROUPS {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             SharedArray array = context.pop().asArray();
@@ -318,6 +372,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3 4]2<name>";
         }
     },
+    /**
+     * Executes block over all elements in an array. Takes block and array,
+     * doesn't leave any explicit values but executing the block may leave some.
+     */
     EACH {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Invocable function = context.pop();
@@ -336,6 +394,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]{2*}<name>";
         }
     },
+    /**
+     * Takes each n-th element from an array. Takes array and step (number) and
+     * leaves an array on stack.
+     */
     EVERY_NTH_ELEMENT {
 
         public void invoke(ExecutionContext context) throws InterruptedException {
@@ -364,6 +426,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
         }
 
     },
+    /**
+     * Set union - treats two arrays as sets and computes a union. Takes two
+     * arrays and leaves one on stack.
+     */
     UNION {
         public void invoke(ExecutionContext context) throws InterruptedException {
             SharedArray first = context.pop().asArray();
@@ -382,6 +448,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3][2 4 5]<name>";
         }
     },
+    /**
+     * Set intersection - treats two arrays as sets and computes an
+     * intersection. Takes two arrays and leaves one on stack.
+     */
     INTERSECTION {
         public void invoke(ExecutionContext context) throws InterruptedException {
             SharedArray first = context.pop().asArray();
@@ -400,6 +470,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3][2 4 5]<name>";
         }
     },
+    /**
+     * Set symmetric difference - treats two arrays as sets and computes a
+     * symmetric difference. Takes two arrays and leaves one on stack.
+     */
     SYMMETRIC_DIFFERENCE {
         public void invoke(ExecutionContext context) throws InterruptedException {
             SharedArray first = context.pop().asArray();
@@ -420,6 +494,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3][2 4 5]<name>";
         }
     },
+    /**
+     * Takes all elements from the array that have index less than given
+     * argument. Takes an array and number and leaves one array on stack.
+     */
     INDEX_LESS_THAN {
         public void invoke(ExecutionContext context) throws InterruptedException {
             SharedArray first = context.pop().asArray();
@@ -439,6 +517,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]1<name>";
         }
     },
+    /**
+     * Takes all elements from the array that have index greater than given
+     * argument. Takes an array and number and leaves one array on stack.
+     */
     INDEX_GREATER_THAN {
         public void invoke(ExecutionContext context) throws InterruptedException {
             SharedArray first = context.pop().asArray();
@@ -458,6 +540,11 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]1<name>";
         }
     },
+    /**
+     * Takes one element that have index equal to given, leaves nothing on stack
+     * if index is invalid. Takes two arguments - an array and a number and
+     * leaves one value or none on stack.
+     */
     GET_ELEMENT {
         public void invoke(ExecutionContext context) throws InterruptedException {
             SharedArray first = context.pop().asArray();
@@ -474,6 +561,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]1<name>";
         }
     },
+    /**
+     * Creates an array from {@code 0} to given value (excluding it). Takes one
+     * number and leaves one array on stack.
+     */
     CREATE_ARRAY {
         public void invoke(ExecutionContext context) throws InterruptedException {
             int upTo = (int) context.popDouble();
@@ -488,6 +579,11 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "5<name>";
         }
     },
+    /**
+     * Returns the index of value in array or {@code -1} if it is not found.
+     * Takes one array and one value as arguments and leaves one number on
+     * stack.
+     */
     INDEX_OF {
         public void invoke(ExecutionContext context) throws InterruptedException {
             SharedArray first = context.pop().asArray();
@@ -504,6 +600,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]2<name>";
         }
     },
+    /**
+     * Extracts first element from the array. Takes one array and leaves a value
+     * and an array on stack.
+     */
     UNCONS {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value array = context.pop();
@@ -522,6 +622,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]<name>";
         }
     },
+    /**
+     * Extracts last element from the array. Takes one array and leaves a value
+     * and an array on stack.
+     */
     UNCONS_RIGHT {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value array = context.pop();
@@ -540,6 +644,10 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             return "[1 2 3]<name>";
         }
     },
+    /**
+     * Transposes array rows with columns. Takes one array as argument and
+     * leaves one array on stack.
+     */
     ZIP {
         public void invoke(ExecutionContext context) throws InterruptedException {
             SharedArray array = context.pop().asArray();

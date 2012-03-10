@@ -7,7 +7,14 @@ import biz.metacode.calcscript.interpreter.SharedArray;
 import biz.metacode.calcscript.interpreter.Value;
 import biz.metacode.calcscript.interpreter.source.Program;
 
+/**
+ * Operators that work on blocks and functions.
+ */
 public enum BlockOperators implements Invocable {
+    /**
+     * Contatenate two blocks into one. Takes two blocks and leaves one on
+     * stack.
+     */
     CONCATENATE {
 
         public void invoke(ExecutionContext context) throws InterruptedException {
@@ -22,6 +29,10 @@ public enum BlockOperators implements Invocable {
         }
 
     },
+    /**
+     * Creates an array by executing blocks. Takes two blocks and leaves one
+     * array on stack.
+     */
     UNFOLD {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             Invocable loop = context.pop();
@@ -43,6 +54,10 @@ public enum BlockOperators implements Invocable {
             context.pushArray(result);
         }
     },
+    /**
+     * Select elements from array that pass a test. Takes a block and an array
+     * and leaves an array on stack.
+     */
     FILTER {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             Value filter = context.pop();
@@ -63,6 +78,10 @@ public enum BlockOperators implements Invocable {
             }
         }
     },
+    /**
+     * Returns a first element that passes the test. Takes a block and an array
+     * and leaves that element on stack or nothing if no elements pass the test.
+     */
     FIND {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             Value filter = context.pop();
@@ -82,6 +101,10 @@ public enum BlockOperators implements Invocable {
             }
         }
     },
+    /**
+     * Executes given block. Takes one block and does not leave any explicit
+     * values.
+     */
     EXECUTE {
         public void invoke(ExecutionContext context) throws InterruptedException {
             Value executable = context.pop();

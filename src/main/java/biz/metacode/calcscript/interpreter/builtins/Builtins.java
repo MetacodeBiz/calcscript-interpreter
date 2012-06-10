@@ -106,11 +106,11 @@ public final class Builtins {
 
             put("(", new SingleDispatcher("("));
             put("(_array", ArrayOperators.UNCONS);
-            put("(_number", ArithmeticOperators.INCREMENT);
+            put("(_number", ArithmeticOperators.DECREMENT);
 
             put(")", new SingleDispatcher(")"));
             put(")_array", ArrayOperators.UNCONS_RIGHT);
-            put(")_number", ArithmeticOperators.DECREMENT);
+            put(")_number", ArithmeticOperators.INCREMENT);
 
             put("`", StringOperators.TO_STRING);
             put("!", BooleanOperators.NOT);

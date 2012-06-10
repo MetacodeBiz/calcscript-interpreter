@@ -47,7 +47,7 @@ class Array extends RefCountedValue implements SharedArray, PooledObject {
         StringBuilder sb = new StringBuilder("[");
         Iterator<? extends Value> iterator = this.entries.iterator();
         while (iterator.hasNext()) {
-            sb.append(iterator.next());
+            sb.append(iterator.next().toSource());
             if (iterator.hasNext()) {
                 sb.append(' ');
             }

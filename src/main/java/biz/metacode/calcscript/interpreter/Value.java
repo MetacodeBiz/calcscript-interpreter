@@ -14,7 +14,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
 
     /**
      * Invoke this value. By default it places this object onto the stack.
-     *
+     * 
      * @throws InterruptedException
      */
     public void invoke(ExecutionContext context) throws InterruptedException {
@@ -23,7 +23,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
 
     /**
      * Retrieves relative value priority.
-     *
+     * 
      * @return Value priority. Lower integers indicate lower priority.
      */
     public abstract int getPriority();
@@ -31,7 +31,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
     /**
      * Creates a deep copy of this object that is separate from the original. If
      * current object is immutable it can return this as a duplicate.
-     *
+     * 
      * @return Deep copy of this.
      */
     public abstract Value duplicate();
@@ -39,7 +39,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
     /**
      * Converts this value to number. Note that for strings it will not attempt
      * to interpret the string as a double.
-     *
+     * 
      * @return Numeric representation of this value.
      */
     public double toDouble() {
@@ -49,14 +49,18 @@ public abstract class Value implements Invocable, Comparable<Value> {
     /**
      * Converts this value to boolean. Only {@code 0}, {@code ""}, {@code []}
      * and {@literal are {@code false}, everything else is {@code true}.
-     *
+     * 
      * @return Boolean representation of this value.
      */
     public abstract boolean toBoolean();
 
+    public String toSource() {
+        return this.toString();
+    }
+
     /**
      * Releases this object into its pool.
-     *
+     * 
      * @see ExecutionContext#pop()
      */
     public void release() {
@@ -64,7 +68,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
 
     /**
      * Return a type of this value.
-     *
+     * 
      * @return Value type.
      */
     @Nonnull
@@ -82,7 +86,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
      * the value is not an array. Note that this value and the array represent
      * the same object - if this value needs to be released then invoke only one
      * release method: {@link SharedArray#release()} or {@link #release()}.
-     *
+     * 
      * @return This value as an array.
      */
     @Nonnull
@@ -96,7 +100,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Value) {
-            return this.getType() == ((Value) obj).getType()
+            return this.getType() == ((Value)obj).getType()
                     && this.toString().equals(obj.toString());
         }
         return false;
@@ -112,12 +116,13 @@ public abstract class Value implements Invocable, Comparable<Value> {
 
     /**
      * Order two values (this and other) according to their priorities.
-     *
+     * 
      * @param other Second value
      * @return Ordered pair where first has higher or equal priority than second
      */
     @Nonnull
-    public Pair order(@Nonnull Value other) {
+    public Pair order(@Nonnull
+    Value other) {
         if (other.getPriority() > this.getPriority()) {
             return new Pair(other, this);
         }
@@ -154,7 +159,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
 
         /**
          * Creates a new ordered pair of values.
-         *
+         * 
          * @param first First value.
          * @param second Second value.
          */
@@ -165,7 +170,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
 
         /**
          * Returns a type name of this pair.
-         *
+         * 
          * @return Pair type name.
          */
         @Nonnull

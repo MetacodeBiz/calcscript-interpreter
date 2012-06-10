@@ -63,6 +63,10 @@ class Text extends RefCountedValue implements PooledObject {
         return !"".equals(value);
     }
 
+    public String toSource() {
+        return "'" + this.toString() + "'";
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Text) {

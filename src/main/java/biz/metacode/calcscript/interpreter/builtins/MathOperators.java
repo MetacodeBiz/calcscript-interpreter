@@ -51,14 +51,19 @@ public enum MathOperators implements Invocable, SelfDescribing {
     },
     CONVERT_NUMBER_BASE {
         public void invoke(ExecutionContext context) {
-            int base = (int) context.popDouble();
-            int number = (int) context.popDouble();
+            int base = (int)Math.abs(context.popDouble());
+            int number = (int)context.popDouble();
             // need a list here to insert at the beginning
             LinkedList<Value> results = new LinkedList<Value>();
-            while(number > 0)
-            {
-                 results.add(0, context.convertToValue(number % base));
-                 number /= base;
+            if (base == 1) {
+                for (int i = 0; i < number; i++) {
+                    results.add(context.convertToValue(1));
+                }
+            } else {
+                while (number > 0) {
+                    results.add(0, context.convertToValue(number % base));
+                    number /= base;
+                }
             }
             context.pushArray(results);
         }
@@ -72,6 +77,10 @@ public enum MathOperators implements Invocable, SelfDescribing {
             SharedArray number = context.pop().asArray();
             double base = context.popDouble();
             try {
+                if (base == 1) {
+                    context.pushDouble(number.size());
+                    return;
+                }
                 double converted = 0;
                 int index = 0;
                 int size = number.size();

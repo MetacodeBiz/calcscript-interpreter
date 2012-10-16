@@ -15,7 +15,7 @@ public class StringOperatorsTest extends EngineTestBase {
     public void splitAroundMatchesNonEmpty() throws ScriptExecutionException, InterruptedException {
         register("%", new OrderedDispatcher("%"));
         register("%_string_string", StringOperators.SPLIT_AROUND_MATCHES_NONEMPTY);
-        assertEval("[a df]", "'assdfs' 's'%");
+        assertEval("['a' 'df']", "'assdfs' 's'%");
     }
 
     @Test

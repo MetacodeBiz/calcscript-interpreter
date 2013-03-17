@@ -9,7 +9,7 @@ class Lexer implements Iterable<String> {
 
     private static final Pattern SYMBOL_PATTERN = Pattern
             .compile("[a-zA-Z_][a-zA-Z0-9_]*|'(?:\\.|[^'])*'?|\"(?:\\.|[^\"])"
-                    + "*\"?|-?[0-9]+\\.[0-9]+|-?[0-9]+|#[^\n\r]*|.");
+                    + "*\"?|-?[0-9]*\\.[0-9]+|-?[0-9]+|#[^\n\r]*|.");
 
     private final CharSequence source;
 

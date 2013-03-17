@@ -44,6 +44,6 @@ public class LoopOperatorsTest extends EngineTestBase {
         register(">", ComparisonOperators.GREATER_THAN);
         register("until", LoopOperators.UNTIL);
         assertEval("5", "5{.}{1-.}until");
-        assertEval("1 2 3 4 5 6 6", "0{.5>}{1+.}until");
+        assertEval("1 2 3 4 5 6 6", "0{. 5>}{1+.}until");
     }
 }

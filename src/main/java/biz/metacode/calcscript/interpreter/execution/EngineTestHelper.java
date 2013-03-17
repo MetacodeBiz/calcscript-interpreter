@@ -5,12 +5,13 @@ class EngineTestHelper {
 
     private final Context context;
 
-    public EngineTestHelper(Context context) {
+    public EngineTestHelper(final Context context) {
         this.context = context;
     }
 
     public int getCurrentNumericPoolSize() {
-        return ((NumericPool) context.getPool(Numeric.class)).internalGetPooledObjectsCount();
+        return ((NumericPool) context.getPool(Numeric.class))
+                .internalGetPooledObjectsCount();
     }
 
     public int getCurrentArrayPoolSize() {
@@ -22,7 +23,8 @@ class EngineTestHelper {
     }
 
     public int getNumericAllocationBalance() {
-        return ((NumericPool) context.getPool(Numeric.class)).internalGetAllocationBalance();
+        return ((NumericPool) context.getPool(Numeric.class))
+                .internalGetAllocationBalance();
     }
 
     public int getArrayAllocationBalance() {
@@ -39,7 +41,7 @@ class EngineTestHelper {
         ((TextPool) context.getPool(Text.class)).internalResetAllocationBalance();
     }
 
-    public void setTrait(String trait) {
+    public void setTrait(final String trait) {
         context.setTrait(trait);
     }
 }

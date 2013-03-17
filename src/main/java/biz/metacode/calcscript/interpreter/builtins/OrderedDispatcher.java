@@ -18,17 +18,22 @@ public final class OrderedDispatcher extends FunctionDispatcher {
      *
      * @param prefix Operator prefix.
      */
-    public OrderedDispatcher(String prefix) {
+    public OrderedDispatcher(final String prefix) {
         super(prefix);
     }
 
     /**
      * Orders the arguments according to theirs priority.
      *
+     * @param context Execution context.
+     * @param first First value.
+     * @param second Second value.
+     * @return Ordered pair of values.
      * @see Value#getPriority()
      */
     @Override
-    protected Pair transform(ExecutionContext context, Value first, Value second) {
+    protected Pair transform(final ExecutionContext context, final Value first,
+            final Value second) {
         return first.order(second);
     }
 

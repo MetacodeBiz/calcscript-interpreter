@@ -15,8 +15,11 @@ public enum LoopOperators implements Invocable, SelfDescribing {
      * no explicit values.
      */
     DO {
-        public void invoke(ExecutionContext context) throws InterruptedException {
-            Invocable block = (Invocable) context.pop();
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            Invocable block = context.pop();
             Value value = null;
             do {
                 if (value != null) {
@@ -29,6 +32,9 @@ public enum LoopOperators implements Invocable, SelfDescribing {
             value.release();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public String getExampleUsage() {
             return "168 35 {.@\\%.} do;";
         }
@@ -38,8 +44,11 @@ public enum LoopOperators implements Invocable, SelfDescribing {
      * leaves no explicit values on stack.
      */
     TIMES {
-        public void invoke(ExecutionContext context) throws InterruptedException {
-            Invocable block = (Invocable) context.pop();
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            Invocable block = context.pop();
             double times = context.popDouble();
             for (int i = (int) times - 1; i >= 0; i--) {
                 context.interruptionPoint();
@@ -47,6 +56,9 @@ public enum LoopOperators implements Invocable, SelfDescribing {
             }
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public String getExampleUsage() {
             return "2 {2*} 5*";
         }
@@ -56,9 +68,12 @@ public enum LoopOperators implements Invocable, SelfDescribing {
      * two blocks and leaves no explicit values on stack.
      */
     WHILE {
-        public void invoke(ExecutionContext context) throws InterruptedException {
-            Invocable body = (Invocable) context.pop();
-            Invocable test = (Invocable) context.pop();
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            Invocable body = context.pop();
+            Invocable test = context.pop();
             do {
                 context.interruptionPoint();
                 test.invoke(context);
@@ -69,6 +84,9 @@ public enum LoopOperators implements Invocable, SelfDescribing {
             } while (true);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public String getExampleUsage() {
             return "5{.}{1-.}while";
         }
@@ -78,9 +96,12 @@ public enum LoopOperators implements Invocable, SelfDescribing {
      * two blocks and leaves no explicit values on stack.
      */
     UNTIL {
-        public void invoke(ExecutionContext context) throws InterruptedException {
-            Invocable body = (Invocable) context.pop();
-            Invocable test = (Invocable) context.pop();
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
+            Invocable body = context.pop();
+            Invocable test = context.pop();
             do {
                 context.interruptionPoint();
                 test.invoke(context);
@@ -91,6 +112,9 @@ public enum LoopOperators implements Invocable, SelfDescribing {
             } while (true);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public String getExampleUsage() {
             return "5{.}{1-.}until";
         }

@@ -15,11 +15,11 @@ class Memory implements Serializable, Iterable<Map.Entry<String, Invocable>> {
 
     private final Map<String, Invocable> data = new HashMap<String, Invocable>();
 
-    public Invocable write(String name, Invocable data) {
-        return this.data.put(name, data);
+    public Invocable write(final String name, final Invocable invocable) {
+        return this.data.put(name, invocable);
     }
 
-    public Invocable read(String name) {
+    public Invocable read(final String name) {
         return this.data.get(name);
     }
 
@@ -31,7 +31,7 @@ class Memory implements Serializable, Iterable<Map.Entry<String, Invocable>> {
         return this.data.entrySet().iterator();
     }
 
-    public Invocable remove(String name) {
+    public Invocable remove(final String name) {
         return this.data.remove(name);
     }
 

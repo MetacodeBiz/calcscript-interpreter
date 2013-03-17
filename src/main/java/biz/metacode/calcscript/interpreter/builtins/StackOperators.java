@@ -15,7 +15,10 @@ public enum StackOperators implements Invocable {
      * values on stack.
      */
     MARK_STACK_SIZE {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             context.markPosition();
         }
     },
@@ -25,7 +28,10 @@ public enum StackOperators implements Invocable {
      * stack.
      */
     SLICE_STACK {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             context.pushArray(context.extractMarkedArray());
         }
     },
@@ -34,7 +40,10 @@ public enum StackOperators implements Invocable {
      * leaves a copy of it one the stack.
      */
     DUPLICATE {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             context.push(context.peek().duplicate());
         }
     },
@@ -43,7 +52,10 @@ public enum StackOperators implements Invocable {
      * stack.
      */
     DROP {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             context.pop().release();
         }
     },
@@ -52,7 +64,10 @@ public enum StackOperators implements Invocable {
      * two values on stack.
      */
     SWAP {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             Value first = context.pop();
             Value second = context.pop();
             context.push(first);
@@ -66,7 +81,10 @@ public enum StackOperators implements Invocable {
      * leaves three values on stack.
      */
     ROT3 {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             try {
                 Value first = context.pop();
                 Value second = context.pop();
@@ -88,7 +106,10 @@ public enum StackOperators implements Invocable {
      * leaves one value on the stack.
      */
     GET_NTH {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             Value value = context.peekAt((int) context.popDouble());
             context.push(value);
         }

@@ -6,9 +6,9 @@ import biz.metacode.calcscript.interpreter.InvalidTypeException;
 import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.OverloadMissingException;
 import biz.metacode.calcscript.interpreter.Value;
+import biz.metacode.calcscript.interpreter.Value.Pair;
 import biz.metacode.calcscript.interpreter.Value.Type;
 import biz.metacode.calcscript.interpreter.ValueMissingException;
-import biz.metacode.calcscript.interpreter.Value.Pair;
 import biz.metacode.calcscript.interpreter.source.Program;
 
 import java.util.Collection;
@@ -16,6 +16,8 @@ import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.Nullable;
 
 class Context implements ExecutionContext, PoolProvider {
 
@@ -33,7 +35,7 @@ class Context implements ExecutionContext, PoolProvider {
         this.clearStack();
     }
 
-    public void setMemory(Memory memory) {
+    public void setMemory(final Memory memory) {
         this.memory = memory;
     }
 
@@ -45,7 +47,7 @@ class Context implements ExecutionContext, PoolProvider {
         return stack.getData();
     }
 
-    public void write(String name, Invocable element) {
+    public void write(final String name, final @Nullable Invocable element) {
         if (element instanceof RefCountedValue) {
             ((RefCountedValue) element).acquire();
         }
@@ -55,27 +57,31 @@ class Context implements ExecutionContext, PoolProvider {
         }
     }
 
-    public Invocable read(String name) {
+    public Invocable read(final String name) {
         return this.memory.read(name);
     }
 
-    public void push(Value element) {
+    public void push(final Value element) {
         if (element instanceof RefCountedValue) {
             ((RefCountedValue) element).acquire();
         }
         this.stack.push(element);
     }
 
-    public void pushDouble(double element) {
+    public void pushDouble(final double element) {
         this.push(convertToValue(element));
     }
 
-    public void pushString(String element) {
+    public void pushString(final String element) {
         this.push(convertToValue(element));
     }
 
-    public void pushBoolean(boolean value) {
-        this.pushDouble(value ? 1 : 0);
+    public void pushBoolean(final boolean value) {
+        if (value) {
+            this.pushDouble(1);
+        } else {
+            this.pushDouble(0);
+        }
     }
 
     public Value pop() {
@@ -129,7 +135,7 @@ class Context implements ExecutionContext, PoolProvider {
         }
     }
 
-    public Value popAt(int index) {
+    public Value popAt(final int index) {
         try {
             return stack.popAt(index);
         } catch (EmptyStackException e) {
@@ -139,7 +145,7 @@ class Context implements ExecutionContext, PoolProvider {
         }
     }
 
-    public Value peekAt(int index) {
+    public Value peekAt(final int index) {
         try {
             return stack.peekAt(index);
         } catch (EmptyStackException e) {
@@ -161,7 +167,7 @@ class Context implements ExecutionContext, PoolProvider {
         return arrayPool.create();
     }
 
-    public Value convertToValue(Collection<? extends Value> array) {
+    public Value convertToValue(final Collection<? extends Value> array) {
         if (array instanceof Array) {
             return (Array) array;
         } else {
@@ -171,20 +177,20 @@ class Context implements ExecutionContext, PoolProvider {
         }
     }
 
-    public Value convertToValue(String string) {
+    public Value convertToValue(final String string) {
         return textPool.create(string);
     }
 
-    public Value convertToValue(double element) {
+    public Value convertToValue(final double element) {
         return valuePool.create(element);
     }
 
-    public void pushArray(Collection<? extends Value> array) {
+    public void pushArray(final Collection<? extends Value> array) {
         this.push(convertToValue(array));
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends PooledObject> Pool<T> getPool(Class<T> pooledObject) {
+    public <T extends PooledObject> Pool<T> getPool(final Class<T> pooledObject) {
         if (Numeric.class.equals(pooledObject)) {
             return (Pool<T>) valuePool;
         }
@@ -194,7 +200,8 @@ class Context implements ExecutionContext, PoolProvider {
         if (Array.class.equals(pooledObject)) {
             return (Pool<T>) arrayPool;
         }
-        throw new IllegalArgumentException("This type of pool is not supported: " + pooledObject);
+        throw new IllegalArgumentException("This type of pool is not supported: "
+                + pooledObject);
     }
 
     public Set<String> getRegisteredVariableNames() {
@@ -205,20 +212,22 @@ class Context implements ExecutionContext, PoolProvider {
         return memory.iterator();
     }
 
-    public Pair coerce(Value first, Value second) {
-        if (first.getPriority() == second.getPriority()) {
-            return new Pair(first, second);
+    public Pair coerce(final Value first, final Value second) {
+        Value firstValue = first;
+        Value secondValue = second;
+        if (firstValue.getPriority() == secondValue.getPriority()) {
+            return new Pair(firstValue, secondValue);
         }
-        while (first.getPriority() < second.getPriority()) {
-            first = convertUp(first);
+        while (firstValue.getPriority() < secondValue.getPriority()) {
+            firstValue = convertUp(firstValue);
         }
-        while (second.getPriority() < first.getPriority()) {
-            second = convertUp(second);
+        while (secondValue.getPriority() < firstValue.getPriority()) {
+            secondValue = convertUp(secondValue);
         }
-        return new Pair(first, second);
+        return new Pair(firstValue, secondValue);
     }
 
-    private Value convertUp(Value value) {
+    private Value convertUp(final Value value) {
         if (value instanceof Numeric) {
             Array array = this.acquireArray();
             array.add(value);
@@ -246,13 +255,13 @@ class Context implements ExecutionContext, PoolProvider {
         }
     }
 
-    public void setTrait(String trait) {
+    public void setTrait(final String trait) {
         valuePool.setTrait(trait);
         arrayPool.setTrait(trait);
         textPool.setTrait(trait);
     }
 
-    public void remove(String name) {
+    public void remove(final String name) {
         Invocable previous = memory.remove(name);
         if (previous instanceof Value) {
             ((Value) previous).release();

@@ -18,14 +18,16 @@ class Array extends RefCountedValue implements SharedArray, PooledObject {
 
     private transient Pool<Array> pool;
 
-    Array(Pool<Array> pool) {
+    public Array(final Pool<Array> pool) {
         this.pool = pool;
     }
 
+    @Override
     public SharedArray asArray() {
         return this;
     }
 
+    @Override
     protected void relinquish() {
         this.pool.destroy(this);
     }
@@ -68,66 +70,65 @@ class Array extends RefCountedValue implements SharedArray, PooledObject {
         return this.entries.isEmpty();
     }
 
-    public boolean contains(Object o) {
-        return this.entries.contains(o);
+    public boolean contains(final Object object) {
+        return this.entries.contains(object);
     }
 
     public Object[] toArray() {
         return this.entries.toArray();
     }
 
-    public <T> T[] toArray(T[] a) {
-        return this.entries.toArray(a);
+    public <T> T[] toArray(final T[] array) {
+        return this.entries.toArray(array);
     }
 
-    public boolean remove(Object o) {
+    public boolean remove(final Object object) {
         checkModification();
-        int index = this.indexOf(o);
+        int index = this.indexOf(object);
         if (index >= 0) {
             Value originalValue = this.get(index);
-            this.entries.remove(o);
+            this.entries.remove(object);
             originalValue.release();
             return true;
         }
         return false;
     }
 
-    public boolean containsAll(Collection<?> c) {
-        return this.entries.containsAll(c);
+    public boolean containsAll(final Collection<?> collection) {
+        return this.entries.containsAll(collection);
     }
 
-    public boolean addAll(Collection<? extends Value> c) {
+    public boolean addAll(final Collection<? extends Value> collection) {
         checkModification();
-        for (Value value : c) {
+        for (Value value : collection) {
             if (value instanceof RefCountedValue) {
                 ((RefCountedValue) value).acquire();
             }
         }
-        return this.entries.addAll(c);
+        return this.entries.addAll(collection);
     }
 
-    public boolean removeAll(Collection<?> c) {
+    public boolean removeAll(final Collection<?> collection) {
         checkModification();
-        for (Object value : c) {
+        for (Object value : collection) {
             // remove all occurences of object
             while (remove(value)) {
+                // do nothing
             }
-            ;
         }
         return false;
     }
 
-    public boolean retainAll(Collection<?> c) {
+    public boolean retainAll(final Collection<?> collection) {
         throw new UnsupportedOperationException("Not supported yet.");
-        // return this.entries.retainAll(c);
     }
 
-    public boolean add(Value e) {
+    public boolean add(final Value value) {
         checkModification();
-        if (e instanceof RefCountedValue) {
-            ((RefCountedValue) e).acquire();
+        if (value instanceof RefCountedValue) {
+            ((RefCountedValue) value).acquire();
         }
-        return this.entries.add(e);
+        return this.entries.add(value);
     }
 
     @Override
@@ -139,7 +140,7 @@ class Array extends RefCountedValue implements SharedArray, PooledObject {
         return duplicate;
     }
 
-    public void attachToPool(PoolProvider poolProvider) {
+    public void attachToPool(final PoolProvider poolProvider) {
         this.pool = poolProvider.getPool(Array.class);
         for (Value value : entries) {
             if (value instanceof PooledObject) {
@@ -158,15 +159,15 @@ class Array extends RefCountedValue implements SharedArray, PooledObject {
         return !this.isEmpty();
     }
 
-    public boolean addAll(int index, Collection<? extends Value> c) {
-        return this.entries.addAll(c);
+    public boolean addAll(final int index, final Collection<? extends Value> collection) {
+        return this.entries.addAll(collection);
     }
 
-    public Value get(int index) {
+    public Value get(final int index) {
         return this.entries.get(index);
     }
 
-    public Value set(int index, Value element) {
+    public Value set(final int index, final Value element) {
         if (element instanceof RefCountedValue) {
             ((RefCountedValue) element).acquire();
         }
@@ -177,36 +178,36 @@ class Array extends RefCountedValue implements SharedArray, PooledObject {
         return previous;
     }
 
-    public void add(int index, Value element) {
+    public void add(final int index, final Value element) {
         if (element instanceof RefCountedValue) {
             ((RefCountedValue) element).acquire();
         }
         this.entries.add(index, element);
     }
 
-    public Value remove(int index) {
+    public Value remove(final int index) {
         Value value = this.entries.remove(index);
         value.release();
         return value;
     }
 
-    public int indexOf(Object o) {
-        return this.entries.indexOf(o);
+    public int indexOf(final Object object) {
+        return this.entries.indexOf(object);
     }
 
-    public int lastIndexOf(Object o) {
-        return this.entries.lastIndexOf(o);
+    public int lastIndexOf(final Object object) {
+        return this.entries.lastIndexOf(object);
     }
 
     public ListIterator<Value> listIterator() {
         return this.entries.listIterator();
     }
 
-    public ListIterator<Value> listIterator(int index) {
+    public ListIterator<Value> listIterator(final int index) {
         return this.entries.listIterator(index);
     }
 
-    public List<Value> subList(int fromIndex, int toIndex) {
+    public List<Value> subList(final int fromIndex, final int toIndex) {
         return this.entries.subList(fromIndex, toIndex);
     }
 

@@ -13,7 +13,10 @@ public enum BitOperators implements Invocable {
      * and leaves one number on stack.
      */
     AND {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             long first = (long) context.popDouble();
             long second = (long) context.popDouble();
             context.pushDouble(first & second);
@@ -24,7 +27,10 @@ public enum BitOperators implements Invocable {
      * and leaves one number on stack.
      */
     OR {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             long first = (long) context.popDouble();
             long second = (long) context.popDouble();
             context.pushDouble(first | second);
@@ -35,7 +41,10 @@ public enum BitOperators implements Invocable {
      * and leaves one number on stack.
      */
     XOR {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             long first = (long) context.popDouble();
             long second = (long) context.popDouble();
             context.pushDouble(first ^ second);
@@ -46,7 +55,10 @@ public enum BitOperators implements Invocable {
      * and leaves one number on stack.
      */
     NOT {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             context.pushDouble(~(long) (context.popDouble()));
         }
     }

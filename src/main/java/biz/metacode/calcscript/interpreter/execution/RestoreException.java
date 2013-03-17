@@ -13,7 +13,7 @@ public class RestoreException extends Exception {
      *
      * @param cause Cause of an exception.
      */
-    public RestoreException(Throwable cause) {
+    public RestoreException(final Throwable cause) {
         super(cause);
     }
 

@@ -11,7 +11,7 @@ class TextPool implements Pool<Text> {
 
     private LinkedList<Text> pool = new LinkedList<Text>();
 
-    public Text create(String string) {
+    public Text create(final String string) {
         allocationBalance++;
         Text text = pool.poll();
         if (text != null) {
@@ -23,7 +23,7 @@ class TextPool implements Pool<Text> {
         return text;
     }
 
-    public void destroy(Text text) {
+    public void destroy(final Text text) {
         assert !containsIdentical(text) : "Releasing twice the same object!";
         allocationBalance--;
         this.pool.add(text);
@@ -38,9 +38,9 @@ class TextPool implements Pool<Text> {
         return "TextPool: " + pool;
     }
 
-    private boolean containsIdentical(Object o) {
+    private boolean containsIdentical(final Object object) {
         for (Object obj : pool) {
-            if (obj == o) {
+            if (obj == object) {
                 return true;
             }
         }
@@ -51,7 +51,7 @@ class TextPool implements Pool<Text> {
         return pool.size();
     }
 
-    public void setTrait(String trait) {
+    public void setTrait(final String trait) {
         this.trait = trait;
         for (RefCountedValue value : pool) {
             value.trait = trait;

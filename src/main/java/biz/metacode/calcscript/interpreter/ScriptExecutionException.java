@@ -18,7 +18,7 @@ public class ScriptExecutionException extends RuntimeException {
      * @param message Error message.
      * @param cause Error cause.
      */
-    public ScriptExecutionException(String message, Throwable cause) {
+    public ScriptExecutionException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -27,7 +27,7 @@ public class ScriptExecutionException extends RuntimeException {
      *
      * @param message Error message.
      */
-    public ScriptExecutionException(String message) {
+    public ScriptExecutionException(final String message) {
         super(message);
     }
 
@@ -46,7 +46,7 @@ public class ScriptExecutionException extends RuntimeException {
      *
      * @param operatorName Name of the last operator.
      */
-    public void setOperatorName(String operatorName) {
+    public void setOperatorName(final String operatorName) {
         this.operatorName = operatorName;
     }
 
@@ -64,7 +64,7 @@ public class ScriptExecutionException extends RuntimeException {
      *
      * @param example Example usage for operator.
      */
-    public void setExample(String example) {
+    public void setExample(final String example) {
         this.example = example;
     }
 }

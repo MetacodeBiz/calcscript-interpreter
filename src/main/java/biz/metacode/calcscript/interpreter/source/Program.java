@@ -31,7 +31,7 @@ public final class Program implements Invocable {
      *
      * @param source Script source.
      */
-    public Program(@Nonnull CharSequence source) {
+    public Program(@Nonnull final CharSequence source) {
         this.source = source;
     }
 
@@ -41,7 +41,7 @@ public final class Program implements Invocable {
      * @param context Context of execution.
      * @throws InterruptedException If script execution is interrupted.
      */
-    public void invoke(ExecutionContext context) throws InterruptedException {
+    public void invoke(final ExecutionContext context) throws InterruptedException {
         Parser parser = new Parser(source);
         for (Expression visitable : parser) {
             visitable.evaluate(context);
@@ -71,7 +71,7 @@ public final class Program implements Invocable {
      * @param second Second executable.
      * @return Combined executable.
      */
-    public static Value concatenate(Value first, Value second) {
+    public static Value concatenate(final Value first, final Value second) {
         if (first instanceof Block && second instanceof Block) {
             return ((Block) first).concatenate((Block) second);
         }
@@ -85,7 +85,7 @@ public final class Program implements Invocable {
      * @param variableNames Names of variables to be invoked.
      * @return Executable.
      */
-    public static Value createInvocable(String... variableNames) {
+    public static Value createInvocable(final String... variableNames) {
         List<Expression> variables = new ArrayList<Expression>(variableNames.length);
         for (String variableName : variableNames) {
             variables.add(new Variable(variableName));

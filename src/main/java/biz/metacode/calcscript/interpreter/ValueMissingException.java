@@ -13,7 +13,7 @@ public class ValueMissingException extends ScriptExecutionException {
      *
      * @param cause Cause of this exception.
      */
-    public ValueMissingException(Throwable cause) {
+    public ValueMissingException(final Throwable cause) {
         super("Operation requires more values.", cause);
     }
 }

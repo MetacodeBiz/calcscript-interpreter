@@ -7,12 +7,13 @@ import java.util.regex.Pattern;
 
 class Lexer implements Iterable<String> {
 
-    private static final Pattern pattern = Pattern
-            .compile("[a-zA-Z_][a-zA-Z0-9_]*|'(?:\\.|[^'])*'?|\"(?:\\.|[^\"])*\"?|-?[0-9]+\\.[0-9]+|-?[0-9]+|#[^\n\r]*|.");
+    private static final Pattern SYMBOL_PATTERN = Pattern
+            .compile("[a-zA-Z_][a-zA-Z0-9_]*|'(?:\\.|[^'])*'?|\"(?:\\.|[^\"])"
+                    + "*\"?|-?[0-9]+\\.[0-9]+|-?[0-9]+|#[^\n\r]*|.");
 
     private final CharSequence source;
 
-    public Lexer(CharSequence source) {
+    public Lexer(final CharSequence source) {
         this.source = source;
     }
 
@@ -20,14 +21,14 @@ class Lexer implements Iterable<String> {
         return new LexerIterator(source);
     }
 
-    private final static class LexerIterator implements Iterator<String> {
+    private static final class LexerIterator implements Iterator<String> {
 
         private Matcher matcher;
 
         private boolean hasNextElement;
 
-        private LexerIterator(CharSequence source) {
-            matcher = pattern.matcher(source);
+        private LexerIterator(final CharSequence source) {
+            matcher = SYMBOL_PATTERN.matcher(source);
             hasNextElement = matcher.find();
         }
 

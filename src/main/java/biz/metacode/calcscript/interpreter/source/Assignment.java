@@ -16,7 +16,7 @@ class Assignment implements Expression, Serializable {
 
     private final String targetVariableName;
 
-    public Assignment(String targetVariableName) {
+    public Assignment(final String targetVariableName) {
         this.targetVariableName = targetVariableName;
     }
 
@@ -24,7 +24,7 @@ class Assignment implements Expression, Serializable {
         return targetVariableName;
     }
 
-    public void evaluate(ExecutionContext context) {
+    public void evaluate(final ExecutionContext context) {
         try {
             context.write(targetVariableName, context.peek());
         } catch (ValueMissingException e) {

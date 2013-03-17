@@ -10,19 +10,19 @@ class Numeric extends RefCountedValue implements PooledObject {
 
     private static final long serialVersionUID = -7340834444775795549L;
 
-    private final static DecimalFormat threeDec;
+    private static final DecimalFormat THREE_DECIMAL_PLACES;
 
     static {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator('.');
-        threeDec = new DecimalFormat("0.###", symbols);
+        THREE_DECIMAL_PLACES = new DecimalFormat("0.###", symbols);
     }
 
     private transient Pool<Numeric> pool;
 
     private double value;
 
-    Numeric(Pool<Numeric> pool, double value) {
+    public Numeric(final Pool<Numeric> pool, final double value) {
         this.pool = pool;
         this.value = value;
     }
@@ -31,16 +31,16 @@ class Numeric extends RefCountedValue implements PooledObject {
         return value;
     }
 
-    void set(double value) {
+    void set(final double newValue) {
         if (isShared()) {
             throw new IllegalStateException("Object is shared.");
         }
-        this.value = value;
+        this.value = newValue;
     }
 
     @Override
     public String toString() {
-        return threeDec.format(value);
+        return THREE_DECIMAL_PLACES.format(value);
     }
 
     @Override
@@ -49,19 +49,19 @@ class Numeric extends RefCountedValue implements PooledObject {
     }
 
     @Override
-    public int compareTo(Value o) {
-        if (o instanceof Numeric) {
-            return Double.compare(value, ((Numeric) o).value);
+    public int compareTo(final Value object) {
+        if (object instanceof Numeric) {
+            return Double.compare(value, ((Numeric) object).value);
         }
-        return super.compareTo(o);
+        return super.compareTo(object);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Numeric) {
-            return this.value == ((Numeric) obj).value;
+    public boolean equals(final Object object) {
+        if (object instanceof Numeric) {
+            return this.compareTo((Numeric) object) == 0;
         }
-        return super.equals(obj);
+        return super.equals(object);
     }
 
     @Override
@@ -77,11 +77,12 @@ class Numeric extends RefCountedValue implements PooledObject {
         return duplicate;
     }
 
+    @Override
     public double toDouble() {
         return value;
     }
 
-    public void attachToPool(PoolProvider poolProvider) {
+    public void attachToPool(final PoolProvider poolProvider) {
         this.pool = poolProvider.getPool(Numeric.class);
     }
 

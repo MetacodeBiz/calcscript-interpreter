@@ -16,7 +16,10 @@ public enum BooleanOperators implements Invocable, SelfDescribing {
      * Negates given value. Takes one value and leaves one number on stack.
      */
     NOT {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             context.pushBoolean(!context.popBoolean());
         }
     },
@@ -25,7 +28,10 @@ public enum BooleanOperators implements Invocable, SelfDescribing {
      * another block. Takes two blocks and leaves no explicit values.
      */
     OR {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
             Value second = context.pop();
             try {
@@ -45,7 +51,10 @@ public enum BooleanOperators implements Invocable, SelfDescribing {
      * another block. Takes two blocks and leaves no explicit values.
      */
     AND {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
             Value second = context.pop();
             try {
@@ -66,7 +75,10 @@ public enum BooleanOperators implements Invocable, SelfDescribing {
      * equal. Takes two values and leaves no explicit values.
      */
     XOR {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
             Value second = context.pop();
             try {
@@ -96,7 +108,10 @@ public enum BooleanOperators implements Invocable, SelfDescribing {
      * test is false. Takes three blocks and leaves no explicit values.
      */
     IF {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
             Value second = context.pop();
             Value third = context.pop();
@@ -113,12 +128,19 @@ public enum BooleanOperators implements Invocable, SelfDescribing {
             }
         }
 
+        /**
+         * {@inheritDoc}
+         */
+        @Override
         public String getExampleUsage() {
             return "0 2 {1.}<name>";
         }
 
     };
 
+    /**
+     * {@inheritDoc}
+     */
     public String getExampleUsage() {
         return null;
     }

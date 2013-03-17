@@ -1,7 +1,6 @@
 
 package biz.metacode.calcscript.interpreter.source;
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +11,7 @@ class Parser implements Iterator<Expression>, Iterable<Expression> {
 
     private String current;
 
-    public Parser(CharSequence source) {
+    public Parser(final CharSequence source) {
         this.tokens = (new Lexer(source)).iterator();
         this.nextConstruct();
     }

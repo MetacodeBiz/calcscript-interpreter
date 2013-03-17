@@ -44,7 +44,7 @@ public class Engine {
      * @param name Name of invocable.
      * @param executable {@link Invocable} to be registered.
      */
-    public void register(@Nonnull String name, @Nonnull Invocable executable) {
+    public void register(@Nonnull final String name, @Nonnull final Invocable executable) {
         this.context.write(name, executable);
     }
 
@@ -53,7 +53,7 @@ public class Engine {
      *
      * @param executables Map of {@link Invocable}s.
      */
-    public void register(@Nonnull Map<String, Invocable> executables) {
+    public void register(@Nonnull final Map<String, Invocable> executables) {
         for (Map.Entry<String, Invocable> executable : executables.entrySet()) {
             register(executable.getKey(), executable.getValue());
         }
@@ -67,7 +67,7 @@ public class Engine {
      * @return {@link Invocable} object or {@code null}.
      */
     @Nullable
-    public Invocable read(@Nonnull String name) {
+    public Invocable read(@Nonnull final String name) {
         return this.context.read(name);
     }
 
@@ -76,7 +76,7 @@ public class Engine {
      *
      * @param name Variable name.
      */
-    public void remove(@Nonnull String name) {
+    public void remove(@Nonnull final String name) {
         this.context.remove(name);
     }
 
@@ -90,7 +90,8 @@ public class Engine {
      * @throws InterruptedException If script execution was interrupted.
      */
     @Nonnull
-    public SharedArray execute(@Nonnull CharSequence source) throws InterruptedException {
+    public SharedArray execute(@Nonnull final CharSequence source)
+            throws InterruptedException {
         Program program = new Program(source);
         context.clearStack();
         program.invoke(context);
@@ -130,14 +131,15 @@ public class Engine {
      * @param stream Stream to persist to.
      * @throws IOException When an IO operation fails.
      */
-    public void saveState(@Nonnull OutputStream stream) throws IOException {
+    public void saveState(@Nonnull final OutputStream stream) throws IOException {
         ObjectOutputStream objectOut = new ObjectOutputStream(stream);
         Map<String, Serializable> persistent = new HashMap<String, Serializable>();
-        Iterator<Map.Entry<String, Invocable>> iterator = context.getRegisteredVariables();
+        Iterator<Map.Entry<String, Invocable>> iterator = context
+                .getRegisteredVariables();
         while (iterator.hasNext()) {
             Map.Entry<String, Invocable> object = iterator.next();
             if (object.getValue() instanceof Serializable) {
-                persistent.put(object.getKey(), (Serializable) object.getValue());
+                persistent.put(object.getKey(), object.getValue());
             }
         }
         objectOut.writeObject(persistent);
@@ -149,12 +151,13 @@ public class Engine {
      * @param stream Stream to read from.
      * @throws RestoreException Thrown when restoring fails.
      */
-    public void restoreState(@Nonnull InputStream stream) throws RestoreException {
+    public void restoreState(@Nonnull final InputStream stream) throws RestoreException {
         try {
             context.setMemory(new Memory());
             ObjectInputStream objectOut = new ObjectInputStream(stream);
             @SuppressWarnings("unchecked")
-            Map<String, Serializable> objects = (Map<String, Serializable>) objectOut.readObject();
+            Map<String, Serializable> objects = (Map<String, Serializable>) objectOut
+                    .readObject();
             for (Map.Entry<String, Serializable> entry : objects.entrySet()) {
                 if (entry.getValue() instanceof Invocable) {
                     Invocable object = (Invocable) entry.getValue();

@@ -93,7 +93,7 @@ public interface ExecutionContext {
     double popDouble();
 
     /**
-     * Pushes a given string onto the stack
+     * Pushes a given string onto the stack.
      *
      * @param value Value that should be pushed
      */

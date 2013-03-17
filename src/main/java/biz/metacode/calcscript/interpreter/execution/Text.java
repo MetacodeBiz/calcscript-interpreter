@@ -11,7 +11,7 @@ class Text extends RefCountedValue implements PooledObject {
 
     private transient Pool<Text> pool;
 
-    Text(Pool<Text> pool, String value) {
+    Text(final Pool<Text> pool, final String value) {
         this.pool = pool;
         this.value = value;
     }
@@ -20,7 +20,7 @@ class Text extends RefCountedValue implements PooledObject {
         return value;
     }
 
-    void set(String string) {
+    void set(final String string) {
         if (isShared()) {
             throw new IllegalStateException("Object is shared.");
         }
@@ -44,7 +44,7 @@ class Text extends RefCountedValue implements PooledObject {
         return duplicate;
     }
 
-    public void attachToPool(PoolProvider poolProvider) {
+    public void attachToPool(final PoolProvider poolProvider) {
         this.pool = poolProvider.getPool(Text.class);
     }
 
@@ -63,16 +63,17 @@ class Text extends RefCountedValue implements PooledObject {
         return !"".equals(value);
     }
 
+    @Override
     public String toSource() {
         return "'" + this.toString() + "'";
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Text) {
-            return this.value.equals(((Text) obj).value);
+    public boolean equals(final Object object) {
+        if (object instanceof Text) {
+            return this.value.equals(((Text) object).value);
         }
-        return super.equals(obj);
+        return super.equals(object);
     }
 
     @Override

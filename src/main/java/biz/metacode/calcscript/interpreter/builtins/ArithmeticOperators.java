@@ -12,7 +12,10 @@ public enum ArithmeticOperators implements Invocable {
      * Arithmetic addition. Takes two numbers from the stack, leaves one.
      */
     ADDITION {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
             context.pushDouble(second + first);
@@ -22,7 +25,10 @@ public enum ArithmeticOperators implements Invocable {
      * Arithmetic substraction. Takes two numbers from the stack, leaves one.
      */
     SUBSTRACTION {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
             context.pushDouble(second - first);
@@ -32,7 +38,10 @@ public enum ArithmeticOperators implements Invocable {
      * Arithmetic multiplication. Takes two numbers from the stack, leaves one.
      */
     MULTIPLICATION {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
             context.pushDouble(second * first);
@@ -42,7 +51,10 @@ public enum ArithmeticOperators implements Invocable {
      * Arithmetic division. Takes two numbers from the stack, leaves one.
      */
     DIVISION {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
             context.pushDouble(second / first);
@@ -52,7 +64,10 @@ public enum ArithmeticOperators implements Invocable {
      * Arithmetic modulo division. Takes two numbers from the stack, leaves one.
      */
     MODULO {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
             context.pushDouble(second % first);
@@ -62,7 +77,10 @@ public enum ArithmeticOperators implements Invocable {
      * Arithmetic power. Takes two numbers from the stack, leaves one.
      */
     POWER {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             double first = context.popDouble();
             double second = context.popDouble();
             context.pushDouble(Math.pow(second, first));
@@ -72,7 +90,10 @@ public enum ArithmeticOperators implements Invocable {
      * Number decrement. Takes one number from the stack, leaves one.
      */
     DECREMENT {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             context.pushDouble(context.popDouble() - 1);
         }
     },
@@ -80,7 +101,10 @@ public enum ArithmeticOperators implements Invocable {
      * Number increment. Takes one number from the stack, leaves one.
      */
     INCREMENT {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             context.pushDouble(context.popDouble() + 1);
         }
     },
@@ -88,7 +112,10 @@ public enum ArithmeticOperators implements Invocable {
      * Sinus function. Takes one number from the stack, leaves one.
      */
     SINUS {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             context.pushDouble(Math.sin(context.popDouble()));
         }
     },
@@ -96,7 +123,10 @@ public enum ArithmeticOperators implements Invocable {
      * Cosinus function. Takes one number from the stack, leaves one.
      */
     COSINUS {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             context.pushDouble(Math.cos(context.popDouble()));
         }
     },
@@ -104,7 +134,10 @@ public enum ArithmeticOperators implements Invocable {
      * Random function. Takes one number from the stack, leaves one.
      */
     RANDOM {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             int limit = (int) context.popDouble();
             double random;
             if (limit < 1 && limit > -1) {

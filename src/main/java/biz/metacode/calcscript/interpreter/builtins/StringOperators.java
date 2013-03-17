@@ -19,7 +19,10 @@ public enum StringOperators implements Invocable {
      */
     CONCATENATE {
 
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
             Value second = context.pop();
             try {
@@ -35,7 +38,10 @@ public enum StringOperators implements Invocable {
      * Converts value to string. Takes one value and leaves one string on stack.
      */
     TO_STRING {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
             try {
                 context.pushString(first.toString());
@@ -48,12 +54,15 @@ public enum StringOperators implements Invocable {
      * Sorts letters in string. Takes one string and leaves on string on stack.
      */
     SORT_LETTERS {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
             try {
                 char[] letters = first.toString().toCharArray();
                 Arrays.sort(letters);
-                context.pushString(new String(letters));
+                context.pushString(String.valueOf(letters));
             } finally {
                 first.release();
             }
@@ -64,6 +73,9 @@ public enum StringOperators implements Invocable {
      * leaves one string on stack.
      */
     REPEAT {
+        /**
+         * {@inheritDoc}
+         */
         public void invoke(final ExecutionContext context) throws InterruptedException {
             String first = context.popString();
             double times = context.popDouble();
@@ -80,6 +92,9 @@ public enum StringOperators implements Invocable {
      * leaves one on the stack.
      */
     JOIN {
+        /**
+         * {@inheritDoc}
+         */
         public void invoke(final ExecutionContext context) throws InterruptedException {
             String first = context.popString();
             String second = context.popString();
@@ -99,6 +114,9 @@ public enum StringOperators implements Invocable {
      * results. Takes two strings and leaves one array on stack.
      */
     SPLIT_AROUND_MATCHES_NONEMPTY {
+        /**
+         * {@inheritDoc}
+         */
         public void invoke(final ExecutionContext context) throws InterruptedException {
             String delim = context.popString();
             String text = context.popString();
@@ -115,7 +133,10 @@ public enum StringOperators implements Invocable {
      * leaves no explicit values on stack.
      */
     EVAL {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             String code = context.popString();
             Program program = new Program(code);
             program.invoke(context);

@@ -14,7 +14,8 @@ public final class Builtins {
     private Builtins() {
     }
 
-    private static Map<String, Invocable> builtins = Collections.unmodifiableMap(new BuiltinsMap());
+    private static Map<String, Invocable> builtins = Collections
+            .unmodifiableMap(new BuiltinsMap());
 
     private static final class BuiltinsMap extends HashMap<String, Invocable> {
         private static final long serialVersionUID = -8879873111905136912L;

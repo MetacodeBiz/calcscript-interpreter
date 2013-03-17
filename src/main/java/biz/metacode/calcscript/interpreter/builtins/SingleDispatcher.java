@@ -16,11 +16,22 @@ public class SingleDispatcher implements Invocable {
 
     private final String prefix;
 
-    public SingleDispatcher(String prefix) {
+    /**
+     * Creates a single dispatcher for group of functions with given prefix.
+     *
+     * @param prefix Text prefix that this dispatcher should handle.
+     */
+    public SingleDispatcher(final String prefix) {
         this.prefix = prefix;
     }
 
-    public final void invoke(ExecutionContext context) throws InterruptedException {
+    /**
+     * Dispatches execution to sub-function based on parameter type.
+     *
+     * @param context Execution context.
+     * @throws InterruptedException When script execution is interrupted.
+     */
+    public final void invoke(final ExecutionContext context) throws InterruptedException {
         Value first = context.pop();
         String methodName = prefix + "_" + first.getType();
 

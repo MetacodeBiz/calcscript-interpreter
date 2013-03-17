@@ -17,7 +17,7 @@ class Variable implements Expression, Serializable {
 
     private final String name;
 
-    public Variable(String name) {
+    public Variable(final String name) {
         this.name = name;
     }
 
@@ -30,7 +30,7 @@ class Variable implements Expression, Serializable {
      *
      * @throws InterruptedException
      */
-    public void evaluate(ExecutionContext context) throws InterruptedException {
+    public void evaluate(final ExecutionContext context) throws InterruptedException {
         if (Thread.interrupted()) {
             throw new InterruptedException();
         }
@@ -70,7 +70,7 @@ class Variable implements Expression, Serializable {
         }
     }
 
-    private boolean interpretAsDouble(ExecutionContext context) {
+    private boolean interpretAsDouble(final ExecutionContext context) {
         try {
             context.pushDouble(Double.parseDouble(this.name));
             return true;
@@ -79,7 +79,7 @@ class Variable implements Expression, Serializable {
         }
     }
 
-    private boolean interpretAsString(ExecutionContext context) {
+    private boolean interpretAsString(final ExecutionContext context) {
         if (isString(name)) {
             context.pushString(name.substring(1, this.name.length() - 1));
             return true;
@@ -87,7 +87,7 @@ class Variable implements Expression, Serializable {
         return false;
     }
 
-    private static boolean isString(String text) {
+    private static boolean isString(final String text) {
         return (text.length() >= 2)
                 && (('"' == text.charAt(0) && '"' == text.charAt(text.length() - 1)) || ('\'' == text
                         .charAt(0) && '\'' == text.charAt(text.length() - 1)));

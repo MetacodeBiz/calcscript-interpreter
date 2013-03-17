@@ -11,11 +11,11 @@ class Stack {
 
     private final IntStack marks = new IntStack();
 
-    public Stack(Pool<Array> pool) {
+    public Stack(final Pool<Array> pool) {
         this.pool = pool;
     }
 
-    public void push(Value element) {
+    public void push(final Value element) {
         this.data.push(element);
     }
 
@@ -30,7 +30,7 @@ class Stack {
         }
     }
 
-    public <T extends Value> T pop(Class<T> type) {
+    public <T extends Value> T pop(final Class<T> type) {
         Value value = this.pop();
         return type.cast(value);
     }
@@ -39,12 +39,12 @@ class Stack {
         return this.data.peek();
     }
 
-    public Value popAt(int index) {
+    public Value popAt(final int index) {
         adjustMark();
         return this.data.remove(this.data.size() - index - 1);
     }
 
-    public Value peekAt(int index) {
+    public Value peekAt(final int index) {
         return this.data.get(this.data.size() - index - 1);
     }
 
@@ -53,7 +53,10 @@ class Stack {
     }
 
     public Array extractMarkedArray() {
-        int mark = marks.isEmpty() ? 0 : marks.pop();
+        int mark = 0;
+        if (!marks.isEmpty()) {
+            mark = marks.pop();
+        }
         Array part = pool.create();
         for (int i = mark, l = this.data.size(); i < l; i++) {
             Value value = this.data.remove(mark);
@@ -64,13 +67,13 @@ class Stack {
     }
 
     public Array getData() {
-        Array data = pool.create();
-        data.addAll(this.data);
+        Array result = pool.create();
+        result.addAll(this.data);
         for (Value value : this.data) {
             value.release();
         }
         this.data.clear();
-        data.acquire();
-        return data;
+        result.acquire();
+        return result;
     }
 }

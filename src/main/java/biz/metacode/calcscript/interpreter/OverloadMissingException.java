@@ -17,7 +17,7 @@ public class OverloadMissingException extends ScriptExecutionException {
      * @param left First argument's type.
      * @param right Second argument's type.
      */
-    public OverloadMissingException(Type left, Type right) {
+    public OverloadMissingException(final Type left, final Type right) {
         super("Overload for types " + left + " and " + right + " is missing.");
     }
 
@@ -26,7 +26,7 @@ public class OverloadMissingException extends ScriptExecutionException {
      *
      * @param type Argument's type.
      */
-    public OverloadMissingException(Type type) {
+    public OverloadMissingException(final Type type) {
         super("Overload for type " + type + " is missing.");
     }
 

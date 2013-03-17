@@ -18,17 +18,22 @@ public final class CoercingDispatcher extends FunctionDispatcher {
      *
      * @param prefix Operator prefix.
      */
-    public CoercingDispatcher(String prefix) {
+    public CoercingDispatcher(final String prefix) {
         super(prefix);
     }
 
     /**
      * Coerces two arguments to be of the same type.
      *
+     * @param context Execution context
+     * @param first First value
+     * @param second Second value
+     * @return Pair of coerced values
      * @see ExecutionContext#coerce(Value, Value)
      */
     @Override
-    protected Pair transform(ExecutionContext context, Value first, Value second) {
+    protected Pair transform(final ExecutionContext context, final Value first,
+            final Value second) {
         return context.coerce(first, second);
     }
 

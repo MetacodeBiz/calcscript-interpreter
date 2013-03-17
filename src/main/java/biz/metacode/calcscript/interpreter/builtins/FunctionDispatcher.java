@@ -22,11 +22,17 @@ public abstract class FunctionDispatcher implements Invocable {
      *
      * @param prefix Operator prefix.
      */
-    protected FunctionDispatcher(String prefix) {
+    protected FunctionDispatcher(final String prefix) {
         this.prefix = prefix;
     }
 
-    public final void invoke(ExecutionContext context) throws InterruptedException {
+    /**
+     * Finds specialized function based on parameter types and invokes it.
+     *
+     * @param context Execution context.
+     * @throws InterruptedException When script execution is interrupted.
+     */
+    public final void invoke(final ExecutionContext context) throws InterruptedException {
 
         Value first = context.pop();
         Value second = context.pop();
@@ -34,8 +40,8 @@ public abstract class FunctionDispatcher implements Invocable {
 
         String methodName = prefix + "_" + ordered.getTypeName();
 
-        context.push(ordered.second);
-        context.push(ordered.first);
+        context.push(ordered.getSecond());
+        context.push(ordered.getFirst());
 
         second.release();
         first.release();
@@ -44,7 +50,8 @@ public abstract class FunctionDispatcher implements Invocable {
         if (targetMethod != null) {
             targetMethod.invoke(context);
         } else {
-            throw new OverloadMissingException(ordered.second.getType(), ordered.first.getType());
+            throw new OverloadMissingException(ordered.getSecond().getType(), ordered
+                    .getFirst().getType());
         }
     }
 
@@ -56,6 +63,7 @@ public abstract class FunctionDispatcher implements Invocable {
      * @param second Second argument of the call.
      * @return Actual pair of values that will be used to make the call.
      */
-    protected abstract Pair transform(ExecutionContext context, Value first, Value second);
+    protected abstract Pair transform(final ExecutionContext context, final Value first,
+            final Value second);
 
 }

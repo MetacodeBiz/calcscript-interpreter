@@ -14,7 +14,10 @@ public enum ComparisonOperators implements Invocable {
      * number on stack.
      */
     LESS_THAN {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
             Value second = context.pop();
             try {
@@ -30,7 +33,10 @@ public enum ComparisonOperators implements Invocable {
      * one number on stack.
      */
     GREATER_THAN {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
             Value second = context.pop();
             try {
@@ -46,7 +52,10 @@ public enum ComparisonOperators implements Invocable {
      * number on stack.
      */
     EQUALS {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             Value first = context.pop();
             Value second = context.pop();
             try {

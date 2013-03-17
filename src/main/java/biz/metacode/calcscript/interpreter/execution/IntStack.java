@@ -3,11 +3,13 @@ package biz.metacode.calcscript.interpreter.execution;
 
 class IntStack {
 
-    private final int[] data = new int[10];
+    public static final int STACK_SIZE = 10;
+
+    private final int[] data = new int[STACK_SIZE];
 
     private int pointer = -1;
 
-    public void push(int element) {
+    public void push(final int element) {
         data[++pointer] = element;
     }
 
@@ -19,7 +21,7 @@ class IntStack {
         return data[pointer];
     }
 
-    public void setLast(int element) {
+    public void setLast(final int element) {
         if (!isEmpty()) {
             data[pointer] = element;
         }

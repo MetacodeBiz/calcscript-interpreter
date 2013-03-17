@@ -22,7 +22,7 @@ class ArrayPool implements Pool<Array> {
         return array;
     }
 
-    public void destroy(Array value) {
+    public void destroy(final Array value) {
         assert !containsIdentical(value) : "Releasing twice the same object!";
         allocationBalance--;
         value.clear();
@@ -34,9 +34,9 @@ class ArrayPool implements Pool<Array> {
         return "ArrayPool: " + ownedValues;
     }
 
-    private boolean containsIdentical(Object o) {
+    private boolean containsIdentical(final Object object) {
         for (Object obj : ownedValues) {
-            if (obj == o) {
+            if (obj == object) {
                 return true;
             }
         }
@@ -47,7 +47,7 @@ class ArrayPool implements Pool<Array> {
         return ownedValues.size();
     }
 
-    public void setTrait(String trait) {
+    public void setTrait(final String trait) {
         this.trait = trait;
         for (RefCountedValue value : ownedValues) {
             value.trait = trait;

@@ -19,16 +19,16 @@ class Block extends Value implements Expression, Serializable {
 
     private final List<Expression> members;
 
-    public Block(List<Expression> members) {
+    public Block(final List<Expression> members) {
         this.members = members;
     }
 
-    public void evaluate(ExecutionContext context) {
+    public void evaluate(final ExecutionContext context) {
         context.push(this);
     }
 
     @Override
-    public void invoke(ExecutionContext context) throws InterruptedException {
+    public void invoke(final ExecutionContext context) throws InterruptedException {
         for (Expression visitable : members) {
             visitable.evaluate(context);
         }
@@ -69,8 +69,9 @@ class Block extends Value implements Expression, Serializable {
         return !members.isEmpty();
     }
 
-    public Block concatenate(Block other) {
-        List<Expression> exprs = new ArrayList<Expression>(this.members.size() + other.members.size());
+    public Block concatenate(final Block other) {
+        List<Expression> exprs = new ArrayList<Expression>(this.members.size()
+                + other.members.size());
         exprs.addAll(this.members);
         exprs.addAll(other.members);
         return new Block(exprs);

@@ -13,7 +13,7 @@ public class SyntaxException extends RuntimeException {
      *
      * @param message Error message.
      */
-    public SyntaxException(String message) {
+    public SyntaxException(final String message) {
         super(message);
     }
 

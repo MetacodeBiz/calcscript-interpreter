@@ -15,6 +15,7 @@ abstract class RefCountedValue extends Value {
         refCounter++;
     }
 
+    @Override
     public void release() {
         --refCounter;
         assert refCounter >= 0 : "Object " + this + " released more than once!";
@@ -29,11 +30,11 @@ abstract class RefCountedValue extends Value {
         return refCounter > 0;
     }
 
-    /* Add slash at the end to enable reference tracking *
-    protected void finalize() throws Throwable {
-        System.out.println("Finalized object with trait: " + trait + " " + toString());
-        super.finalize();
-    };
-    /* */
+    /*
+     * Add slash at the end to enable reference tracking * protected void
+     * finalize() throws Throwable {
+     * System.out.println("Finalized object with trait: " + trait + " " +
+     * toString()); super.finalize(); }; /*
+     */
 
 }

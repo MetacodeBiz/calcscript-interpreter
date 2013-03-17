@@ -21,7 +21,7 @@ public class InvalidTypeException extends ScriptExecutionException {
      * @param expectedType Type that was expected.
      * @param actualType Type that was given.
      */
-    public InvalidTypeException(Type expectedType, Type actualType) {
+    public InvalidTypeException(final Type expectedType, final Type actualType) {
         super("Expected type " + expectedType + " but got " + actualType + ".");
         this.expectedType = expectedType;
         this.actualType = actualType;

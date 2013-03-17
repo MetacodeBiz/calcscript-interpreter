@@ -1,13 +1,13 @@
 
 package biz.metacode.calcscript.interpreter.builtins;
 
-import java.util.LinkedList;
-
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.SelfDescribing;
 import biz.metacode.calcscript.interpreter.SharedArray;
 import biz.metacode.calcscript.interpreter.Value;
+
+import java.util.LinkedList;
 
 /**
  * Mathematical operators.
@@ -19,7 +19,10 @@ public enum MathOperators implements Invocable, SelfDescribing {
      * stack.
      */
     SUM {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             SharedArray list = context.pop().asArray();
             double sum = 0;
             try {
@@ -32,6 +35,9 @@ public enum MathOperators implements Invocable, SelfDescribing {
             context.pushDouble(sum);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public String getExampleUsage() {
             return "[1 2 3]<name>";
         }
@@ -41,18 +47,30 @@ public enum MathOperators implements Invocable, SelfDescribing {
      * number on stack.
      */
     ABSOLUTE {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             context.pushDouble(Math.abs(context.popDouble()));
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public String getExampleUsage() {
             return "-3<name>";
         }
     },
+    /**
+     * Converts number to base n represented as an array of numbers.
+     */
     CONVERT_NUMBER_BASE {
-        public void invoke(ExecutionContext context) {
-            int base = (int)Math.abs(context.popDouble());
-            int number = (int)context.popDouble();
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
+            int base = (int) Math.abs(context.popDouble());
+            int number = (int) context.popDouble();
             // need a list here to insert at the beginning
             LinkedList<Value> results = new LinkedList<Value>();
             if (base == 1) {
@@ -68,12 +86,21 @@ public enum MathOperators implements Invocable, SelfDescribing {
             context.pushArray(results);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public String getExampleUsage() {
             return "6 2<name>";
         }
     },
+    /**
+     * Converts number represented as an array to one number.
+     */
     CONVERT_ARRAY_BASE {
-        public void invoke(ExecutionContext context) {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) {
             SharedArray number = context.pop().asArray();
             double base = context.popDouble();
             try {
@@ -95,6 +122,9 @@ public enum MathOperators implements Invocable, SelfDescribing {
             }
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public String getExampleUsage() {
             return "[1 1 0] 2<name>";
         }

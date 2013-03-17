@@ -17,7 +17,10 @@ public enum BlockOperators implements Invocable {
      */
     CONCATENATE {
 
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             final Value first = context.pop();
             final Value second = context.pop();
             try {
@@ -34,6 +37,9 @@ public enum BlockOperators implements Invocable {
      * array on stack.
      */
     UNFOLD {
+        /**
+         * {@inheritDoc}
+         */
         public void invoke(final ExecutionContext context) throws InterruptedException {
             Invocable loop = context.pop();
             Invocable test = context.pop();
@@ -59,6 +65,9 @@ public enum BlockOperators implements Invocable {
      * and leaves an array on stack.
      */
     FILTER {
+        /**
+         * {@inheritDoc}
+         */
         public void invoke(final ExecutionContext context) throws InterruptedException {
             Value filter = context.pop();
             SharedArray array = context.pop().asArray();
@@ -83,6 +92,9 @@ public enum BlockOperators implements Invocable {
      * and leaves that element on stack or nothing if no elements pass the test.
      */
     FIND {
+        /**
+         * {@inheritDoc}
+         */
         public void invoke(final ExecutionContext context) throws InterruptedException {
             Value filter = context.pop();
             SharedArray array = context.pop().asArray();
@@ -106,7 +118,10 @@ public enum BlockOperators implements Invocable {
      * values.
      */
     EXECUTE {
-        public void invoke(ExecutionContext context) throws InterruptedException {
+        /**
+         * {@inheritDoc}
+         */
+        public void invoke(final ExecutionContext context) throws InterruptedException {
             Value executable = context.pop();
             try {
                 executable.invoke(context);

@@ -811,12 +811,22 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             SharedArray array = context.pop().asArray();
             try {
-                SharedArray first = array.get(0).asArray();
+                // find largest array
+                int maxSize = 0;
+                for (int i = 0; i < array.size(); i++) {
+                    int size = array.get(i).asArray().size();
+                    if (size > maxSize) {
+                        maxSize = size;
+                    }
+                }
                 SharedArray result = context.acquireArray();
-                for (int i = 0; i < first.size(); i++) {
+                for (int i = 0; i < maxSize; i++) {
                     SharedArray part = context.acquireArray();
                     for (int j = 0; j < array.size(); j++) {
-                        part.add(array.get(j).asArray().get(i));
+                        SharedArray element = array.get(j).asArray();
+                        if (i < element.size()) {
+                            part.add(element.get(i));
+                        }
                     }
                     result.add(context.convertToValue(part));
                 }

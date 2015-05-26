@@ -340,8 +340,8 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
                     if (accumulator == null) {
                         accumulator = iterator.next();
                     } else {
-                        context.push(iterator.next());
                         context.push(accumulator);
+                        context.push(iterator.next());
                         block.invoke(context);
                         if (shouldCloseAccumulator) {
                             accumulator.release();

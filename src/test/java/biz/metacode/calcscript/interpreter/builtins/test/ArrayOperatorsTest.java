@@ -136,6 +136,15 @@ public class ArrayOperatorsTest extends EngineTestBase {
     }
 
     @Test
+    public void foldNeg() throws ScriptExecutionException, InterruptedException {
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
+        register("*", ArrayOperators.FOLD);
+        register("-", ArithmeticOperators.SUBSTRACTION);
+        assertEval("-4", "[1 2 3]{-}*");
+    }
+
+    @Test
     public void foldOne() throws ScriptExecutionException, InterruptedException {
         register("[", StackOperators.MARK_STACK_SIZE);
         register("]", StackOperators.SLICE_STACK);

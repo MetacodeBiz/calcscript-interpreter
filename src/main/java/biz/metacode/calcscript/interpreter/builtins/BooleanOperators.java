@@ -8,7 +8,7 @@ import biz.metacode.calcscript.interpreter.Value;
 
 /**
  * Operators that treat values as booleans. {@code 0}, {@code []}, {@code ""}
- * and {@code {@literal are treated as {@code false} and everything else as
+ * and {@code {@literal {} } } are treated as {@code false} and everything else as
  * {@code true}.
  */
 public enum BooleanOperators implements Invocable, SelfDescribing {

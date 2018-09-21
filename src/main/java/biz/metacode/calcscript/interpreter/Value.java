@@ -53,7 +53,7 @@ public abstract class Value implements Invocable, Comparable<Value> {
 
     /**
      * Converts this value to boolean. Only {@code 0}, {@code ""}, {@code []}
-     * and {@literal are {@code false}, everything else is {@code true}.
+     * and {@literal {} } are {@code false}, everything else is {@code true}.
      *
      * @return Boolean representation of this value.
      */

@@ -1,6 +1,6 @@
-bin
-gen
-*.log
-target
+/bin
+/gen
+/*.log
 /.*
 !/.git*
+/build

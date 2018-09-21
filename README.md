@@ -1,5 +1,7 @@
 # Calcscript interpreter
 
+[![Build Status](https://travis-ci.org/MetacodeBiz/calcscript-interpreter.svg?branch=master)](https://travis-ci.org/MetacodeBiz/calcscript-interpreter)
+
 Calcscript is a stack based language designed with the purpose of executing complex calculations using minimum number of keystrokes.
 
 ## Building

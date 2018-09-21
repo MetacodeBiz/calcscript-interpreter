@@ -59,7 +59,7 @@ public class Main {
 
         ENGINE.register(Builtins.getBuiltins());
 
-        final InputStreamReader converter = new InputStreamReader(System.in);
+        final InputStreamReader converter = new InputStreamReader(System.in, "UTF-8");
         final BufferedReader in = new BufferedReader(converter);
 
         System.out.println("   Calcscript interactive interpreter.");

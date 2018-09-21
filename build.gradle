@@ -6,8 +6,6 @@ apply plugin: 'maven-publish'
 group = 'biz.metacode.calcscript'
 version = '0.0.1-SNAPSHOT'
 
-description = """CalcScript interpreter"""
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -48,8 +46,8 @@ publishing {
             artifact sourcesJar
             artifact javadocJar
             pom {
-                name = 'My Library'
-                description = 'description'
+                name = 'Calcscript interpreter'
+                description = 'Calcscript is a stack based language designed with the purpose of executing complex calculations using minimum number of keystrokes'
                 url = 'https://github.com/MetacodeBiz/calcscript-interpreter'
                 licenses {
                     license {

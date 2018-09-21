@@ -4,7 +4,7 @@ apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
 group = 'biz.metacode.calcscript'
-version = '1.0.0'
+version = '1.0.1-SNAPSHOT'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

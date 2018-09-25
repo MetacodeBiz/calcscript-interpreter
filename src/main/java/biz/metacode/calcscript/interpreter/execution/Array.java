@@ -108,6 +108,7 @@ class Array extends RefCountedValue implements SharedArray, PooledObject {
         return this.entries.addAll(collection);
     }
 
+    @SuppressWarnings("checkstyle:EmptyBlock")
     public boolean removeAll(final Collection<?> collection) {
         checkModification();
         for (Object value : collection) {

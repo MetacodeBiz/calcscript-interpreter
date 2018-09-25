@@ -216,4 +216,10 @@
         <property name="file" value="./config/checkstyle/checkstyle-suppressions.xml"/>
     </module>
 
+    <!-- enable @SuppressWarnings annotation -->
+    <module name="TreeWalker">
+      <module name="SuppressWarningsHolder" />
+    </module>
+    <module name="SuppressWarningsFilter" />
+
 </module>

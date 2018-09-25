@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.0//EN" "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
+<suppressions>
+	<!--
+		Disables checking for package-info.java file in tests directory.
+		Without it Eclipse indicates that multiple package-info files exist
+		in the same package.
+
+		Note: [\\/] covers platform-independent directory separator and
+		it's needed for this suppression rule to work under Windows and Linux-like systems.
+	 -->
+	<suppress checks="JavadocPackage" files="src[\\/]test[\\/]java[\\/]" />
+</suppressions>

@@ -192,12 +192,4 @@ public interface ExecutionContext {
      * @return Array containing stack entries.
      */
     SharedArray extractMarkedArray();
-
-    /**
-     * Check if script execution should be interrupted. This method should be
-     * called within loops or any kind of code that may never finish.
-     *
-     * @throws InterruptedException If script execution should be interrupted.
-     */
-    void interruptionPoint() throws InterruptedException;
 }

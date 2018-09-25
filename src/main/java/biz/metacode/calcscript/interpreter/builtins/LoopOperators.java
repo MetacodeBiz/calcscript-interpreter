@@ -25,7 +25,7 @@ public enum LoopOperators implements Invocable, SelfDescribing {
                 if (value != null) {
                     value.release();
                 }
-                context.interruptionPoint();
+                Operators.interruptionPoint();
                 block.invoke(context);
                 value = context.pop();
             } while (value.toBoolean());
@@ -51,7 +51,7 @@ public enum LoopOperators implements Invocable, SelfDescribing {
             Invocable block = context.pop();
             double times = context.popDouble();
             for (int i = (int) times - 1; i >= 0; i--) {
-                context.interruptionPoint();
+                Operators.interruptionPoint();
                 block.invoke(context);
             }
         }
@@ -75,7 +75,7 @@ public enum LoopOperators implements Invocable, SelfDescribing {
             Invocable body = context.pop();
             Invocable test = context.pop();
             do {
-                context.interruptionPoint();
+                Operators.interruptionPoint();
                 test.invoke(context);
                 if (!context.popBoolean()) {
                     break;
@@ -103,7 +103,7 @@ public enum LoopOperators implements Invocable, SelfDescribing {
             Invocable body = context.pop();
             Invocable test = context.pop();
             do {
-                context.interruptionPoint();
+                Operators.interruptionPoint();
                 test.invoke(context);
                 if (context.popBoolean()) {
                     break;

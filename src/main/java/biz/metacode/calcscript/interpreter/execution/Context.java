@@ -200,8 +200,7 @@ class Context implements ExecutionContext, PoolProvider {
         if (Array.class.equals(pooledObject)) {
             return (Pool<T>) arrayPool;
         }
-        throw new IllegalArgumentException("This type of pool is not supported: "
-                + pooledObject);
+        throw new IllegalArgumentException("This type of pool is not supported: " + pooledObject);
     }
 
     public Set<String> getRegisteredVariableNames() {
@@ -247,12 +246,6 @@ class Context implements ExecutionContext, PoolProvider {
             return Program.createInvocable(value.toString());
         }
         throw new OverloadMissingException(value.getType());
-    }
-
-    public void interruptionPoint() throws InterruptedException {
-        if (Thread.interrupted()) {
-            throw new InterruptedException();
-        }
     }
 
     public void setTrait(final String trait) {

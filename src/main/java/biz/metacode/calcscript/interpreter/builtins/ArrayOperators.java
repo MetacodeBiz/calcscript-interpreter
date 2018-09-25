@@ -151,7 +151,7 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
                     }
                 });
                 // comparator could set interruption flag
-                context.interruptionPoint();
+                Operators.interruptionPoint();
                 SharedArray sorted = context.acquireArray();
                 sorted.addAll(values);
                 context.pushArray(sorted);
@@ -238,7 +238,7 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             try {
                 SharedArray result = context.acquireArray();
                 for (int i = (int) times - 1; i >= 0; i--) {
-                    context.interruptionPoint();
+                    Operators.interruptionPoint();
                     result.addAll(first);
                 }
                 context.pushArray(result);
@@ -345,7 +345,7 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
                         if (shouldCloseAccumulator) {
                             accumulator.release();
                         }
-                        context.interruptionPoint();
+                        Operators.interruptionPoint();
                         accumulator = context.pop();
                         shouldCloseAccumulator = true;
                     }

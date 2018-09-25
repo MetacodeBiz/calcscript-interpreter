@@ -45,7 +45,7 @@ public enum BlockOperators implements Invocable {
             Invocable test = context.pop();
             SharedArray result = context.acquireArray();
             while (true) {
-                context.interruptionPoint();
+                Operators.interruptionPoint();
                 context.push(context.peek().duplicate());
                 test.invoke(context);
                 boolean passed = context.popBoolean();

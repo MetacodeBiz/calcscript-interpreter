@@ -5,6 +5,7 @@ import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.ScriptExecutionException;
 import biz.metacode.calcscript.interpreter.SelfDescribing;
+import biz.metacode.calcscript.interpreter.builtins.Operators;
 
 import java.io.Serializable;
 
@@ -31,9 +32,7 @@ class Variable implements Expression, Serializable {
      * @throws InterruptedException
      */
     public void evaluate(final ExecutionContext context) throws InterruptedException {
-        if (Thread.interrupted()) {
-            throw new InterruptedException();
-        }
+        Operators.interruptionPoint();
 
         Invocable value = context.read(this.name);
 
@@ -41,24 +40,9 @@ class Variable implements Expression, Serializable {
             try {
                 value.invoke(context);
             } catch (ScriptExecutionException e) {
-                String operatorName = e.getOperatorName();
-                if (operatorName == null) {
-                    operatorName = this.name;
-                }
-                String example = e.getExample();
-                if (example == null) {
-                    if (value instanceof SelfDescribing) {
-                        example = ((SelfDescribing) value).getExampleUsage();
-                    }
-                }
-                if (example == null) {
-                    example = "3 1<name>";
-                }
-                example = example.replace("<name>", this.name);
-                throw new ScriptExecutionException(this.name, example, e);
+                formatException(value, e);
             }
         } else {
-
             if (interpretAsDouble(context)) {
                 return;
             }
@@ -66,8 +50,25 @@ class Variable implements Expression, Serializable {
             if (interpretAsString(context)) {
                 return;
             }
-
         }
+    }
+
+    private void formatException(final Invocable value, final ScriptExecutionException e) {
+        String operatorName = e.getOperatorName();
+        if (operatorName == null) {
+            operatorName = this.name;
+        }
+        String example = e.getExample();
+        if (example == null) {
+            if (value instanceof SelfDescribing) {
+                example = ((SelfDescribing) value).getExampleUsage();
+            }
+        }
+        if (example == null) {
+            example = "3 1<name>";
+        }
+        example = example.replace("<name>", this.name);
+        throw new ScriptExecutionException(this.name, example, e);
     }
 
     private boolean interpretAsDouble(final ExecutionContext context) {

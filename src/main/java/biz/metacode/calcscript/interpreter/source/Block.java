@@ -48,7 +48,7 @@ class Block extends Value implements Expression, Serializable {
 
     @Override
     public int getPriority() {
-        return 4;
+        return Value.PRIORITY_HIGHER;
     }
 
     /**

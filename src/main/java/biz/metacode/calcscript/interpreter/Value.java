@@ -10,6 +10,26 @@ import javax.annotation.Nonnull;
  */
 public abstract class Value implements Invocable, Comparable<Value> {
 
+    /**
+     * Low priority of value, equivalent to numeric priority.
+     */
+    public static final int PRIORITY_LOW = 10;
+
+    /**
+     * Normal priority of value, equivalent to array priority.
+     */
+    public static final int PRIORITY_NORMAL = 20;
+
+    /**
+     * High priority of value, equivalent to text priority.
+     */
+    public static final int PRIORITY_HIGH = 30;
+
+    /**
+     * Higher priority of value, equivalent to block priority.
+     */
+    public static final int PRIORITY_HIGHER = 40;
+
     private static final long serialVersionUID = -1274916686056050022L;
 
     /**

@@ -34,7 +34,7 @@ class Text extends RefCountedValue implements PooledObject {
 
     @Override
     public int getPriority() {
-        return 3;
+        return Value.PRIORITY_HIGH;
     }
 
     @Override

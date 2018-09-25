@@ -6,6 +6,7 @@ import biz.metacode.calcscript.interpreter.SharedArray;
 import biz.metacode.calcscript.interpreter.Value;
 import biz.metacode.calcscript.interpreter.builtins.Builtins;
 import biz.metacode.calcscript.interpreter.execution.Engine;
+import biz.metacode.calcscript.interpreter.source.Program;
 import biz.metacode.calcscript.interpreter.source.SyntaxException;
 
 import java.io.BufferedReader;
@@ -38,7 +39,7 @@ public class Main {
 
     private static SharedArray execute(final String code) {
         try {
-            return ENGINE.execute(code);
+            return ENGINE.execute(new Program(code));
         } catch (ScriptExecutionException e) {
             System.err.println(e.getMessage() + " Example: " + e.getExample());
         } catch (InterruptedException e) {

@@ -5,7 +5,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'checkstyle'
 
 group = 'biz.metacode.calcscript'
-version = '1.0.1-SNAPSHOT'
+version = '2.0.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

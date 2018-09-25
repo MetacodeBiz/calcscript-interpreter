@@ -5,12 +5,7 @@ import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.ScriptExecutionException;
 import biz.metacode.calcscript.interpreter.SharedArray;
 import biz.metacode.calcscript.interpreter.Value;
-import biz.metacode.calcscript.interpreter.execution.Engine;
-import biz.metacode.calcscript.interpreter.execution.RestoreException;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.TestName;
+import biz.metacode.calcscript.interpreter.source.Program;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +13,10 @@ import java.io.OutputStream;
 import java.util.Map;
 
 import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 
 public abstract class EngineTestBase {
 
@@ -65,7 +64,7 @@ public abstract class EngineTestBase {
 
     protected String eval(String code) throws ScriptExecutionException, InterruptedException {
         engine.getTestHelper().setTrait(name.getMethodName());
-        SharedArray array = engine.execute(code);
+        SharedArray array = engine.execute(new Program(code));
         StringBuilder sb = new StringBuilder();
         try {
             for (Value out : array) {

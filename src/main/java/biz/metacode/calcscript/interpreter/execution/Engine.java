@@ -4,7 +4,6 @@ package biz.metacode.calcscript.interpreter.execution;
 import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.SharedArray;
 import biz.metacode.calcscript.interpreter.Value;
-import biz.metacode.calcscript.interpreter.source.Program;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +15,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -85,34 +83,16 @@ public class Engine {
      * {@link SharedArray#release()} after interacting with this method's
      * result.
      *
-     * @param source Script source.
+     * @param program Script to execute.
      * @return Array of values from the stack.
      * @throws InterruptedException If script execution was interrupted.
      */
     @Nonnull
-    public SharedArray execute(@Nonnull final CharSequence source)
+    public SharedArray execute(@Nonnull final Invocable program)
             throws InterruptedException {
-        Program program = new Program(source);
         context.clearStack();
         program.invoke(context);
         return context.getData();
-    }
-
-    /**
-     * Creates a {@link Callable} that when called will execute given script. It
-     * is important to use {@link SharedArray#release()} after interacting with
-     * the array.
-     *
-     * @param source Script source.
-     * @return Callable that executes the script.
-     */
-    @Nonnull
-    public Callable<SharedArray> executeLater(@Nonnull final CharSequence source) {
-        return new Callable<SharedArray>() {
-            public SharedArray call() throws Exception {
-                return Engine.this.execute(source);
-            }
-        };
     }
 
     /**

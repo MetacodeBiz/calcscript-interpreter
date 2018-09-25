@@ -30,6 +30,20 @@ class Context implements ExecutionContext, PoolProvider {
 
     private Memory memory;
 
+    private static String convertArrayToString(final Array array) {
+        StringBuilder sb = new StringBuilder();
+
+        for (Value element : array) {
+            sb.append(element).append(' ');
+        }
+
+        if (sb.length() > 0) {
+            sb.delete(sb.length() - 1, sb.length());
+        }
+
+        return sb.toString();
+    }
+
     Context() {
         this.clearStack();
     }
@@ -231,16 +245,7 @@ class Context implements ExecutionContext, PoolProvider {
             array.add(value);
             return array;
         } else if (value instanceof Array) {
-            StringBuilder sb = new StringBuilder();
-            for (Value element : (Array) value) {
-                sb.append(element).append(' ');
-            }
-
-            if (sb.length() > 0) {
-                sb.delete(sb.length() - 1, sb.length());
-            }
-
-            return textPool.create(sb.toString());
+            return textPool.create(convertArrayToString((Array) value));
         } else if (value instanceof Text) {
             return Program.createInvocable(value.toString());
         }

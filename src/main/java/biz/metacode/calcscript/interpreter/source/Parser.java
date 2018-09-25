@@ -32,14 +32,18 @@ class Parser implements Iterator<Expression>, Iterable<Expression> {
         } else if ("{".equals(current)) {
             return this.parseBlock();
         } else if ('#' == current.charAt(0)) {
-            this.nextConstruct();
-            Expression next = this.parseTopLevel();
-            if (next == null) {
-                throw new SyntaxException("End of script");
-            }
-            return next;
+            return this.parseComment();
         }
         return this.parseVariable();
+    }
+
+    private Expression parseComment() {
+        this.nextConstruct();
+        Expression next = this.parseTopLevel();
+        if (next == null) {
+            throw new SyntaxException("End of script");
+        }
+        return next;
     }
 
     private Expression parseVariable() {

@@ -84,4 +84,4 @@ signing {
     sign publishing.publications.mavenJava
 }
 
-defaultTasks 'clean', 'test', 'findbugsMain', 'findbugsTest', 'checkstyleMain', 'checkstyleTest', 'javadoc', 'jar'
+defaultTasks 'clean', 'test', 'findbugsMain', 'findbugsTest', 'checkstyleMain', 'javadoc', 'jar'

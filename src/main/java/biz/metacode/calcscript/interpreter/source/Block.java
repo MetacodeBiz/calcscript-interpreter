@@ -19,7 +19,7 @@ class Block extends Value implements Expression, Serializable {
 
     private final List<Expression> members;
 
-    public Block(final List<Expression> members) {
+    Block(final List<Expression> members) {
         this.members = members;
     }
 

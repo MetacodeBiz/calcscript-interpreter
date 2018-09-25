@@ -20,7 +20,7 @@ public final class Builtins {
     private static final class BuiltinsMap extends HashMap<String, Invocable> {
         private static final long serialVersionUID = -8879873111905136912L;
 
-        public BuiltinsMap() {
+        BuiltinsMap() {
             put("+", new CoercingDispatcher("+"));
             put("+_number_number", ArithmeticOperators.ADDITION);
             put("+_string_string", StringOperators.CONCATENATE);

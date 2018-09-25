@@ -5,7 +5,7 @@ class EngineTestHelper {
 
     private final Context context;
 
-    public EngineTestHelper(final Context context) {
+    EngineTestHelper(final Context context) {
         this.context = context;
     }
 

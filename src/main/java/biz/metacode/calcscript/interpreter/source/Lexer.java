@@ -13,7 +13,7 @@ class Lexer implements Iterable<String> {
 
     private final CharSequence source;
 
-    public Lexer(final CharSequence source) {
+    Lexer(final CharSequence source) {
         this.source = source;
     }
 

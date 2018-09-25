@@ -11,7 +11,7 @@ class Stack {
 
     private final IntStack marks = new IntStack();
 
-    public Stack(final Pool<Array> pool) {
+    Stack(final Pool<Array> pool) {
         this.pool = pool;
     }
 

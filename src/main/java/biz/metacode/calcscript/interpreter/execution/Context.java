@@ -31,7 +31,7 @@ class Context implements ExecutionContext, PoolProvider {
 
     private Memory memory;
 
-    public Context() {
+    Context() {
         this.clearStack();
     }
 

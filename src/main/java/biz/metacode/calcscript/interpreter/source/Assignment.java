@@ -16,7 +16,7 @@ class Assignment implements Expression, Serializable {
 
     private final String targetVariableName;
 
-    public Assignment(final String targetVariableName) {
+    Assignment(final String targetVariableName) {
         this.targetVariableName = targetVariableName;
     }
 

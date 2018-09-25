@@ -22,7 +22,7 @@ class Numeric extends RefCountedValue implements PooledObject {
 
     private double value;
 
-    public Numeric(final Pool<Numeric> pool, final double value) {
+    Numeric(final Pool<Numeric> pool, final double value) {
         this.pool = pool;
         this.value = value;
     }

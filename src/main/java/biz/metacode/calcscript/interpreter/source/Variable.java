@@ -17,7 +17,7 @@ class Variable implements Expression, Serializable {
 
     private final String name;
 
-    public Variable(final String name) {
+    Variable(final String name) {
         this.name = name;
     }
 

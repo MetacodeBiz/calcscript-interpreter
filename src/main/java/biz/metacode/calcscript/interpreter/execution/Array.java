@@ -18,7 +18,7 @@ class Array extends RefCountedValue implements SharedArray, PooledObject {
 
     private transient Pool<Array> pool;
 
-    public Array(final Pool<Array> pool) {
+    Array(final Pool<Array> pool) {
         this.pool = pool;
     }
 

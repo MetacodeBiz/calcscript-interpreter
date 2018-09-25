@@ -41,21 +41,21 @@ class Variable implements Expression, Serializable {
             try {
                 value.invoke(context);
             } catch (ScriptExecutionException e) {
-                if (e.getOperatorName() == null) {
-                    e.setOperatorName(this.name);
+                String operatorName = e.getOperatorName();
+                if (operatorName == null) {
+                    operatorName = this.name;
                 }
-                if (e.getExample() == null) {
+                String example = e.getExample();
+                if (example == null) {
                     if (value instanceof SelfDescribing) {
-                        e.setExample(((SelfDescribing) value).getExampleUsage());
+                        example = ((SelfDescribing) value).getExampleUsage();
                     }
-                } else {
-                    e.setExample(e.getExample());
                 }
-                if (e.getExample() == null) {
-                    e.setExample("3 1<name>");
+                if (example == null) {
+                    example = "3 1<name>";
                 }
-                e.setExample(e.getExample().replace("<name>", this.name));
-                throw e;
+                example = example.replace("<name>", this.name);
+                throw new ScriptExecutionException(this.name, example, e);
             }
         } else {
 

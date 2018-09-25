@@ -8,9 +8,9 @@ public class ScriptExecutionException extends RuntimeException {
 
     private static final long serialVersionUID = -2441264131952720908L;
 
-    private String operatorName;
+    private final String operatorName;
 
-    private String example;
+    private final String example;
 
     /**
      * Constructs new exception with given message and error's cause.
@@ -20,6 +20,21 @@ public class ScriptExecutionException extends RuntimeException {
      */
     public ScriptExecutionException(final String message, final Throwable cause) {
         super(message, cause);
+        this.operatorName = null;
+        this.example = null;
+    }
+
+    /**
+     * Constructs new exception with given operator name and example usage..
+     *
+     * @param operatorName Operator that caused the reror.
+     * @param example Example, correct usage.
+     * @param cause Error cause.
+     */
+    public ScriptExecutionException(final String operatorName, final String example, final Throwable cause) {
+        super("Script execution failed for operator: " + operatorName, cause);
+        this.operatorName = operatorName;
+        this.example = example;
     }
 
     /**
@@ -28,7 +43,7 @@ public class ScriptExecutionException extends RuntimeException {
      * @param message Error message.
      */
     public ScriptExecutionException(final String message) {
-        super(message);
+        this(message, null);
     }
 
     /**
@@ -41,30 +56,11 @@ public class ScriptExecutionException extends RuntimeException {
     }
 
     /**
-     * Sets last executed operator's name. Used internally by execution engine
-     * to track which operator was last executed before encountering the error.
-     *
-     * @param operatorName Name of the last operator.
-     */
-    public void setOperatorName(final String operatorName) {
-        this.operatorName = operatorName;
-    }
-
-    /**
      * Gets an example of correct usage for operator {@link #getOperatorName()}.
      *
      * @return Example usage or {@code null} if it's not available.
      */
     public String getExample() {
         return example;
-    }
-
-    /**
-     * Sets an example of correct usage for operator {@link #getOperatorName()}.
-     *
-     * @param example Example usage for operator.
-     */
-    public void setExample(final String example) {
-        this.example = example;
     }
 }

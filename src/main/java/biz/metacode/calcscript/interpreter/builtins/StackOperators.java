@@ -3,6 +3,7 @@ package biz.metacode.calcscript.interpreter.builtins;
 
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.Invocable;
+import biz.metacode.calcscript.interpreter.ScriptExecutionException;
 import biz.metacode.calcscript.interpreter.Value;
 import biz.metacode.calcscript.interpreter.ValueMissingException;
 
@@ -96,8 +97,7 @@ public enum StackOperators implements Invocable {
                 second.release();
                 third.release();
             } catch (ValueMissingException e) {
-                e.setExample("1 2 3<name>");
-                throw e;
+                throw new ScriptExecutionException("@", "1 2 3<name>", e);
             }
         }
     },

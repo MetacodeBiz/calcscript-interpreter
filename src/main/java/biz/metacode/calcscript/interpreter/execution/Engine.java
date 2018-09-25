@@ -131,6 +131,7 @@ public class Engine {
      * @param stream Stream to read from.
      * @throws RestoreException Thrown when restoring fails.
      */
+    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     public void restoreState(@Nonnull final InputStream stream) throws RestoreException {
         try {
             context.setMemory(new Memory());

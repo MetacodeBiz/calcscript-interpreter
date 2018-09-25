@@ -329,6 +329,7 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
         /**
          * {@inheritDoc}
          */
+        @SuppressWarnings("checkstyle:CyclomaticComplexity")
         public void invoke(final ExecutionContext context) throws InterruptedException {
             Invocable block = context.pop();
             SharedArray array = context.pop().asArray();

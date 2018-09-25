@@ -21,34 +21,7 @@ public final class Builtins {
         private static final long serialVersionUID = -8879873111905136912L;
 
         BuiltinsMap() {
-            put("+", new CoercingDispatcher("+"));
-            put("+_number_number", ArithmeticOperators.ADDITION);
-            put("+_string_string", StringOperators.CONCATENATE);
-            put("+_array_array", ArrayOperators.CONCATENATE);
-            put("+_block_block", BlockOperators.CONCATENATE);
-
-            put("-", new CoercingDispatcher("-"));
-            put("-_number_number", ArithmeticOperators.SUBSTRACTION);
-            put("-_array_array", ArrayOperators.SUBSTRACT);
-
-            put("*", new OrderedDispatcher("*"));
-            put("*_number_number", ArithmeticOperators.MULTIPLICATION);
-            put("*_block_number", LoopOperators.TIMES);
-            put("*_array_number", ArrayOperators.REPEAT);
-            put("*_string_number", StringOperators.REPEAT);
-            put("*_string_array", ArrayOperators.JOIN_BY_SEPARATOR);
-            put("*_array_array", ArrayOperators.JOIN_ARRAYS);
-            put("*_string_string", StringOperators.JOIN);
-            put("*_block_array", ArrayOperators.FOLD);
-
-            put("/", new OrderedDispatcher("/"));
-            put("/_number_number", ArithmeticOperators.DIVISION);
-            put("/_array_array", ArrayOperators.SPLIT_AROUND_MATCHES);
-            // put("/_string_string",
-            // StringOperators.SPLIT_AROUND_MATCHES);
-            put("/_array_number", ArrayOperators.SPLIT_INTO_GROUPS);
-            put("/_block_block", BlockOperators.UNFOLD);
-            put("/_block_array", ArrayOperators.EACH);
+            addMathOperators();
 
             put("%", new OrderedDispatcher("%"));
             put("%_number_number", ArithmeticOperators.MODULO);
@@ -90,20 +63,7 @@ public final class Builtins {
             put("^_array_array", ArrayOperators.SYMMETRIC_DIFFERENCE);
             put("^_number_number", BitOperators.XOR);
 
-            put("<", new OrderedDispatcher("<"));
-            put("<_array_number", ArrayOperators.INDEX_LESS_THAN);
-            put("<_number_number", ComparisonOperators.LESS_THAN);
-            put("<_string_string", ComparisonOperators.LESS_THAN);
-
-            put(">", new OrderedDispatcher(">"));
-            put(">_array_number", ArrayOperators.INDEX_GREATER_THAN);
-            put(">_number_number", ComparisonOperators.GREATER_THAN);
-            put(">_string_string", ComparisonOperators.GREATER_THAN);
-
-            put("=", new OrderedDispatcher("="));
-            put("=_number_number", ComparisonOperators.EQUALS);
-            put("=_string_string", ComparisonOperators.EQUALS);
-            put("=_array_number", ArrayOperators.GET_ELEMENT);
+            addComparisonOperators();
 
             put("(", new SingleDispatcher("("));
             put("(_array", ArrayOperators.UNCONS);
@@ -123,6 +83,10 @@ public final class Builtins {
             put("[", StackOperators.MARK_STACK_SIZE);
             put("]", StackOperators.SLICE_STACK);
 
+            addWordOperators();
+        }
+
+        private void addWordOperators() {
             put("sum", MathOperators.SUM);
             put("rand", ArithmeticOperators.RANDOM);
             put("sin", ArithmeticOperators.SINUS);
@@ -141,6 +105,54 @@ public final class Builtins {
             put("base", new OrderedDispatcher("#base"));
             put("#base_array_number", MathOperators.CONVERT_ARRAY_BASE);
             put("#base_number_number", MathOperators.CONVERT_NUMBER_BASE);
+        }
+
+        private void addComparisonOperators() {
+            put("<", new OrderedDispatcher("<"));
+            put("<_array_number", ArrayOperators.INDEX_LESS_THAN);
+            put("<_number_number", ComparisonOperators.LESS_THAN);
+            put("<_string_string", ComparisonOperators.LESS_THAN);
+
+            put(">", new OrderedDispatcher(">"));
+            put(">_array_number", ArrayOperators.INDEX_GREATER_THAN);
+            put(">_number_number", ComparisonOperators.GREATER_THAN);
+            put(">_string_string", ComparisonOperators.GREATER_THAN);
+
+            put("=", new OrderedDispatcher("="));
+            put("=_number_number", ComparisonOperators.EQUALS);
+            put("=_string_string", ComparisonOperators.EQUALS);
+            put("=_array_number", ArrayOperators.GET_ELEMENT);
+        }
+
+        private void addMathOperators() {
+            put("+", new CoercingDispatcher("+"));
+            put("+_number_number", ArithmeticOperators.ADDITION);
+            put("+_string_string", StringOperators.CONCATENATE);
+            put("+_array_array", ArrayOperators.CONCATENATE);
+            put("+_block_block", BlockOperators.CONCATENATE);
+
+            put("-", new CoercingDispatcher("-"));
+            put("-_number_number", ArithmeticOperators.SUBSTRACTION);
+            put("-_array_array", ArrayOperators.SUBSTRACT);
+
+            put("*", new OrderedDispatcher("*"));
+            put("*_number_number", ArithmeticOperators.MULTIPLICATION);
+            put("*_block_number", LoopOperators.TIMES);
+            put("*_array_number", ArrayOperators.REPEAT);
+            put("*_string_number", StringOperators.REPEAT);
+            put("*_string_array", ArrayOperators.JOIN_BY_SEPARATOR);
+            put("*_array_array", ArrayOperators.JOIN_ARRAYS);
+            put("*_string_string", StringOperators.JOIN);
+            put("*_block_array", ArrayOperators.FOLD);
+
+            put("/", new OrderedDispatcher("/"));
+            put("/_number_number", ArithmeticOperators.DIVISION);
+            put("/_array_array", ArrayOperators.SPLIT_AROUND_MATCHES);
+            // put("/_string_string",
+            // StringOperators.SPLIT_AROUND_MATCHES);
+            put("/_array_number", ArrayOperators.SPLIT_INTO_GROUPS);
+            put("/_block_block", BlockOperators.UNFOLD);
+            put("/_block_array", ArrayOperators.EACH);
         }
     }
 

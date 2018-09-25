@@ -335,13 +335,12 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
             try {
                 boolean shouldCloseAccumulator = false;
                 Value accumulator = null;
-                Iterator<Value> iterator = array.iterator();
-                while (iterator.hasNext()) {
+                for (Value value : array) {
                     if (accumulator == null) {
-                        accumulator = iterator.next();
+                        accumulator = value;
                     } else {
                         context.push(accumulator);
-                        context.push(iterator.next());
+                        context.push(value);
                         block.invoke(context);
                         if (shouldCloseAccumulator) {
                             accumulator.release();

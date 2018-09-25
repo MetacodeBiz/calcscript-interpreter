@@ -4,7 +4,6 @@ package biz.metacode.calcscript.interpreter.execution;
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.InvalidTypeException;
 import biz.metacode.calcscript.interpreter.Invocable;
-import biz.metacode.calcscript.interpreter.OverloadMissingException;
 import biz.metacode.calcscript.interpreter.Value;
 import biz.metacode.calcscript.interpreter.Value.Pair;
 import biz.metacode.calcscript.interpreter.Value.Type;
@@ -245,7 +244,7 @@ class Context implements ExecutionContext, PoolProvider {
         } else if (value instanceof Text) {
             return Program.createInvocable(value.toString());
         }
-        throw new OverloadMissingException(value.getType());
+        throw new IllegalArgumentException("Could not convert up type: " + value.getType());
     }
 
     public void setTrait(final String trait) {

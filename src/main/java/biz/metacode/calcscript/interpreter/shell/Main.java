@@ -70,8 +70,7 @@ public class Main {
             System.out.print("-> ");
             String line = in.readLine();
 
-            if (line == null || "".equals(line) || "quit".equals(line)
-                    || "exit".equals(line)) {
+            if (line == null || "".equals(line) || "quit".equals(line)) {
                 break;
             }
 

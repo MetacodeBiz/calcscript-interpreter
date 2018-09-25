@@ -810,14 +810,7 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
         public void invoke(final ExecutionContext context) throws InterruptedException {
             SharedArray array = context.pop().asArray();
             try {
-                // find largest array
-                int maxSize = 0;
-                for (int i = 0; i < array.size(); i++) {
-                    int size = array.get(i).asArray().size();
-                    if (size > maxSize) {
-                        maxSize = size;
-                    }
-                }
+                int maxSize = findLargestSize(array);
                 SharedArray result = context.acquireArray();
                 for (int i = 0; i < maxSize; i++) {
                     SharedArray part = context.acquireArray();
@@ -840,6 +833,18 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
          */
         public String getExampleUsage() {
             return "[[1 2][3 4][5 6]]<name>";
+        }
+
+        private int findLargestSize(final SharedArray array) {
+            // find largest array
+            int maxSize = 0;
+            for (int i = 0; i < array.size(); i++) {
+                int size = array.get(i).asArray().size();
+                if (size > maxSize) {
+                    maxSize = size;
+                }
+            }
+            return maxSize;
         }
     };
 

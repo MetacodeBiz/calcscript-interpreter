@@ -27,8 +27,7 @@ class Parser implements Iterator<Expression>, Iterable<Expression> {
     private Expression parseTopLevel() {
         if (current == null) {
             return null;
-        }
-        if (":".equals(current)) {
+        } else if (":".equals(current)) {
             return this.parseAssignment();
         } else if ("{".equals(current)) {
             return this.parseBlock();
@@ -39,9 +38,8 @@ class Parser implements Iterator<Expression>, Iterable<Expression> {
                 throw new SyntaxException("End of script");
             }
             return next;
-        } else {
-            return this.parseVariable();
         }
+        return this.parseVariable();
     }
 
     private Expression parseVariable() {

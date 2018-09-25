@@ -5,6 +5,7 @@ import biz.metacode.calcscript.interpreter.Value;
 
 abstract class RefCountedValue extends Value {
 
+    @SuppressWarnings("checkstyle:VisibilityModifier")
     transient String trait;
 
     private static final long serialVersionUID = 6994581318461354474L;

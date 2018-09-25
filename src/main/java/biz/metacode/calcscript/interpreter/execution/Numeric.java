@@ -66,8 +66,7 @@ class Numeric extends RefCountedValue implements PooledObject {
 
     @Override
     public int hashCode() {
-        long v = Double.doubleToLongBits(this.value);
-        return (int) (v ^ (v >>> 32));
+        return Double.valueOf(this.value).hashCode();
     }
 
     @Override

@@ -12,7 +12,6 @@ import biz.metacode.calcscript.interpreter.source.Program;
 
 import java.util.Collection;
 import java.util.EmptyStackException;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -220,8 +219,8 @@ class Context implements ExecutionContext, PoolProvider {
         return memory.keys();
     }
 
-    public Iterator<Map.Entry<String, Invocable>> getRegisteredVariables() {
-        return memory.iterator();
+    public Iterable<Map.Entry<String, Invocable>> getRegisteredVariables() {
+        return memory;
     }
 
     public Pair coerce(final Value first, final Value second) {

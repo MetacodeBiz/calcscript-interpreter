@@ -12,7 +12,6 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -114,13 +113,8 @@ public class Engine {
     public void saveState(@Nonnull final OutputStream stream) throws IOException {
         ObjectOutputStream objectOut = new ObjectOutputStream(stream);
         Map<String, Serializable> persistent = new HashMap<String, Serializable>();
-        Iterator<Map.Entry<String, Invocable>> iterator = context
-                .getRegisteredVariables();
-        while (iterator.hasNext()) {
-            Map.Entry<String, Invocable> object = iterator.next();
-            if (object.getValue() instanceof Serializable) {
-                persistent.put(object.getKey(), object.getValue());
-            }
+        for (Map.Entry<String, Invocable> object : context.getRegisteredVariables()) {
+            persistent.put(object.getKey(), object.getValue());
         }
         objectOut.writeObject(persistent);
     }

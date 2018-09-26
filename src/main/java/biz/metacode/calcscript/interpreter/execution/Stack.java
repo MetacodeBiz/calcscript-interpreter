@@ -30,11 +30,6 @@ class Stack {
         }
     }
 
-    public <T extends Value> T pop(final Class<T> type) {
-        Value value = this.pop();
-        return type.cast(value);
-    }
-
     public Value peek() {
         return this.data.peek();
     }

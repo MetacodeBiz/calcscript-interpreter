@@ -21,12 +21,6 @@ class IntStack {
         return data[pointer];
     }
 
-    public void setLast(final int element) {
-        if (!isEmpty()) {
-            data[pointer] = element;
-        }
-    }
-
     public boolean isEmpty() {
         return pointer < 0;
     }

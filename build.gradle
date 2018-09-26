@@ -90,4 +90,10 @@ signing {
     sign publishing.publications.mavenJava
 }
 
-defaultTasks 'clean', 'test', 'findbugsMain', 'findbugsTest', 'checkstyleMain', 'javadoc', 'jar'
+cobertura {
+    coverageCheckTotalLineRate = 91
+    coverageCheckTotalBranchRate = 81
+    coverageCheckHaltOnFailure = true
+}
+
+defaultTasks 'clean', 'test', 'findbugsMain', 'findbugsTest', 'checkstyleMain', 'coberturaCheck', 'javadoc', 'jar'

@@ -47,6 +47,22 @@ class Block extends Value implements Expression, Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return members.hashCode();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object object) {
+        if (object instanceof Block) {
+            return this.members.equals(((Block) object).members);
+        }
+        return false;
+    }
+
+    @Override
     public int getPriority() {
         return Value.PRIORITY_HIGHER;
     }
@@ -70,8 +86,7 @@ class Block extends Value implements Expression, Serializable {
     }
 
     public Block concatenate(final Block other) {
-        List<Expression> exprs = new ArrayList<Expression>(this.members.size()
-                + other.members.size());
+        List<Expression> exprs = new ArrayList<Expression>(this.members.size() + other.members.size());
         exprs.addAll(this.members);
         exprs.addAll(other.members);
         return new Block(exprs);

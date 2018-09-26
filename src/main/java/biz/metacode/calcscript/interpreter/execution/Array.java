@@ -58,6 +58,22 @@ class Array extends RefCountedValue implements SharedArray, PooledObject {
     }
 
     @Override
+    public int hashCode() {
+        return this.entries.hashCode();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object object) {
+        if (object instanceof Array) {
+            return this.entries.equals(((Array) object).entries);
+        }
+        return false;
+    }
+
+    @Override
     public int getPriority() {
         return Value.PRIORITY_NORMAL;
     }

@@ -8,9 +8,11 @@ import static org.junit.Assert.fail;
 import biz.metacode.calcscript.interpreter.ExecutionContext;
 import biz.metacode.calcscript.interpreter.InvalidTypeException;
 import biz.metacode.calcscript.interpreter.Invocable;
+import biz.metacode.calcscript.interpreter.SharedArray;
 import biz.metacode.calcscript.interpreter.Value;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -47,7 +49,50 @@ public class EngineTest {
             assertFalse(array.equals(new Object()));
             assertFalse(array.equals(first));
             assertFalse(array.equals(array2));
+            assertTrue(array.toBoolean());
+            assertFalse(context.convertToValue(Collections.emptyList()).toBoolean());
             assertEquals(0, array.compareTo(array));
+        });
+    }
+
+    @Test
+    public void arrayMethods() throws InterruptedException {
+        withContext(context -> {
+            SharedArray array = context.acquireArray();
+            array.addAll(Collections.emptyList());
+            assertTrue(array.containsAll(Collections.emptyList()));
+            assertEquals(0, array.toArray(new Value[0]).length);
+            array.add(new Value() {
+                private static final long serialVersionUID = -5049256940748039971L;
+
+                @Override
+                public int getPriority() {
+                    return 0;
+                }
+
+                @Override
+                public Value duplicate() {
+                    return this;
+                }
+
+                @Override
+                public boolean toBoolean() {
+                    return false;
+                }
+
+                @Override
+                public Type getType() {
+                    return Value.Type.OTHER;
+                }
+            });
+        });
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void arrayRetain() throws InterruptedException {
+        withContext(context -> {
+            SharedArray array = context.acquireArray();
+            array.retainAll(Collections.emptyList());
         });
     }
 

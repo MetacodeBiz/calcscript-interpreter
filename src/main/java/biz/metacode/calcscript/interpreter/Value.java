@@ -125,26 +125,6 @@ public abstract class Value implements Invocable, Comparable<Value> {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(final Object object) {
-        if (object instanceof Value) {
-            return this.getType() == ((Value) object).getType()
-                    && this.toString().equals(object.toString());
-        }
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        return this.toString().hashCode();
-    }
-
-    /**
      * Order two values (this and other) according to their priorities.
      *
      * @param other Second value.

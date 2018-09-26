@@ -1,6 +1,9 @@
 
 package biz.metacode.calcscript.interpreter.builtins.test;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import biz.metacode.calcscript.interpreter.ScriptExecutionException;
 import biz.metacode.calcscript.interpreter.builtins.ArithmeticOperators;
 import biz.metacode.calcscript.interpreter.builtins.BooleanOperators;
@@ -65,6 +68,12 @@ public class BooleanOperatorsTest extends EngineTestBase {
         register("=", ComparisonOperators.EQUALS);
         assertEval("1", "3 3=");
         assertEval("0", "'3'3=");
+    }
+
+    @Test
+    public void selfDescribing() {
+        assertNotNull(BooleanOperators.IF.getExampleUsage());
+        assertNull(BooleanOperators.AND.getExampleUsage());
     }
 
 }

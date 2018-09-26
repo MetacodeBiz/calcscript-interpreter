@@ -46,4 +46,9 @@ public class LoopOperatorsTest extends EngineTestBase {
         assertEval("5", "5{.}{1-.}until");
         assertEval("1 2 3 4 5 6 6", "0{. 5>}{1+.}until");
     }
+
+    @Test
+    public void selfDescribing() {
+        assertDescriptions(LoopOperators.values());
+    }
 }

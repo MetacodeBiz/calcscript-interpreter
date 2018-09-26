@@ -6,7 +6,6 @@ import biz.metacode.calcscript.interpreter.builtins.MathOperators;
 import biz.metacode.calcscript.interpreter.builtins.StackOperators;
 import biz.metacode.calcscript.interpreter.execution.EngineTestBase;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class ArithmeticOperatorsTest extends EngineTestBase {
@@ -63,6 +62,31 @@ public class ArithmeticOperatorsTest extends EngineTestBase {
     }
 
     @Test
+    public void negativeRandom() throws ScriptExecutionException, InterruptedException {
+        register("rand", ArithmeticOperators.RANDOM);
+        assertEval("-0", "-1rand");
+    }
+
+    @Test
+    public void smallRandom() throws ScriptExecutionException, InterruptedException {
+        register("rand", ArithmeticOperators.RANDOM);
+        String result = eval("-0.5rand");
+        Double.parseDouble(result);
+    }
+
+    @Test
+    public void sinus() throws ScriptExecutionException, InterruptedException {
+        register("sin", ArithmeticOperators.SINUS);
+        assertEval("0.841", "1sin");
+    }
+
+    @Test
+    public void cosinus() throws ScriptExecutionException, InterruptedException {
+        register("cos", ArithmeticOperators.COSINUS);
+        assertEval("0.54", "1cos");
+    }
+
+    @Test
     public void abs() throws ScriptExecutionException, InterruptedException {
         register("abs", MathOperators.ABSOLUTE);
         assertEval("4", "-4abs");
@@ -74,6 +98,7 @@ public class ArithmeticOperatorsTest extends EngineTestBase {
         register("base", MathOperators.CONVERT_NUMBER_BASE);
         assertEval("[1 1 0]", "6 2 base");
         assertEval("[2 2]", "8 3 base");
+        assertEval("[1 1 1]", "3 1 base");
         assertEval("[15 15]", "255 16 base");
     }
 
@@ -83,7 +108,14 @@ public class ArithmeticOperatorsTest extends EngineTestBase {
         register("[", StackOperators.MARK_STACK_SIZE);
         register("]", StackOperators.SLICE_STACK);
         assertEval("6", "2[1 1 0]base");
+        assertEval("6", "2[1 \"1\" {}]base");
         assertEval("8", "3[2 2]base");
+        assertEval("2", "1[2 2]base");
         assertEval("255", "16[15 15]base");
+    }
+
+    @Test
+    public void selfDescribing() {
+        assertDescriptions(MathOperators.values());
     }
 }

@@ -29,6 +29,12 @@ public class PoolTest extends EngineTestBase {
         assertCurrentStringPoolSize(0);
     }
 
+    @Test(expected = ScriptExecutionException.class)
+    public void rot3FailingTest() throws ScriptExecutionException, InterruptedException {
+        register("@", StackOperators.ROT3);
+        eval("1 2@");
+    }
+
     @Test
     public void sumTest() throws ScriptExecutionException, InterruptedException {
         register("[", StackOperators.MARK_STACK_SIZE);

@@ -1,8 +1,11 @@
 
 package biz.metacode.calcscript.interpreter.execution;
 
+import static org.junit.Assert.assertNotNull;
+
 import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.ScriptExecutionException;
+import biz.metacode.calcscript.interpreter.SelfDescribing;
 import biz.metacode.calcscript.interpreter.SharedArray;
 import biz.metacode.calcscript.interpreter.Value;
 import biz.metacode.calcscript.interpreter.source.Program;
@@ -95,4 +98,11 @@ public abstract class EngineTestBase {
         Assert.assertEquals("String balance should be 0", 0, engine.getTestHelper()
                 .getTextAllocationBalance());
     }
+
+    protected void assertDescriptions(SelfDescribing[] values) {
+        for (SelfDescribing value : values) {
+            assertNotNull(value.getExampleUsage());
+        }
+    }
+
 }

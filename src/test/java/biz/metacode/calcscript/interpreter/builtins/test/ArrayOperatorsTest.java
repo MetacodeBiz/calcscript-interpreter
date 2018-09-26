@@ -1,6 +1,9 @@
 
 package biz.metacode.calcscript.interpreter.builtins.test;
 
+import biz.metacode.calcscript.interpreter.ExecutionContext;
+import biz.metacode.calcscript.interpreter.InvalidTypeException;
+import biz.metacode.calcscript.interpreter.Invocable;
 import biz.metacode.calcscript.interpreter.ScriptExecutionException;
 import biz.metacode.calcscript.interpreter.builtins.ArithmeticOperators;
 import biz.metacode.calcscript.interpreter.builtins.ArrayOperators;
@@ -136,6 +139,16 @@ public class ArrayOperatorsTest extends EngineTestBase {
     }
 
     @Test
+    public void foldNoElements() throws ScriptExecutionException, InterruptedException {
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
+        register("*", new OrderedDispatcher("*"));
+        register("*_number_number", ArithmeticOperators.MULTIPLICATION);
+        register("*_block_array", ArrayOperators.FOLD);
+        assertEval("", "]{*}*");
+    }
+
+    @Test
     public void foldNeg() throws ScriptExecutionException, InterruptedException {
         register("[", StackOperators.MARK_STACK_SIZE);
         register("]", StackOperators.SLICE_STACK);
@@ -171,12 +184,36 @@ public class ArrayOperatorsTest extends EngineTestBase {
         assertEval("[5 4 3 2 1]", "[5 4 3 1 2]{-1*}$");
     }
 
+    @Test(expected = InterruptedException.class)
+    public void sortByMappingInterrupt() throws ScriptExecutionException, InterruptedException {
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
+        register("*", new Invocable() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void invoke(ExecutionContext context) throws InterruptedException {
+                throw new InterruptedException();
+            }
+        });
+        register("$", ArrayOperators.SORT_BY_MAPPING);
+        assertEval("[5 4 3 2 1]", "[5 4 3 1 2]{-1*}$");
+    }
+
     @Test
     public void concatenate() throws ScriptExecutionException, InterruptedException {
         register("[", StackOperators.MARK_STACK_SIZE);
         register("]", StackOperators.SLICE_STACK);
         register("+", ArrayOperators.CONCATENATE);
         assertEval("[1 2 3 4 5]", "[1 2 3][4 5]+");
+    }
+
+    @Test(expected = ScriptExecutionException.class)
+    public void concatenateNotArrays() throws ScriptExecutionException, InterruptedException {
+        register("[", StackOperators.MARK_STACK_SIZE);
+        register("]", StackOperators.SLICE_STACK);
+        register("+", ArrayOperators.CONCATENATE);
+        eval("[1 2 3]3+");
     }
 
     @Test
@@ -237,6 +274,11 @@ public class ArrayOperatorsTest extends EngineTestBase {
         register("/", new OrderedDispatcher("/"));
         register("/_block_array", ArrayOperators.EACH);
         assertEval("2 3 4", "[1 2 3]{1+}/");
+    }
+
+    @Test
+    public void selfDescribing() {
+        assertDescriptions(ArrayOperators.values());
     }
 
 }

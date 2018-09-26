@@ -353,9 +353,9 @@ public enum ArrayOperators implements Invocable, SelfDescribing {
                 }
                 if (accumulator != null) {
                     context.push(accumulator);
-                }
-                if (shouldCloseAccumulator && accumulator != null) {
-                    accumulator.release();
+                    if (shouldCloseAccumulator) {
+                        accumulator.release();
+                    }
                 }
             } finally {
                 array.release();

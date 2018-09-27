@@ -67,6 +67,10 @@ publishing {
                         id = 'wiktor'
                         name = 'Wiktor Kwapisiewicz'
                         email = 'wiktor@metacode.biz'
+                        url = 'https://metacode.biz/@wiktor'
+                        roles = [ 'owner', 'developer' ]
+                        organization = 'Metacode'
+                        organizationUrl = 'https://metacode.biz'
                     }
                 }
                 scm {
